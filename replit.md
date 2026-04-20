@@ -16,6 +16,27 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
 
+## Artifacts
+
+### TokenCalc (`artifacts/tokencalc`)
+A business planning tool for SaaS founders to understand the real cost of running LLM-powered features.
+- **Route**: `/` (homepage)
+- **Tech**: React + Vite, Tailwind CSS, Recharts, TypeScript
+- **No backend required** — all calculations run client-side
+- **Pages**:
+  - `/` — SaaS Margin Simulator (hero tool)
+  - `/cost-per-user` — Cost-Per-User Calculator
+  - `/budget-planner` — AI Budget Planner for Founders
+- **Key libs** (`src/lib/`):
+  - `pricing.ts` — fetchModels() from OpenRouter API, fallback to `/model-prices-fallback.json`
+  - `calculator.ts` — All calculation formulas (gross margin, breakeven, power user risk, caching savings)
+- **Shared components** (`src/components/`):
+  - `ModelDropdown` — Searchable model picker grouped by provider
+  - `MarginHealthBadge` — Color-coded health pill
+  - `InlineCostPreview` — Live cost calculation text
+  - `DisclaimerFooter` — Pricing disclaimer
+  - `Navigation` — Sticky top nav
+
 ## Key Commands
 
 - `pnpm run typecheck` — full typecheck across all packages

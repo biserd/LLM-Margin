@@ -1,0 +1,758 @@
+# AI Builder Prompt: AI Cost Calculator — SaaS Margin Simulator, Cost-Per-User Calculator & AI Budget Planner
+
+---
+
+## CONTEXT & GOAL
+
+You are building a web application called **TokenCalc** (working name — update if final brand differs). It is a business planning tool for SaaS founders, product managers, and AI engineers who need to understand the real cost of running LLM-powered features in production. This is NOT a generic token counter. The entire product is differentiated by its business layer — gross margin, cost per user, breakeven analysis, and power user risk modeling — which no current competitor offers.
+
+The application consists of three interconnected tools on a single-page or multi-tab layout:
+1. **SaaS Margin Simulator** (hero tool — homepage)
+2. **Cost-Per-User (MAU) Calculator**
+3. **AI Budget Planner for Founders**
+
+All three tools share a common pricing data layer that fetches live LLM model prices from the OpenRouter public API and falls back to a bundled static JSON for offline/error states.
+
+---
+
+## TECH STACK
+
+- **Frontend:** Next.js 14+ (App Router), TypeScript, Tailwind CSS
+- **Tokenizer:** `js-tiktoken` (WebAssembly — install via `npm install js-tiktoken`)
+- **Charts:** Recharts
+- **Pricing data:** OpenRouter public API (`https://openrouter.ai/api/v1/models`) — no auth required
+- **State:** React `useState` / `useReducer` — no global state library needed for v1
+- **Hosting:** Vercel (or any Next.js host)
+- **No database, no auth, no backend required for v1** — all calculations run client-side
+
+---
+
+## PRICING DATA LAYER (Build This First)
+
+### Primary Source
+```
+GET https://openrouter.ai/api/v1/models
+```
+Returns a JSON array. Each model object has:
+```json
+{
+  "id": "openai/gpt-4o",
+  "name": "OpenAI: GPT-4o",
+  "context_length": 128000,
+  "pricing": {
+    "prompt": "0.000005",       // USD per input token
+    "completion": "0.000015",   // USD per output token
+    "input_cache_read": "0.0000005",
+    "input_cache_write": "0.0000000"
+  }
+}
+```
+**Important:** Prices are in USD **per token**. Multiply by 1,000,000 for display as "per million tokens."
+
+### Normalization Function
+Create `lib/pricing.ts`:
+```typescript
+export interface ModelPrice {
+  id: string;
+  name: string;
+  provider: string;
+  inputPricePerMillion: number;    // USD
+  outputPricePerMillion: number;   // USD
+  cacheReadPricePerMillion: number | null;
+  cacheWritePricePerMillion: number | null;
+  contextLength: number;
+  tokenizer: 'cl100k_base' | 'o200k_base' | 'claude' | 'sentencepiece' | 'unknown';
+}
+
+export async function fetchModels(): Promise<ModelPrice[]> {
+  const res = await fetch('https://openrouter.ai/api/v1/models');
+  const data = await res.json();
+  return data.data
+    .filter((m: any) => parseFloat(m.pricing?.prompt) > 0)
+    .map((m: any) => ({
+      id: m.id,
+      name: m.name,
+      provider: m.id.split('/')[0],
+      inputPricePerMillion: parseFloat(m.pricing.prompt) * 1_000_000,
+      outputPricePerMillion: parseFloat(m.pricing.completion) * 1_000_000,
+      cacheReadPricePerMillion: m.pricing.input_cache_read
+        ? parseFloat(m.pricing.input_cache_read) * 1_000_000 : null,
+      cacheWritePricePerMillion: m.pricing.input_cache_write
+        ? parseFloat(m.pricing.input_cache_write) * 1_000_000 : null,
+      contextLength: m.context_length,
+      tokenizer: inferTokenizer(m.id),
+    }))
+    .sort((a: ModelPrice, b: ModelPrice) => a.inputPricePerMillion - b.inputPricePerMillion);
+}
+
+function inferTokenizer(modelId: string): ModelPrice['tokenizer'] {
+  if (modelId.includes('gpt-4o') || modelId.includes('gpt-5')) return 'o200k_base';
+  if (modelId.includes('gpt-4') || modelId.includes('gpt-3.5')) return 'cl100k_base';
+  if (modelId.includes('claude')) return 'claude';
+  if (modelId.includes('gemini') || modelId.includes('llama') || modelId.includes('mistral')) return 'sentencepiece';
+  return 'unknown';
+}
+```
+
+### Fallback Static Data
+Bundle a `public/model-prices-fallback.json` with the top 20 models hardcoded. Used if the OpenRouter fetch fails.
+
+---
+
+## CALCULATION ENGINE
+
+Create `lib/calculator.ts` with these exact functions. Do not alter the formulas.
+
+```typescript
+// ── Core cost functions ──────────────────────────────────────────────────────
+
+export function calcCallCost(
+  inputTokens: number,
+  outputTokens: number,
+  model: ModelPrice
+): number {
+  return (
+    (inputTokens * model.inputPricePerMillion) / 1_000_000 +
+    (outputTokens * model.outputPricePerMillion) / 1_000_000
+  );
+}
+
+export function calcMonthlyCost(
+  callCostUSD: number,
+  callsPerDay: number
+): number {
+  return callCostUSD * callsPerDay * 30;
+}
+
+// ── SaaS margin functions ────────────────────────────────────────────────────
+
+export interface MarginResult {
+  mrr: number;
+  aiCOGS: number;
+  otherCOGS: number;
+  grossProfit: number;
+  grossMarginPct: number;
+  cpau: number;                  // cost per active user
+  revenuePerUser: number;
+  contributionMarginPerUser: number;
+}
+
+export function calcGrossMargin(
+  mau: number,
+  arpu: number,                  // average revenue per user per month
+  callsPerUserPerDay: number,
+  avgInputTokens: number,
+  avgOutputTokens: number,
+  model: ModelPrice,
+  otherCOGSPerUser: number = 1.50  // default: $1.50/user/mo (hosting + Stripe)
+): MarginResult {
+  const callCost = calcCallCost(avgInputTokens, avgOutputTokens, model);
+  const cpau = callCost * callsPerUserPerDay * 30;
+  const mrr = mau * arpu;
+  const aiCOGS = mau * cpau;
+  const otherCOGS = mau * otherCOGSPerUser;
+  const grossProfit = mrr - aiCOGS - otherCOGS;
+  return {
+    mrr,
+    aiCOGS,
+    otherCOGS,
+    grossProfit,
+    grossMarginPct: mrr > 0 ? (grossProfit / mrr) * 100 : 0,
+    cpau,
+    revenuePerUser: arpu,
+    contributionMarginPerUser: arpu - cpau - otherCOGSPerUser,
+  };
+}
+
+// ── Breakeven function ───────────────────────────────────────────────────────
+
+export function calcBreakevenMAU(
+  fixedCostsPerMonth: number,
+  arpu: number,
+  cpau: number,
+  otherCOGSPerUser: number = 1.50
+): number {
+  const contributionMargin = arpu - cpau - otherCOGSPerUser;
+  if (contributionMargin <= 0) return Infinity;
+  return Math.ceil(fixedCostsPerMonth / contributionMargin);
+}
+
+// ── Power user risk function ─────────────────────────────────────────────────
+
+export interface PowerUserResult {
+  blendedCPAU: number;
+  lightUserCost: number;
+  avgUserCost: number;
+  heavyUserCost: number;
+  upliftVsFlatPct: number;       // how much higher blended is vs naive flat CPAU
+  top10PctMonthlyBurden: number; // total cost from top 10% users at given MAU
+}
+
+export function calcPowerUserRisk(
+  baseCPAU: number,
+  mau: number,
+  lightPct: number = 0.60,
+  avgPct: number = 0.30,
+  heavyPct: number = 0.10,
+  lightMultiplier: number = 0.33,
+  avgMultiplier: number = 1.67,
+  heavyMultiplier: number = 3.00
+): PowerUserResult {
+  const lightUserCost = baseCPAU * lightMultiplier;
+  const avgUserCost = baseCPAU * avgMultiplier;
+  const heavyUserCost = baseCPAU * heavyMultiplier;
+  const blendedCPAU =
+    lightPct * lightUserCost +
+    avgPct * avgUserCost +
+    heavyPct * heavyUserCost;
+  return {
+    blendedCPAU,
+    lightUserCost,
+    avgUserCost,
+    heavyUserCost,
+    upliftVsFlatPct: ((blendedCPAU - baseCPAU) / baseCPAU) * 100,
+    top10PctMonthlyBurden: mau * heavyPct * heavyUserCost,
+  };
+}
+
+// ── Prompt caching savings function ─────────────────────────────────────────
+
+export function calcCachingSavings(
+  sysPromptTokens: number,
+  callsPerDay: number,
+  model: ModelPrice
+): { monthlySavings: number; savingsPct: number } {
+  if (!model.cacheReadPricePerMillion) return { monthlySavings: 0, savingsPct: 0 };
+  const withoutCaching =
+    (sysPromptTokens * model.inputPricePerMillion) / 1_000_000;
+  const withCaching =
+    (sysPromptTokens * model.cacheReadPricePerMillion) / 1_000_000;
+  const savingsPerCall = withoutCaching - withCaching;
+  // First call writes cache (no saving), subsequent calls save
+  const totalCalls = callsPerDay * 30;
+  const monthlySavings = savingsPerCall * (totalCalls - 1);
+  const savingsPct = withoutCaching > 0
+    ? (savingsPerCall / withoutCaching) * 100 : 0;
+  return { monthlySavings, savingsPct };
+}
+```
+
+---
+
+## TOOL 1: SAAS MARGIN SIMULATOR
+
+### Page Route
+`/` (homepage — this is the hero product)
+
+### Page Title & Meta
+```
+<title>SaaS AI Margin Simulator — Know Your Gross Margin Before You Ship</title>
+<meta name="description" content="The only LLM cost calculator built for SaaS founders. Enter your pricing, MAU, and AI usage — get gross margin, cost per user, and breakeven analysis instantly." />
+```
+
+### Hero Copy (above the tool)
+```
+Headline: Will Your AI Feature Destroy Your Margins?
+
+Subheadline: Most founders price their AI SaaS by gut feel — then discover
+their power users are costing 3× more than average. Enter your numbers and
+find out where you actually stand.
+
+Social proof line (below subheadline):
+"Trusted by 0 founders so far — be the first to know your real margins."
+[Update this once you have users]
+```
+
+### Layout
+Two-column layout on desktop, single column on mobile.
+- **Left column:** Input form (all sliders/inputs)
+- **Right column:** Live output cards and chart — updates in real time as user types, no submit button needed
+
+---
+
+### INPUT FIELDS (Left Column)
+
+**Section 1 — Your SaaS Pricing**
+
+| Field | Type | Default | Label | Helper Text |
+|---|---|---|---|---|
+| `arpu` | Number input | `19` | Monthly price per user (ARPU) | "What you charge per user per month. If you have tiers, use your most common paid tier." |
+| `mau` | Slider + number | `1000` | Monthly Active Users (MAU) | "How many paying users are using the AI feature right now — or your target." Min: 10, Max: 100,000, step: 10 |
+| `fixedCosts` | Number input | `2000` | Fixed monthly costs ($) | "Hosting, tools, your own salary if applicable. Used for breakeven calculation." |
+
+**Section 2 — Your AI Usage**
+
+| Field | Type | Default | Label | Helper Text |
+|---|---|---|---|---|
+| `model` | Dropdown (searchable) | `openai/gpt-4o` | LLM model | Populated from OpenRouter API. Show provider name + model name + price per million tokens in the dropdown option. |
+| `callsPerUserPerDay` | Slider + number | `5` | AI calls per user per day | "How many times does your app call the LLM per active user per day? Count each API request separately." Min: 0.1, Max: 100 |
+| `avgInputTokens` | Number input | `500` | Avg input tokens per call | "System prompt + user message + conversation history combined." |
+| `avgOutputTokens` | Number input | `300` | Avg output tokens per call | "The typical length of the AI's response." |
+
+Below the token inputs, show a live inline calculation in small gray text:
+```
+"≈ $[X.XXXXXX] per call · $[X.XX] per user/month at [N] calls/day"
+```
+This updates live as the user changes inputs.
+
+**Section 3 — Other COGS (collapsible, default closed)**
+
+| Field | Type | Default | Label |
+|---|---|---|---|
+| `otherCOGSPerUser` | Number input | `1.50` | Other COGS per user/month ($) |
+
+Helper text: "Stripe fees (~2.9% of ARPU), hosting per user, support cost. Default $1.50 is a reasonable estimate."
+
+**Section 4 — Power User Distribution (collapsible, default closed, labeled "Advanced: Power User Risk")**
+
+Three sliders that must sum to 100%:
+- Light users (default 60%) — multiplier 0.33×
+- Average users (default 30%) — multiplier 1.67×
+- Heavy users (default 10%) — multiplier 3.00×
+
+Show a small note: "Research shows top 10% of AI SaaS users typically consume 3× average usage. Adjust based on your product."
+
+Add a validation warning in red if sliders don't sum to 100%.
+
+---
+
+### OUTPUT CARDS (Right Column)
+
+Display these five cards in a 2×2 grid (with one full-width card at bottom). All update live. Use large numbers with color coding.
+
+**Card 1: Gross Margin %**
+- Large number: `[XX.X%]`
+- Color coding: ≥70% = green, 50–69% = yellow/amber, 30–49% = orange, <30% = red
+- Label below: "Gross Margin"
+- Subtext: "Software target: 70–80%. AI SaaS average: 45–60%."
+
+**Card 2: Monthly Revenue (MRR)**
+- Large number: `$[X,XXX]`
+- Label: "MRR"
+- Subtext: `[MAU] users × $[ARPU]/mo`
+
+**Card 3: Monthly AI Cost (COGS)**
+- Large number: `$[X,XXX]`
+- Color: Red-tinted if >40% of MRR
+- Label: "AI COGS / month"
+- Subtext: `$[CPAU]/user/month · [model name]`
+
+**Card 4: Breakeven MAU**
+- Large number: `[X,XXX] users`
+- Color: Green if current MAU > breakeven, red if not
+- Label: "Breakeven MAU"
+- Subtext: "The minimum paying users needed to cover your fixed costs."
+- Edge case: If contribution margin per user is ≤ $0, show: "⚠️ Never breaks even at current pricing" in red.
+
+**Card 5 (full width): Gross Margin vs. MAU Chart**
+- A Recharts `LineChart` or `AreaChart`
+- X-axis: MAU from 100 to 50,000 (logarithmic scale)
+- Y-axis: Gross margin % (0–100%)
+- Plot the gross margin curve as MAU grows
+- Add a horizontal dashed reference line at 70% labeled "Target (70%)"
+- Add a vertical dashed reference line at the current MAU input
+- Add a dot at the intersection of current MAU + current margin, labeled with the exact % value
+- Color the area below the curve: red if <50%, yellow if 50–69%, green if ≥70%
+
+Below the chart, show a plain-English interpretation that auto-generates based on the numbers. Examples:
+- If margin < 0%: "At current pricing and usage, you lose money on every user. You need to either raise prices, reduce calls per user, or switch to a cheaper model."
+- If margin 0–50%: "Your margins are below software norms. Consider reducing [input tokens / calls per day] or switching from [current model] to [next cheaper model in dropdown] to save ~$[X]/mo."
+- If margin 50–70%: "Decent, but below the 70% software benchmark. You have room to grow before this becomes a problem."
+- If margin ≥ 70%: "Healthy margins. Your AI costs are under control at current scale."
+
+**Power User Risk Section** (show only when Advanced section is open):
+Show a small table with three rows:
+```
+User Segment    | % of Users | Cost/User/Mo | Monthly Burden
+Light users     |    60%     |   $[X.XX]    |  $[X,XXX]
+Average users   |    30%     |   $[X.XX]    |  $[X,XXX]
+Heavy users     |    10%     |   $[X.XX]    |  $[X,XXX]
+Blended (real)  |   100%     |   $[X.XX]    |  $[X,XXX]
+```
+Below the table: "Your top 10% of users cost $[X] more per month than your flat CPAU estimate suggests. That's [X]% higher than if usage were uniform."
+
+---
+
+### SHARE / EXPORT (Bottom of page)
+
+- "Share this calculation" button — generates a URL with all inputs encoded as query params (e.g., `/?arpu=19&mau=1000&model=openai/gpt-4o&...`). Copy to clipboard on click.
+- "Export as PDF" button — browser `window.print()` with a print-specific CSS stylesheet that hides nav and shows the output cleanly. Label this "Pro feature" and show a lock icon for free users (implement gate in Phase 2).
+
+---
+
+## TOOL 2: COST-PER-USER (MAU) CALCULATOR
+
+### Page Route
+`/cost-per-user`
+
+### Page Title & Meta
+```
+<title>LLM Cost Per User Calculator — AI API Cost Per MAU for SaaS</title>
+<meta name="description" content="Calculate exactly what each user costs you in LLM API fees per month. Enter your model, usage pattern, and user count to get cost per MAU, AI COGS, and margin impact." />
+```
+
+### Hero Copy
+```
+Headline: What Does Each User Actually Cost You?
+
+Subheadline: Your LLM bill is a function of how many users you have and 
+how much they use the AI. This calculator maps your token usage to a real 
+dollar cost per user — the number that determines whether your SaaS is 
+financially viable.
+```
+
+### Purpose
+This tool is more focused than the Margin Simulator. It is designed for someone who already knows their MAU and wants to understand what they're spending per user — and how that changes as they scale. It is the entry point for founders who think in unit economics.
+
+### INPUT FIELDS
+
+**Section 1 — Model & Usage**
+
+| Field | Type | Default | Label |
+|---|---|---|---|
+| `model` | Dropdown (same component as Tool 1) | `openai/gpt-4o` | Which model does your app use? |
+| `callsPerUserPerDay` | Slider + number | `5` | AI calls per active user per day |
+| `avgInputTokens` | Number input | `500` | Avg input tokens per call |
+| `avgOutputTokens` | Number input | `300` | Avg output tokens per call |
+| `daysActivePerMonth` | Slider | `20` | Days per month a typical user is active | (Default 20 — not everyone uses it daily) |
+
+**Section 2 — Scale**
+
+| Field | Type | Default | Label |
+|---|---|---|---|
+| `mau` | Slider + number | `1000` | Current MAU | Min: 10, Max: 500,000 |
+| `mauTarget` | Number input | `10000` | MAU target (6 months) | "Used to show projected future cost" |
+
+**Section 3 — Pricing Comparison Toggle**
+A row of 3–5 model selector buttons labeled "Compare with:" that add a comparison line to the output chart. Pre-populate with smart defaults based on cost proximity to the selected model (show next cheaper and next more expensive option automatically).
+
+---
+
+### OUTPUT
+
+**Top Row — Three KPI Cards**
+
+**Card 1: Cost Per Active User (CPAU)**
+- Large: `$[X.XX] / user / month`
+- Color: Green if <$1, yellow $1–$5, orange $5–$15, red >$15
+- Subtext: "Based on [N] calls/day × [N active days]/mo"
+
+**Card 2: Total Monthly AI Bill**
+- Large: `$[X,XXX] / month`
+- Subtext: `[MAU] users × $[CPAU]`
+
+**Card 3: Projected at [MAU Target]**
+- Large: `$[X,XXX] / month`
+- Color: Red if >50% of projected MRR (show a warning)
+- Subtext: "At your [N] MAU target"
+
+**Main Chart: Cost Scaling Curve**
+
+A Recharts `LineChart` with:
+- X-axis: MAU from current ÷ 10 to MAU target × 2
+- Y-axis (left): Total monthly AI cost in USD
+- Y-axis (right): Cost per user in USD
+- If comparison models are selected, plot each as a separate line in a different color
+- Add a shaded "danger zone" above the line where AI cost exceeds 30% of MRR (requires ARPU input — add a small "What do you charge per user? $___" inline input that feeds this calculation)
+- Milestone markers on the X-axis at 500, 1K, 5K, 10K, 50K, 100K MAU with cost labels
+
+**Model Comparison Table** (below chart)
+
+Auto-generate a table comparing the selected model against the 4 closest alternatives by price:
+
+| Model | Provider | Input $/M | Output $/M | CPAU | Monthly @ [MAU] | vs. Current |
+|---|---|---|---|---|---|---|
+| [Selected model] | ... | ... | ... | $X.XX | $X,XXX | — (baseline) |
+| [Cheaper model 1] | ... | ... | ... | $X.XX | $X,XXX | Save $XXX/mo |
+| [Cheaper model 2] | ... | ... | ... | $X.XX | $X,XXX | Save $XXX/mo |
+| [More expensive] | ... | ... | ... | $X.XX | $X,XXX | +$XXX/mo |
+
+The "Save $XXX/mo" cells should be in green. The table header row should have a small "?" tooltip on "CPAU" explaining it.
+
+**Plain-English Insight Block**
+Auto-generate one paragraph below the table based on the numbers. Example:
+"At your current usage pattern (5 calls/day, 500 input + 300 output tokens each), each user costs $4.25/month in GPT-4o API fees. If you switch to Claude Haiku, that drops to $0.38/user/month — saving $3,870/month at 1,000 MAU, or $38,700/month at 10,000 MAU. The quality tradeoff depends on your use case."
+
+---
+
+## TOOL 3: AI BUDGET PLANNER FOR FOUNDERS
+
+### Page Route
+`/budget-planner`
+
+### Page Title & Meta
+```
+<title>AI Budget Planner for Founders — Plan Your LLM Costs Before You Build</title>
+<meta name="description" content="Plan your AI API budget before you ship. Model your costs across multiple features, usage tiers, and growth scenarios. Built for founders who need to know if their AI idea is financially viable." />
+```
+
+### Hero Copy
+```
+Headline: Plan Your AI Costs Before Your Investors Ask
+
+Subheadline: Every AI feature has a unit economics story. This planner helps 
+you model that story across multiple features, user tiers, and growth scenarios 
+— so you're never surprised by your cloud bill.
+
+Supporting copy (3 bullet points below headline):
+· Add multiple AI features to your product and see the combined monthly cost
+· Model Free vs. Pro tier usage separately — because free users still cost you
+· Export a shareable cost projection to include in your pitch deck or board update
+```
+
+### Purpose
+This is the most sophisticated of the three tools. It is a multi-feature, multi-tier cost planner — designed for a founder who has (or plans to have) multiple AI-powered features in their product, with a free and paid tier. It's the tool that replaces the Google Spreadsheet workaround documented in r/SaaS.
+
+---
+
+### INPUT STRUCTURE
+
+The planner is organized around **Features** and **User Tiers**. The UI should feel like a lightweight spreadsheet, not a form.
+
+**Step 1: Define Your User Tiers**
+
+A table with rows for each tier (add/remove dynamically):
+
+| Tier Name | Users (MAU) | Price/Month | Is this a paying tier? |
+|---|---|---|---|
+| Free | 5,000 | $0 | No |
+| Pro | 800 | $19 | Yes |
+| Team | 50 | $79 | Yes |
+
+Default: two tiers pre-filled (Free and Pro). User can add up to 5 tiers. "Add Tier" button appends a row.
+
+**Step 2: Define Your AI Features**
+
+A card-based layout where each card represents one AI feature. Default: one pre-filled feature card. "Add Feature" button adds a new card. Maximum 8 features.
+
+Each Feature Card contains:
+
+```
+Feature name: [text input, e.g. "AI Chat Assistant"]
+
+Model: [dropdown — same shared component]
+
+Usage per tier:
+  ┌─────────────────────────────────────────────────────┐
+  │ Tier     │ Calls/user/day │ Input tokens │ Output tokens │
+  │ Free     │ [   2   ]      │ [  300  ]    │ [  150  ]     │
+  │ Pro      │ [   8   ]      │ [  600  ]    │ [  400  ]     │
+  │ Team     │ [  20   ]      │ [  800  ]    │ [  600  ]     │
+  └─────────────────────────────────────────────────────┘
+
+[Delete feature] button (trash icon, top right of card)
+```
+
+**Step 3: Set Fixed Costs**
+
+| Field | Default | Label |
+|---|---|---|
+| `fixedCosts` | $2,000 | Monthly fixed costs (hosting, tools, salaries) |
+| `stripeFeePct` | 2.9 | Stripe fee % |
+| `otherVariableCostPerUser` | $0.50 | Other variable cost per paying user/mo |
+
+---
+
+### OUTPUT
+
+**Section A: Summary Dashboard**
+
+Four KPI cards across the top:
+
+**Card 1: Total Monthly AI Spend**
+- All features × all tiers combined
+- Breakdown tooltip: hover shows per-feature cost
+
+**Card 2: MRR**
+- Sum of (paying users × price) across paying tiers
+
+**Card 3: Blended Gross Margin**
+- (MRR - total AI COGS - other COGS - Stripe fees) / MRR × 100%
+
+**Card 4: AI as % of Revenue**
+- Total AI spend / MRR × 100%
+- Color: Green if <20%, yellow 20–40%, red >40%
+
+**Section B: Cost Breakdown by Feature**
+
+A stacked bar chart (Recharts `BarChart`):
+- X-axis: User tiers (Free, Pro, Team)
+- Y-axis: Monthly cost in USD
+- Each bar stacked by feature, each feature a different color
+- Legend below chart
+
+Below the chart, a table:
+
+| Feature | Model | Free Tier Cost | Pro Tier Cost | Team Tier Cost | Total/Mo |
+|---|---|---|---|---|---|
+| AI Chat | GPT-4o | $X,XXX | $XXX | $XXX | $X,XXX |
+| Summarizer | Claude Haiku | $XXX | $XXX | $XX | $XXX |
+| **Total** | | $X,XXX | $X,XXX | $XXX | **$X,XXX** |
+
+**Key insight row** below table (auto-generated):
+"Your Free tier costs $[X,XXX]/month but generates $0 in revenue. That's [X]% of your total AI spend going to non-paying users. Consider adding a [calls/day] usage cap for free users."
+
+**Section C: 12-Month Cost Projection**
+
+Inputs (inline, small):
+- Monthly user growth rate: [  15  ]% per month
+- Churn rate: [  5  ]% per month
+
+Chart: Recharts `AreaChart`
+- X-axis: Month 1–12
+- Y-axis (left): Monthly AI cost (USD)
+- Y-axis (right): MRR (USD)
+- Two area series: AI Cost (red) and MRR (green)
+- The moment MRR crosses AI cost significantly is visually obvious
+- Add a "Gross margin %" line overlay on the right Y-axis
+
+Below chart, a plain-English projection:
+"At [15]% monthly growth, you'll reach [X,XXX] MAU in 12 months. Projected AI spend at that point: $[X,XXX]/month. Projected MRR: $[X,XXX]/month. Gross margin: [XX]%."
+
+**Section D: Export**
+
+"Export Budget Summary" button → generates a clean printable/PDF view with:
+- Your product name (editable field at top of planner: "Product name: ___")
+- Date
+- All three sections (summary cards, feature breakdown table, 12-month projection chart)
+- Footer: "Generated by TokenCalc · tokencalc.com · [date]"
+
+Label this "Pro feature" with a lock icon for v1 free users.
+
+---
+
+## SHARED UI COMPONENTS
+
+### Model Dropdown
+Used in all three tools. Build once, reuse everywhere.
+- Searchable (type to filter)
+- Shows: Provider logo/icon (simple colored dot by provider), model name, input price per million, output price per million
+- Grouped by provider
+- "Prices updated [date]" text at bottom of dropdown
+
+### Inline Cost Preview
+Used in Tools 1 and 2 below token inputs. Small gray text:
+```
+≈ $[X.XXXXXX] per call  ·  $[X.XX] per user/month  ·  $[X,XXX]/mo at [MAU] users
+```
+Updates with zero debounce delay (no waiting for user to stop typing).
+
+### Margin Health Badge
+Used across all three tools. A small pill/badge with color and label:
+- ≥70%: Green pill "Healthy"
+- 50–69%: Yellow pill "Watch"
+- 30–49%: Orange pill "At Risk"
+- <30%: Red pill "Danger"
+- <0%: Red pill "Unprofitable"
+
+### Disclaimer Footer
+Appears below every output section in small gray text:
+"Prices sourced from OpenRouter and updated automatically. Always verify with your provider before making pricing decisions. Estimates do not include volume discounts or enterprise rate cards."
+
+---
+
+## PAGE STRUCTURE & NAVIGATION
+
+```
+/                     → SaaS Margin Simulator (hero)
+/cost-per-user        → Cost-Per-User Calculator
+/budget-planner       → AI Budget Planner for Founders
+/model-prices         → Model price comparison table (Phase 2)
+```
+
+**Navigation bar** (minimal, sticky):
+- Logo: "TokenCalc" (left)
+- Nav links: "Margin Simulator · Cost Per User · Budget Planner" (center)
+- CTA: "Get Pro" (right, Phase 2 — leave as placeholder button for now)
+
+---
+
+## DESIGN SYSTEM
+
+- **Font:** Inter (Google Fonts)
+- **Primary color:** `#2563eb` (blue-600) — buttons, links, active states
+- **Danger color:** `#dc2626` (red-600)
+- **Success color:** `#16a34a` (green-600)
+- **Warning color:** `#d97706` (amber-600)
+- **Background:** `#f9fafb` (gray-50) page background, `#ffffff` card backgrounds
+- **Border radius:** 12px on cards, 8px on inputs
+- **Shadow:** `shadow-sm` on cards, `shadow-md` on hovered/focused cards
+- **Chart colors:** Use `['#2563eb','#16a34a','#dc2626','#d97706','#7c3aed','#0891b2']` in order
+
+**Typography:**
+- Page headline: `text-3xl font-bold text-gray-900`
+- Sub-headline: `text-lg text-gray-600`
+- Card value (big number): `text-4xl font-bold` with appropriate color
+- Card label: `text-sm font-medium text-gray-500 uppercase tracking-wide`
+- Helper text: `text-xs text-gray-400`
+
+**Inputs:** Use `border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent`
+
+---
+
+## SEO REQUIREMENTS
+
+Every page must include:
+
+1. **`<title>`** — as specified per tool above
+2. **`<meta name="description">`** — as specified per tool above
+3. **Structured data** — add this JSON-LD to every tool page:
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "TokenCalc — [Tool Name]",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "[Use the meta description text]"
+}
+```
+4. **`<link rel="canonical">`** — self-referencing on each page
+5. **Open Graph tags** — `og:title`, `og:description`, `og:type: website`
+6. **"Last updated" text** on every page showing when pricing data was last fetched
+
+---
+
+## V1 SCOPE — WHAT TO BUILD NOW
+
+Build these in order. Do not move to the next item until the current one is working:
+
+1. ✅ Pricing data layer (`lib/pricing.ts`) — fetch from OpenRouter, normalize, expose to all tools
+2. ✅ Calculation engine (`lib/calculator.ts`) — all formulas as specified
+3. ✅ Shared Model Dropdown component
+4. ✅ Tool 1: SaaS Margin Simulator — all inputs, all output cards, the margin chart
+5. ✅ Tool 2: Cost-Per-User Calculator — all inputs, KPI cards, scaling chart, model comparison table
+6. ✅ Tool 3: AI Budget Planner — tier table, feature cards, summary dashboard, 12-month projection
+7. ✅ Navigation, shared layout, responsive design
+8. ✅ SEO tags on all pages
+
+**OUT OF SCOPE FOR V1 (do not build):**
+- User auth / accounts
+- Saved calculations (use URL params for sharing instead)
+- Payment/subscription gate
+- Database of any kind
+- Email capture
+- Mobile app
+- API endpoint for external access
+
+---
+
+## ACCEPTANCE CRITERIA
+
+The build is complete when:
+
+1. All three tools are accessible at their respective routes
+2. Changing any input updates all outputs within 100ms (no lag)
+3. The model dropdown loads from the OpenRouter API on page load; falls back to static JSON if the API is unreachable
+4. The margin chart renders correctly and updates live
+5. Sharing a URL with query params restores the exact calculator state
+6. All pages pass Google's Lighthouse accessibility audit at ≥90
+7. All pages have correct title, meta description, canonical, and JSON-LD structured data
+8. The site is responsive and fully usable on a 375px wide mobile screen
+9. No TypeScript errors, no console errors in production build
+10. `next build` completes without warnings
