@@ -8,6 +8,7 @@ export function Navigation() {
     { href: "/", label: "Margin Simulator" },
     { href: "/cost-per-user", label: "Cost Per User" },
     { href: "/budget-planner", label: "Budget Planner" },
+    { href: "/pricing", label: "Pricing" },
   ];
 
   return (
@@ -31,9 +32,11 @@ export function Navigation() {
           ))}
         </div>
         <div>
-          <Button variant="default" size="sm" className="hidden md:inline-flex">
-            Get Pro
-          </Button>
+          <Link href="/pricing">
+            <Button variant="default" size="sm" className="hidden md:inline-flex" data-testid="button-get-pro">
+              Get Pro
+            </Button>
+          </Link>
         </div>
       </div>
     </nav>
