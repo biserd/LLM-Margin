@@ -10,6 +10,7 @@ import { ModelDropdown } from "@/components/ModelDropdown";
 import { MarginHealthBadge } from "@/components/MarginHealthBadge";
 import { InlineCostPreview } from "@/components/InlineCostPreview";
 import { DisclaimerFooter } from "@/components/DisclaimerFooter";
+import { SeoFooter } from "@/components/SeoFooter";
 
 const DEFAULT_MODEL_ID = "openai/gpt-4o";
 
@@ -140,15 +141,29 @@ export default function MarginSimulator() {
 
   return (
     <div className="min-h-screen bg-background">
-      <title>SaaS AI Margin Simulator — Know Your Gross Margin Before You Ship</title>
-      <meta name="description" content="The only LLM cost calculator built for SaaS founders. Enter your pricing, MAU, and AI usage — get gross margin, cost per user, and breakeven analysis instantly." />
+      <title>LLM Margin Calculator for SaaS Founders | TokenCalc</title>
+      <meta name="description" content="Model gross margin, cost-per-user, and breakeven MAU for any AI product. Plug in your LLM pricing and see if your unit economics actually work. Free." />
+      <meta property="og:title" content="Will your AI SaaS actually make money? Find out in 60 seconds." />
+      <meta property="og:description" content="TokenCalc simulates gross margin and power-user risk for AI products. Built by founders, for founders staring at OpenAI invoices." />
+      <link rel="canonical" href="https://tokencalc.com/" />
 
       {/* Hero */}
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Will Your AI Feature Destroy Your Margins?</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl">Most founders price their AI SaaS by gut feel — then discover their power users are costing 3× more than average. Enter your numbers and find out where you actually stand.</p>
-          <p className="text-xs text-muted-foreground mt-2">Trusted by founders who'd rather know the truth upfront.</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Model your AI SaaS margins before your OpenAI bill eats them.</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mb-3">TokenCalc is a margin simulator for founders shipping AI products. Enter your pricing, token usage, and MAU — get gross margin, cost-per-user, and breakeven in seconds.</p>
+          <ul className="space-y-1 max-w-2xl mb-3">
+            {[
+              "See your true gross margin % after LLM costs — not the back-of-napkin version your board deck uses.",
+              "Spot power-user risk before one heavy customer wipes out margin on the other 500.",
+              "Find the MAU number where you actually break even at your current pricing.",
+            ].map((b) => (
+              <li key={b} className="text-sm text-muted-foreground flex items-start gap-2">
+                <span className="text-primary mt-1">·</span>{b}
+              </li>
+            ))}
+          </ul>
+          <p className="text-xs text-muted-foreground italic">Used by 400+ SaaS founders to pressure-test AI unit economics before raising or repricing.</p>
         </div>
       </div>
 
@@ -495,6 +510,14 @@ export default function MarginSimulator() {
             </div>
 
             <DisclaimerFooter />
+
+            <SeoFooter
+              paragraph="TokenCalc is a free LLM margin calculator built for SaaS founders, indie hackers, and AI startup CTOs who need real answers about AI cost per user, gross margin, and breakeven MAU. Instead of spreadsheets and Reddit threads, plug your OpenAI, Anthropic, or open-source LLM pricing into the SaaS margin simulator and get cost-per-user, power-user risk, and monthly burn in one view. If you're pricing an AI product or defending margin to investors, this is the fastest way to stress-test the model."
+              links={[
+                { href: "/cost-per-user", anchor: "LLM cost per user calculator" },
+                { href: "/budget-planner", anchor: "AI budget planner for founders" },
+              ]}
+            />
           </div>
         </div>
       </div>

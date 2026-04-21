@@ -6,6 +6,7 @@ import { ModelDropdown } from "@/components/ModelDropdown";
 import { MarginHealthBadge } from "@/components/MarginHealthBadge";
 import { InlineCostPreview } from "@/components/InlineCostPreview";
 import { DisclaimerFooter } from "@/components/DisclaimerFooter";
+import { SeoFooter } from "@/components/SeoFooter";
 
 const CHART_COLORS = ['#2563eb', '#16a34a', '#dc2626', '#d97706', '#7c3aed', '#0891b2'];
 
@@ -98,13 +99,28 @@ export default function CostPerUser() {
 
   return (
     <div className="min-h-screen bg-background">
-      <title>LLM Cost Per User Calculator — AI API Cost Per MAU for SaaS</title>
-      <meta name="description" content="Calculate exactly what each user costs you in LLM API fees per month. Enter your model, usage pattern, and user count to get cost per MAU, AI COGS, and margin impact." />
+      <title>LLM Cost Per User Calculator (MAU) | TokenCalc</title>
+      <meta name="description" content="Calculate exact LLM cost per monthly active user for GPT-4o, Claude, and Gemini. Free tool for SaaS founders modeling AI unit economics at scale." />
+      <meta property="og:title" content="How much does each user actually cost you in AI spend?" />
+      <meta property="og:description" content="The LLM cost per user calculator the SERP has been missing. Real numbers for GPT-4o, Claude, and Gemini at any MAU." />
+      <link rel="canonical" href="https://tokencalc.com/cost-per-user" />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-10">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">What Does Each User Actually Cost You?</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl">Your LLM bill is a function of how many users you have and how much they use the AI. This calculator maps your token usage to a real dollar cost per user — the number that determines whether your SaaS is financially viable.</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">LLM cost per user calculator for SaaS products</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mb-3">Enter your token usage, model choice, and MAU — see blended cost per user, per-tier breakdowns, and what happens when you 10x. Built for founders who need a number, not a spreadsheet.</p>
+          <ul className="space-y-1 max-w-2xl mb-3">
+            {[
+              "Per-user LLM cost across GPT-4o, Claude Sonnet/Opus, Gemini, and open-source — priced live.",
+              "Split by prompt tokens vs. completion tokens so you see where the bill actually comes from.",
+              "Project cost at 1K, 10K, and 100K MAU without rebuilding the sheet every time.",
+            ].map((b) => (
+              <li key={b} className="text-sm text-muted-foreground flex items-start gap-2">
+                <span className="text-primary mt-1">·</span>{b}
+              </li>
+            ))}
+          </ul>
+          <p className="text-xs text-muted-foreground italic">Founders use this before every pricing change, investor update, and model migration.</p>
         </div>
       </div>
 
@@ -315,6 +331,14 @@ export default function CostPerUser() {
             </div>
 
             <DisclaimerFooter />
+
+            <SeoFooter
+              paragraph="This LLM cost per user calculator gives SaaS founders a straight answer to one of the hardest questions in AI pricing: how much does one active user really cost per month? It handles GPT-4o, Claude, Gemini, and custom token pricing, and it scales cleanly from 100 MAU to 100,000. If you've been patching together a ChatGPT API cost calculator out of spreadsheets and Reddit math, replace it with this."
+              links={[
+                { href: "/", anchor: "SaaS margin simulator" },
+                { href: "/budget-planner", anchor: "forecast your monthly AI budget" },
+              ]}
+            />
           </div>
         </div>
       </div>

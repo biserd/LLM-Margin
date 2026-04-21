@@ -6,6 +6,7 @@ import { calcCallCost, formatUSD, formatPct, getMarginColor } from "@/lib/calcul
 import { ModelDropdown } from "@/components/ModelDropdown";
 import { MarginHealthBadge } from "@/components/MarginHealthBadge";
 import { DisclaimerFooter } from "@/components/DisclaimerFooter";
+import { SeoFooter } from "@/components/SeoFooter";
 
 const CHART_COLORS = ['#2563eb', '#16a34a', '#dc2626', '#d97706', '#7c3aed', '#0891b2', '#f59e0b', '#8b5cf6'];
 
@@ -215,23 +216,27 @@ export default function BudgetPlanner() {
 
   return (
     <div className="min-h-screen bg-background">
-      <title>AI Budget Planner for Founders — Plan Your LLM Costs Before You Build</title>
-      <meta name="description" content="Plan your AI API budget before you ship. Model your costs across multiple features, usage tiers, and growth scenarios." />
+      <title>AI Budget Planner for Founders & SaaS Teams | TokenCalc</title>
+      <meta name="description" content="Plan monthly AI spend across OpenAI, Anthropic, and infra. Set caps, forecast burn, and catch cost overruns before your CFO does. Free planner." />
+      <meta property="og:title" content="Stop guessing your AI budget. Plan it." />
+      <meta property="og:description" content="The AI budget planner founders use to forecast LLM spend, set caps, and survive growth spikes without blowing runway." />
+      <link rel="canonical" href="https://tokencalc.com/budget-planner" />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-10">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Plan Your AI Costs Before Your Investors Ask</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl">Every AI feature has a unit economics story. This planner helps you model that story across multiple features, user tiers, and growth scenarios — so you're never surprised by your cloud bill.</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">The AI budget planner founders use before every board meeting</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl">Forecast monthly LLM spend across OpenAI, Anthropic, and your infra stack. Set usage caps, model growth scenarios, and know exactly how many months of runway your AI spend is eating.</p>
           <ul className="mt-3 space-y-1">
-            {["Add multiple AI features to your product and see the combined monthly cost",
-              "Model Free vs. Pro tier usage separately — because free users still cost you",
-              "Export a shareable cost projection to include in your pitch deck or board update",
+            {["Month-by-month AI burn forecast across multiple models and providers in one view.",
+              "Scenario toggles for 2x, 5x, and viral-growth MAU — see which month you blow the budget.",
+              "Alert thresholds so you catch a runaway prompt chain before the invoice lands.",
             ].map((item) => (
               <li key={item} className="text-sm text-muted-foreground flex items-start gap-2">
                 <span className="text-primary">·</span> {item}
               </li>
             ))}
           </ul>
+          <p className="text-xs text-muted-foreground italic mt-3">Trusted by founders managing $5K–$500K/month in AI spend across production SaaS.</p>
         </div>
       </div>
 
@@ -611,6 +616,14 @@ export default function BudgetPlanner() {
         </div>
 
         <DisclaimerFooter />
+
+        <SeoFooter
+          paragraph="The TokenCalc AI budget planner is built for founders and SaaS operators who need to forecast AI spend with the same rigor as payroll. Model OpenAI API pricing, Anthropic API pricing, and self-hosted inference side by side, set caps per feature, and watch the 12-month burn update live. It's the AI pricing calculator for founders who've already learned the hard way that 'we'll figure out costs later' is how runway disappears."
+          links={[
+            { href: "/", anchor: "model your AI SaaS gross margin" },
+            { href: "/cost-per-user", anchor: "break it down to cost per user" },
+          ]}
+        />
       </div>
     </div>
   );

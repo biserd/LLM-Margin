@@ -53,8 +53,11 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-background">
-      <title>Pricing — TokenCalc</title>
-      <meta name="description" content="Pricing for founders who'd rather not go broke on tokens. Start free. Upgrade when you need to hand a PDF to your board." />
+      <title>Pricing — Free Forever + Pro for Teams | TokenCalc</title>
+      <meta name="description" content="TokenCalc is free for founders. Pro unlocks saved scenarios, team sharing, PDF/CSV export, and full 12-month projections for $19/mo. No credit card for the free tier." />
+      <meta property="og:title" content="Simple pricing for founders who hate pricing pages" />
+      <meta property="og:description" content="Free forever for solo founders. Pro ($19/mo) adds saved scenarios, team sharing, and CSV/PDF export when your cap table needs it." />
+      <link rel="canonical" href="https://tokencalc.com/pricing" />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-14 text-center">
