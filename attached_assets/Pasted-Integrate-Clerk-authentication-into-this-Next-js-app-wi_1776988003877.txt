@@ -1,0 +1,113 @@
+Integrate Clerk authentication into this Next.js app with the absolute minimum custom code. Do not build any custom login UI, session logic, or user management — Clerk handles all of it.
+
+Step 1 — Install
+
+bash
+npm install @clerk/nextjs
+
+Step 2 — Environment variables
+Add these to .env.local (I will fill in the actual values):
+
+text
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+
+Step 3 — Wrap the app
+In app/layout.tsx, wrap the entire return with <ClerkProvider> imported from @clerk/nextjs. Do not change anything else in the layout.
+
+Step 4 — Sign-in and sign-up pages
+Create these two files exactly as shown — no other content:
+
+app/sign-in/[[...sign-in]]/page.tsx
+
+tsx
+import { SignIn } from '@clerk/nextjs'
+export default function Page() {
+  return <div className="flex justify-center items-center min-h-screen"><SignIn /></div>
+}
+
+app/sign-up/[[...sign-up]]/page.tsx
+
+tsx
+import { SignUp } from '@clerk/nextjs'
+export default function Page() {
+  return <div className="flex justify-center items-center min-h-screen"><SignUp /></div>
+}
+
+Step 5 — Update the navbar
+In the existing navbar component, import { SignInButton, SignedIn, SignedOut, UserButton } from @clerk/nextjs. Replace any existing login/signup buttons with this exact block:
+
+tsx
+<SignedOut>
+  <SignInButton mode="modal">
+    <button className="text-sm font-medium text-gray-600 hover:text-gray-900">Sign in</button>
+  </SignInButton>
+</SignedOut>
+<SignedIn>
+  <UserButton afterSignOutUrl="/" />
+</SignedIn>
+
+The existing "Get Pro" button stays — place this auth block immediately to its left.
+
+Step 6 — Protect the /account route
+Create middleware.ts in the project root:
+
+ts
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+const isProtectedRoute = createRouteMatcher(['/account(.*)'])
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) await auth.protect()
+})
+export const config = {
+  matcher: ['/((?!_next|.*\\..*).*)'],
+}
+
+Step 7 — Create the /account page (stub)
+Create app/account/page.tsx:
+
+tsx
+import { auth, currentUser } from '@clerk/nextjs/server'
+export default async function AccountPage() {
+  const { userId } = await auth()
+  const user = await currentUser()
+  return (
+    <div className="max-w-md mx-auto mt-20 p-6 border rounded-lg">
+      <h1 className="text-xl font-semibold mb-4">Your account</h1>
+      <p className="text-gray-600 text-sm">Signed in as: {user?.emailAddresses?.emailAddress}</p>
+      <p className="text-gray-600 text-sm mt-2">Plan: Free</p>
+      <p className="text-xs text-gray-400 mt-6">Billing management coming soon.</p>
+    </div>
+  )
+}
+
+This is a stub — Stripe will be wired in separately. Do not add any payment logic here yet.
+
+What NOT to do
+
+Do not build a custom login form
+
+Do not create a users table or database schema
+
+Do not add any session cookies or JWT logic manually
+
+Do not modify the calculator components or any existing tool logic
+
+Do not change any existing styles or layout outside the navbar
+
+Acceptance criteria
+
+Clicking "Sign in" in the navbar opens a Clerk modal
+
+New users can sign up with email magic link or Google OAuth
+
+After sign-in, the navbar shows the Clerk UserButton avatar
+
+Clicking the avatar shows a dropdown with profile and sign out
+
+/account redirects to sign-in if the user is not authenticated
+
+All three calculator tools (/, /cost-per-user, /budget-planner) remain fully functional for signed-out users — nothing is broken for anonymous visitors
