@@ -1,4 +1,5 @@
 import { Link, useLocation } from "wouter";
+import { SignInButton, Show, UserButton } from "@clerk/react";
 import { Button } from "@/components/ui/button";
 
 export function Navigation() {
@@ -15,7 +16,9 @@ export function Navigation() {
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-          <div className="w-6 h-6 rounded bg-primary text-primary-foreground flex items-center justify-center text-xs">TC</div>
+          <div className="w-6 h-6 rounded bg-primary text-primary-foreground flex items-center justify-center text-xs">
+            TC
+          </div>
           TokenCalc
         </Link>
         <div className="hidden md:flex items-center gap-6">
@@ -31,9 +34,28 @@ export function Navigation() {
             </Link>
           ))}
         </div>
-        <div>
+        <div className="flex items-center gap-3">
+          <Show when="signed-out">
+            <SignInButton mode="modal">
+              <button
+                type="button"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                data-testid="button-sign-in"
+              >
+                Sign in
+              </button>
+            </SignInButton>
+          </Show>
+          <Show when="signed-in">
+            <UserButton />
+          </Show>
           <Link href="/pricing">
-            <Button variant="default" size="sm" className="hidden md:inline-flex" data-testid="button-get-pro">
+            <Button
+              variant="default"
+              size="sm"
+              className="hidden md:inline-flex"
+              data-testid="button-get-pro"
+            >
               Get Pro
             </Button>
           </Link>

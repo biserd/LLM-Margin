@@ -1,0 +1,134 @@
+Integrate Clerk authentication into this React + Vite + Wouter SPA with the absolute minimum custom code. This is a pure client-side app — there is no server, no Next.js, no API routes. Do not add any backend. Clerk runs entirely in the browser.
+
+Step 1 — Install
+
+bash
+npm install @clerk/clerk-react
+
+Step 2 — Environment variable
+Add to .env:
+
+text
+VITE_CLERK_PUBLISHABLE_KEY=
+
+I will fill in the actual value. Access it in code as import.meta.env.VITE_CLERK_PUBLISHABLE_KEY.
+
+Step 3 — Wrap the app in main.tsx
+
+tsx
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { ClerkProvider } from '@clerk/clerk-react'
+import App from './App'
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <App />
+    </ClerkProvider>
+  </StrictMode>
+)
+
+Step 4 — Add sign-in and sign-up routes in App.tsx
+Import { SignIn, SignUp } from @clerk/clerk-react. Add two Wouter routes — do not create separate page files, just inline them:
+
+tsx
+import { Route, Switch } from 'wouter'
+import { SignIn, SignUp } from '@clerk/clerk-react'
+// Inside your existing <Switch>:
+<Route path="/sign-in">
+  <div className="flex justify-center items-center min-h-screen">
+    <SignIn routing="hash" />
+  </div>
+</Route>
+<Route path="/sign-up">
+  <div className="flex justify-center items-center min-h-screen">
+    <SignUp routing="hash" />
+  </div>
+</Route>
+
+Use routing="hash" — this is required for SPAs without server-side routing so Clerk's redirect flows don't 404.
+
+Step 5 — Update the navbar
+Import { SignInButton, SignedIn, SignedOut, UserButton } from @clerk/clerk-react. In the existing navbar component, replace any login/signup buttons with:
+
+tsx
+<SignedOut>
+  <SignInButton mode="modal">
+    <button className="text-sm font-medium text-gray-600 hover:text-gray-900">Sign in</button>
+  </SignInButton>
+</SignedOut>
+<SignedIn>
+  <UserButton afterSignOutUrl="/" />
+</SignedIn>
+
+The existing "Get Pro" button stays — place this auth block immediately to its left.
+
+Step 6 — Create a ProtectedRoute component
+This replaces Next.js middleware for client-side route protection:
+
+tsx
+// src/components/ProtectedRoute.tsx
+import { useAuth } from '@clerk/clerk-react'
+import { Redirect } from 'wouter'
+export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { isLoaded, isSignedIn } = useAuth()
+  if (!isLoaded) return null  // wait for Clerk to initialize
+  if (!isSignedIn) return <Redirect to="/sign-in" />
+  return <>{children}</>
+}
+
+Step 7 — Protect the /account route
+Wrap the account route with ProtectedRoute:
+
+tsx
+<Route path="/account">
+  <ProtectedRoute>
+    <AccountPage />
+  </ProtectedRoute>
+</Route>
+
+Step 8 — Create the /account page (stub)
+
+tsx
+// src/pages/AccountPage.tsx
+import { useUser } from '@clerk/clerk-react'
+export default function AccountPage() {
+  const { user } = useUser()
+  return (
+    <div className="max-w-md mx-auto mt-20 p-6 border rounded-lg">
+      <h1 className="text-xl font-semibold mb-4">Your account</h1>
+      <p className="text-gray-600 text-sm">Signed in as: {user?.emailAddresses?.emailAddress}</p>
+      <p className="text-gray-600 text-sm mt-2">Plan: Free</p>
+      <p className="text-xs text-gray-400 mt-6">Billing management coming soon.</p>
+    </div>
+  )
+}
+
+What NOT to do
+
+Do not add a server, Express, or any backend
+
+Do not use routing="path" on <SignIn> or <SignUp> — it will 404 on refresh in a SPA
+
+Do not build a custom login form
+
+Do not create a users table or any storage
+
+Do not modify the calculator components or any existing tool logic
+
+Do not change any existing styles or layout outside the navbar
+
+Acceptance criteria
+
+Clicking "Sign in" opens a Clerk modal
+
+Users can sign up with email magic link or Google OAuth
+
+After sign-in, navbar shows the UserButton avatar with profile + sign out dropdown
+
+/account redirects to /sign-in if not authenticated
+
+All three calculator tools remain fully functional for signed-out users — nothing breaks for anonymous visitors
+
+No console errors on page refresh at any route
