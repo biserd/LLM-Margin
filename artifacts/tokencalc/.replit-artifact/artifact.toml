@@ -23,6 +23,30 @@ publicDir = "artifacts/tokencalc/dist/public"
 serve = "static"
 
 [[services.production.rewrites]]
+from = "/cost-per-user"
+to = "/cost-per-user/index.html"
+
+[[services.production.rewrites]]
+from = "/budget-planner"
+to = "/budget-planner/index.html"
+
+[[services.production.rewrites]]
+from = "/pricing"
+to = "/pricing/index.html"
+
+[[services.production.rewrites]]
+from = "/terms"
+to = "/terms/index.html"
+
+[[services.production.rewrites]]
+from = "/privacy"
+to = "/privacy/index.html"
+
+[[services.production.rewrites]]
+from = "/contact"
+to = "/contact/index.html"
+
+[[services.production.rewrites]]
 from = "/*"
 to = "/index.html"
 

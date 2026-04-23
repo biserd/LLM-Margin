@@ -36,6 +36,11 @@ A business planning tool for SaaS founders to understand the real cost of runnin
   - `InlineCostPreview` — Live cost calculation text
   - `DisclaimerFooter` — Pricing disclaimer
   - `Navigation` — Sticky top nav
+- **SEO / pre-rendering**:
+  - `scripts/prerender.mjs` runs after `vite build`. Spins up a static server, uses Puppeteer (system Chromium) to render each route, and writes the resulting HTML to `dist/public/<route>/index.html`. This gives crawlers fully-rendered HTML with per-page `<title>`, meta tags, and H1 baked in. React still hydrates client-side after.
+  - Routes prerendered: `/`, `/cost-per-user`, `/budget-planner`, `/pricing`, `/terms`, `/privacy`, `/contact`.
+  - `artifact.toml` has explicit per-route rewrites pointing to the prerendered files BEFORE the SPA `/* → /index.html` catch-all, so the prerendered HTML is served instead of the empty shell.
+  - Adding a new prerendered route requires: (1) add to `ROUTES` in `prerender.mjs`, (2) add a per-route rewrite in `artifact.toml` before the catch-all.
 
 ## Key Commands
 
