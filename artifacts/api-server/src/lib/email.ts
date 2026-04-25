@@ -24,6 +24,12 @@ function buildBody(code: string) {
   return { text, html };
 }
 
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+
+function fallbackSuffix(code: string): string {
+  return IS_PRODUCTION ? "" : ` Code: ${code}`;
+}
+
 export async function sendOtpEmail(toEmail: string, code: string): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   const { text, html } = buildBody(code);
@@ -31,7 +37,7 @@ export async function sendOtpEmail(toEmail: string, code: string): Promise<void>
   if (!apiKey) {
     logger.warn(
       { email: toEmail },
-      `[OTP-DEV] RESEND_API_KEY not set — printing code to console. Code: ${code}`,
+      `[OTP-DEV] RESEND_API_KEY not set — printing code to console.${fallbackSuffix(code)}`,
     );
     return;
   }
@@ -50,7 +56,7 @@ export async function sendOtpEmail(toEmail: string, code: string): Promise<void>
     if (error) {
       logger.error(
         { err: error, email: toEmail },
-        `[OTP-EMAIL-FAILED] Resend rejected the message — falling back to console. Code: ${code}`,
+        `[OTP-EMAIL-FAILED] Resend rejected the message — falling back to console.${fallbackSuffix(code)}`,
       );
       return;
     }
@@ -59,7 +65,7 @@ export async function sendOtpEmail(toEmail: string, code: string): Promise<void>
   } catch (err) {
     logger.error(
       { err, email: toEmail },
-      `[OTP-EMAIL-FAILED] Unexpected error sending OTP — falling back to console. Code: ${code}`,
+      `[OTP-EMAIL-FAILED] Unexpected error sending OTP — falling back to console.${fallbackSuffix(code)}`,
     );
   }
 }
