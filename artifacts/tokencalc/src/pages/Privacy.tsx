@@ -1,7 +1,7 @@
 export default function Privacy() {
   return (
     <div className="min-h-screen bg-background">
-      <title>Privacy Policy — TokenCalc</title>
+      <title>Privacy Policy — LLM Margin</title>
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <h1 className="text-3xl font-bold mb-2">Privacy Policy</h1>
         <p className="text-sm text-muted-foreground mb-8">Last updated: April 21, 2026</p>

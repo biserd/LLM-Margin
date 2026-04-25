@@ -216,7 +216,7 @@ export default function BudgetPlanner() {
 
   return (
     <div className="min-h-screen bg-background">
-      <title>AI Budget Planner for Founders & SaaS Teams | TokenCalc</title>
+      <title>AI Budget Planner for Founders & SaaS Teams | LLM Margin</title>
       <meta name="description" content="Plan monthly AI spend across OpenAI, Anthropic, and infra. Set caps, forecast burn, and catch cost overruns before your CFO does. Free planner." />
       <meta property="og:title" content="Stop guessing your AI budget. Plan it." />
       <meta property="og:description" content="The AI budget planner founders use to forecast LLM spend, set caps, and survive growth spikes without blowing runway." />
@@ -618,7 +618,7 @@ export default function BudgetPlanner() {
         <DisclaimerFooter />
 
         <SeoFooter
-          paragraph="The TokenCalc AI budget planner is built for founders and SaaS operators who need to forecast AI spend with the same rigor as payroll. Model OpenAI API pricing, Anthropic API pricing, and self-hosted inference side by side, set caps per feature, and watch the 12-month burn update live. It's the AI pricing calculator for founders who've already learned the hard way that 'we'll figure out costs later' is how runway disappears."
+          paragraph="The LLM Margin AI budget planner is built for founders and SaaS operators who need to forecast AI spend with the same rigor as payroll. Model OpenAI API pricing, Anthropic API pricing, and self-hosted inference side by side, set caps per feature, and watch the 12-month burn update live. It's the AI pricing calculator for founders who've already learned the hard way that 'we'll figure out costs later' is how runway disappears."
           links={[
             { href: "/", anchor: "model your AI SaaS gross margin" },
             { href: "/cost-per-user", anchor: "break it down to cost per user" },

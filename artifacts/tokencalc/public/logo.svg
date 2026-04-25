@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 32" width="160" height="32">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 32" width="180" height="32">
   <g>
     <rect x="0" y="4" width="24" height="24" rx="5" fill="hsl(221 83% 53%)"/>
-    <text x="12" y="21" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff">TC</text>
-    <text x="34" y="22" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="hsl(240 10% 3.9%)">TokenCalc</text>
+    <text x="12" y="21" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff">LM</text>
+    <text x="34" y="22" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="hsl(240 10% 3.9%)">LLM Margin</text>
   </g>
 </svg>

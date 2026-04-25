@@ -9,7 +9,7 @@ export default function AccountPage() {
 
   return (
     <>
-      <title>Your account | TokenCalc</title>
+      <title>Your account | LLM Margin</title>
       <meta name="robots" content="noindex, nofollow" />
       <div className="max-w-md mx-auto mt-20 p-6 border rounded-lg bg-card">
         <h1 className="text-xl font-semibold mb-4 text-foreground">

@@ -141,17 +141,17 @@ export default function MarginSimulator() {
 
   return (
     <div className="min-h-screen bg-background">
-      <title>LLM Margin Calculator for SaaS Founders | TokenCalc</title>
+      <title>LLM Margin Calculator for SaaS Founders | LLM Margin</title>
       <meta name="description" content="Model gross margin, cost-per-user, and breakeven MAU for any AI product. Plug in your LLM pricing and see if your unit economics actually work. Free." />
       <meta property="og:title" content="Will your AI SaaS actually make money? Find out in 60 seconds." />
-      <meta property="og:description" content="TokenCalc simulates gross margin and power-user risk for AI products. Built by founders, for founders staring at OpenAI invoices." />
+      <meta property="og:description" content="LLM Margin simulates gross margin and power-user risk for AI products. Built by founders, for founders staring at OpenAI invoices." />
       <link rel="canonical" href="https://tokencalc.com/" />
 
       {/* Hero */}
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-10">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Model your AI SaaS margins before your OpenAI bill eats them.</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mb-3">TokenCalc is a margin simulator for founders shipping AI products. Enter your pricing, token usage, and MAU — get gross margin, cost-per-user, and breakeven in seconds.</p>
+          <p className="text-lg text-muted-foreground max-w-2xl mb-3">LLM Margin is a margin simulator for founders shipping AI products. Enter your pricing, token usage, and MAU — get gross margin, cost-per-user, and breakeven in seconds.</p>
           <ul className="space-y-1 max-w-2xl mb-3">
             {[
               "See your true gross margin % after LLM costs — not the back-of-napkin version your board deck uses.",
@@ -512,7 +512,7 @@ export default function MarginSimulator() {
             <DisclaimerFooter />
 
             <SeoFooter
-              paragraph="TokenCalc is a free LLM margin calculator built for SaaS founders, indie hackers, and AI startup CTOs who need real answers about AI cost per user, gross margin, and breakeven MAU. Instead of spreadsheets and Reddit threads, plug your OpenAI, Anthropic, or open-source LLM pricing into the SaaS margin simulator and get cost-per-user, power-user risk, and monthly burn in one view. If you're pricing an AI product or defending margin to investors, this is the fastest way to stress-test the model."
+              paragraph="LLM Margin is a free LLM margin calculator built for SaaS founders, indie hackers, and AI startup CTOs who need real answers about AI cost per user, gross margin, and breakeven MAU. Instead of spreadsheets and Reddit threads, plug your OpenAI, Anthropic, or open-source LLM pricing into the SaaS margin simulator and get cost-per-user, power-user risk, and monthly burn in one view. If you're pricing an AI product or defending margin to investors, this is the fastest way to stress-test the model."
               links={[
                 { href: "/cost-per-user", anchor: "LLM cost per user calculator" },
                 { href: "/budget-planner", anchor: "AI budget planner for founders" },

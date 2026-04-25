@@ -8,8 +8,8 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2 font-bold text-base mb-2">
-              <div className="w-6 h-6 rounded bg-primary text-primary-foreground flex items-center justify-center text-xs">TC</div>
-              TokenCalc
+              <div className="w-6 h-6 rounded bg-primary text-primary-foreground flex items-center justify-center text-[10px] font-bold">LM</div>
+              LLM Margin
             </Link>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Honest unit economics for AI-powered SaaS founders.
@@ -44,7 +44,7 @@ export function Footer() {
 
         <div className="border-t mt-8 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
-            © {year} TokenCalc. All rights reserved.
+            © {year} LLM Margin. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
             Prices via OpenRouter. Estimates only — verify with your provider.

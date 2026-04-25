@@ -16,10 +16,10 @@ export function Navigation() {
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-          <div className="w-6 h-6 rounded bg-primary text-primary-foreground flex items-center justify-center text-xs">
-            TC
+          <div className="w-6 h-6 rounded bg-primary text-primary-foreground flex items-center justify-center text-[10px] font-bold">
+            LM
           </div>
-          TokenCalc
+          LLM Margin
         </Link>
         <div className="hidden md:flex items-center gap-6">
           {links.map((link) => (

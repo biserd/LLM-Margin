@@ -16,8 +16,8 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background">
-      <title>Contact Us — TokenCalc</title>
-      <meta name="description" content="Get in touch with the TokenCalc team. Support, feedback, billing, and partnership inquiries." />
+      <title>Contact Us — LLM Margin</title>
+      <meta name="description" content="Get in touch with the LLM Margin team. Support, feedback, billing, and partnership inquiries." />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-12 text-center">

@@ -1,7 +1,7 @@
 export default function Terms() {
   return (
     <div className="min-h-screen bg-background">
-      <title>Terms of Service — TokenCalc</title>
+      <title>Terms of Service — LLM Margin</title>
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <h1 className="text-3xl font-bold mb-2">Terms of Service</h1>
         <p className="text-sm text-muted-foreground mb-8">Last updated: April 21, 2026</p>
@@ -10,7 +10,7 @@ export default function Terms() {
           <section>
             <h2 className="text-xl font-semibold mb-2">1. Acceptance of terms</h2>
             <p className="text-muted-foreground">
-              By accessing or using TokenCalc ("the Service"), you agree to be bound by these Terms of Service.
+              By accessing or using LLM Margin ("the Service"), you agree to be bound by these Terms of Service.
               If you do not agree to these terms, do not use the Service.
             </p>
           </section>
@@ -18,7 +18,7 @@ export default function Terms() {
           <section>
             <h2 className="text-xl font-semibold mb-2">2. Description of service</h2>
             <p className="text-muted-foreground">
-              TokenCalc provides client-side calculators that estimate the cost and unit economics of running
+              LLM Margin provides client-side calculators that estimate the cost and unit economics of running
               LLM-powered SaaS products. All calculations are performed in your browser using publicly available
               model pricing data. Results are estimates only and should not be relied upon as financial advice.
             </p>
@@ -56,7 +56,7 @@ export default function Terms() {
           <section>
             <h2 className="text-xl font-semibold mb-2">6. Intellectual property</h2>
             <p className="text-muted-foreground">
-              All content, branding, calculator logic, and copy on the Service are the property of TokenCalc.
+              All content, branding, calculator logic, and copy on the Service are the property of LLM Margin.
               You retain ownership of any inputs or scenario data you create. By using the Service you grant us a
               limited license to display and process that data on your behalf.
             </p>
@@ -65,7 +65,7 @@ export default function Terms() {
           <section>
             <h2 className="text-xl font-semibold mb-2">7. Limitation of liability</h2>
             <p className="text-muted-foreground">
-              Under no circumstances shall TokenCalc, its operators, or affiliates be liable for any indirect,
+              Under no circumstances shall LLM Margin, its operators, or affiliates be liable for any indirect,
               incidental, consequential, or special damages arising out of or in any way connected with use of
               the Service. Our total liability shall not exceed the amount you paid us in the twelve months
               preceding the claim.
