@@ -36,18 +36,30 @@ export async function sendOtpEmail(toEmail: string, code: string): Promise<void>
     return;
   }
 
-  const { Resend } = await import("resend");
-  const resend = new Resend(apiKey);
-  const { error } = await resend.emails.send({
-    from: FROM_ADDRESS,
-    to: toEmail,
-    subject: SUBJECT,
-    text,
-    html,
-  });
+  try {
+    const { Resend } = await import("resend");
+    const resend = new Resend(apiKey);
+    const { error } = await resend.emails.send({
+      from: FROM_ADDRESS,
+      to: toEmail,
+      subject: SUBJECT,
+      text,
+      html,
+    });
 
-  if (error) {
-    logger.error({ err: error, email: toEmail }, "Failed to send OTP email");
-    throw new Error(`Failed to send OTP email: ${error.message}`);
+    if (error) {
+      logger.error(
+        { err: error, email: toEmail },
+        `[OTP-EMAIL-FAILED] Resend rejected the message — falling back to console. Code: ${code}`,
+      );
+      return;
+    }
+
+    logger.info({ email: toEmail }, "Sent OTP email via Resend");
+  } catch (err) {
+    logger.error(
+      { err, email: toEmail },
+      `[OTP-EMAIL-FAILED] Unexpected error sending OTP — falling back to console. Code: ${code}`,
+    );
   }
 }

@@ -78,6 +78,28 @@ router.post("/auth/verify-otp", async (req, res) => {
       return;
     }
 
+    const ip =
+      (req.headers["x-forwarded-for"] as string | undefined)
+        ?.split(",")[0]
+        ?.trim() ||
+      req.socket.remoteAddress ||
+      "unknown";
+
+    const emailLimit = checkRateLimit(`verify:email:${email}`);
+    const ipLimit = checkRateLimit(`verify:ip:${ip}`);
+    if (!emailLimit.allowed || !ipLimit.allowed) {
+      const retry = Math.max(
+        emailLimit.retryAfterSeconds,
+        ipLimit.retryAfterSeconds,
+      );
+      res.set("Retry-After", String(retry));
+      res.status(429).json({
+        error: "Too many attempts. Please try again later.",
+        retryAfter: retry,
+      });
+      return;
+    }
+
     const now = new Date();
     const candidates = await db
       .select()
@@ -104,10 +126,18 @@ router.post("/auth/verify-otp", async (req, res) => {
       return;
     }
 
-    await db
+    const consumed = await db
       .update(otpCodesTable)
       .set({ consumedAt: now })
-      .where(eq(otpCodesTable.id, record.id));
+      .where(
+        and(eq(otpCodesTable.id, record.id), isNull(otpCodesTable.consumedAt)),
+      )
+      .returning({ id: otpCodesTable.id });
+
+    if (consumed.length === 0) {
+      res.status(401).json({ error: "Invalid or expired code." });
+      return;
+    }
 
     const inserted = await db
       .insert(usersTable)
