@@ -54,18 +54,18 @@ export default function Pricing() {
   return (
     <div className="min-h-screen bg-background">
       <title>Pricing — Free Forever + Pro for Teams | TokenCalc</title>
-      <meta name="description" content="TokenCalc is free for founders. Pro unlocks saved scenarios, team sharing, PDF/CSV export, and full 12-month projections for $19/mo. No credit card for the free tier." />
+      <meta name="description" content="TokenCalc is free for founders. Pro unlocks saved scenarios, team sharing, and CSV export for $19/mo. No credit card for the free tier." />
       <meta property="og:title" content="Simple pricing for founders who hate pricing pages" />
-      <meta property="og:description" content="Free forever for solo founders. Pro ($19/mo) adds saved scenarios, team sharing, and CSV/PDF export when your cap table needs it." />
+      <meta property="og:description" content="Free forever for solo founders. Pro ($19/mo) adds saved scenarios, team sharing, and CSV export when your cap table needs it." />
       <link rel="canonical" href="https://tokencalc.com/pricing" />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-14 text-center">
           <h1 className="text-3xl md:text-5xl font-bold mb-3 max-w-3xl mx-auto">
-            Pricing for founders who'd rather not go broke on tokens.
+            Simple pricing for founders who hate pricing pages
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Start free. Upgrade when you need to hand a PDF to your board.
+            Free forever for solo founders. Pro ($19/mo) adds saved scenarios, team sharing, and CSV export when your cap table needs it.
           </p>
 
           <div className="inline-flex items-center gap-1 bg-card border rounded-full p-1 mt-8" data-testid="billing-toggle">
