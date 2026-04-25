@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication operations
 paths:
   /healthz:
     get:
@@ -24,6 +26,99 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /auth/request-otp:
+    post:
+      operationId: requestOtp
+      tags: [auth]
+      summary: Request a one-time sign-in code
+      description: Generates a 6-digit code and emails it to the given address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequestOtpBody"
+      responses:
+        "200":
+          description: Code requested (always returned, even if email is unknown)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400":
+          description: Invalid email
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/verify-otp:
+    post:
+      operationId: verifyOtp
+      tags: [auth]
+      summary: Verify a one-time sign-in code
+      description: Verifies the code and, on success, sets a session cookie.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyOtpBody"
+      responses:
+        "200":
+          description: Verified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "400":
+          description: Invalid email or code format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Invalid or expired code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: Sign out
+      description: Clears the session cookie.
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get the current signed-in user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +128,57 @@ components:
           type: string
       required:
         - status
-
+    RequestOtpBody:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+        - email
+    VerifyOtpBody:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        code:
+          type: string
+          minLength: 6
+          maxLength: 6
+      required:
+        - email
+        - code
+    UserResponse:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+      required:
+        - user
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+      required:
+        - id
+        - email
+    OkResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+      required:
+        - ok
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error

@@ -1,23 +1,13 @@
-import {
-  Switch,
-  Route,
-  Router as WouterRouter,
-  useLocation,
-} from "wouter";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { ClerkProvider, useClerk } from "@clerk/react";
+import { Switch, Route, Router as WouterRouter } from "wouter";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
-import { lazy, Suspense, useEffect, useRef } from "react";
+import { lazy, Suspense } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { clerkAppearance } from "@/lib/clerkAppearance";
+import { AuthProvider } from "@/lib/auth";
 
 const MarginSimulator = lazy(() => import("@/pages/MarginSimulator"));
 const CostPerUser = lazy(() => import("@/pages/CostPerUser"));
@@ -31,19 +21,7 @@ const SignUpPage = lazy(() => import("@/pages/SignUpPage"));
 const AccountPage = lazy(() => import("@/pages/AccountPage"));
 
 const queryClient = new QueryClient();
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as
-  | string
-  | undefined;
-const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL as
-  | string
-  | undefined;
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
-
-function stripBase(path: string): string {
-  return basePath && path.startsWith(basePath)
-    ? path.slice(basePath.length) || "/"
-    : path;
-}
 
 function LoadingSpinner() {
   return (
@@ -51,28 +29,6 @@ function LoadingSpinner() {
       <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent" />
     </div>
   );
-}
-
-function ClerkQueryClientCacheInvalidator() {
-  const { addListener } = useClerk();
-  const qc = useQueryClient();
-  const prevUserIdRef = useRef<string | null | undefined>(undefined);
-
-  useEffect(() => {
-    const unsubscribe = addListener(({ user }) => {
-      const userId = user?.id ?? null;
-      if (
-        prevUserIdRef.current !== undefined &&
-        prevUserIdRef.current !== userId
-      ) {
-        qc.clear();
-      }
-      prevUserIdRef.current = userId;
-    });
-    return unsubscribe;
-  }, [addListener, qc]);
-
-  return null;
 }
 
 function Router() {
@@ -89,8 +45,8 @@ function Router() {
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />
-            <Route path="/sign-in/*?" component={SignInPage} />
-            <Route path="/sign-up/*?" component={SignUpPage} />
+            <Route path="/sign-in" component={SignInPage} />
+            <Route path="/sign-up" component={SignUpPage} />
             <Route path="/account">
               <ProtectedRoute>
                 <AccountPage />
@@ -105,41 +61,17 @@ function Router() {
   );
 }
 
-function ClerkProviderWithRoutes() {
-  const [, setLocation] = useLocation();
-
-  return (
-    <ClerkProvider
-      publishableKey={clerkPubKey!}
-      proxyUrl={clerkProxyUrl}
-      appearance={clerkAppearance}
-      signInUrl={`${basePath}/sign-in`}
-      signUpUrl={`${basePath}/sign-up`}
-      routerPush={(to) => setLocation(stripBase(to))}
-      routerReplace={(to) => setLocation(stripBase(to), { replace: true })}
-    >
-      <QueryClientProvider client={queryClient}>
-        <ClerkQueryClientCacheInvalidator />
-        <TooltipProvider>
-          <Router />
-          <Toaster />
-        </TooltipProvider>
-      </QueryClientProvider>
-    </ClerkProvider>
-  );
-}
-
 function App() {
-  if (!clerkPubKey) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-sm text-muted-foreground p-6 text-center">
-        Auth is not configured. Set VITE_CLERK_PUBLISHABLE_KEY and reload.
-      </div>
-    );
-  }
   return (
     <WouterRouter base={basePath}>
-      <ClerkProviderWithRoutes />
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <TooltipProvider>
+            <Router />
+            <Toaster />
+          </TooltipProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </WouterRouter>
   );
 }

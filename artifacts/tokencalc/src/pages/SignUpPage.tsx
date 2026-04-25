@@ -1,19 +1,18 @@
-import { SignUp } from "@clerk/react";
-
-const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+import { useEffect } from "react";
+import { Redirect, useLocation } from "wouter";
 
 export default function SignUpPage() {
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    setLocation("/sign-in", { replace: true });
+  }, [setLocation]);
+
   return (
     <>
       <title>Create your account | LLM Margin</title>
       <meta name="robots" content="noindex, nofollow" />
-      <div className="flex min-h-[80vh] items-center justify-center bg-background px-4 py-10">
-        <SignUp
-          routing="path"
-          path={`${basePath}/sign-up`}
-          signInUrl={`${basePath}/sign-in`}
-        />
-      </div>
+      <Redirect to="/sign-in" />
     </>
   );
 }

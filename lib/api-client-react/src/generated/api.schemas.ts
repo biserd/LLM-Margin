@@ -8,3 +8,33 @@
 export interface HealthStatus {
   status: string;
 }
+
+export interface RequestOtpBody {
+  email: string;
+}
+
+export interface VerifyOtpBody {
+  email: string;
+  /**
+   * @minLength 6
+   * @maxLength 6
+   */
+  code: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+}
+
+export interface UserResponse {
+  user: User;
+}
+
+export interface OkResponse {
+  ok: boolean;
+}
+
+export interface ErrorResponse {
+  error: string;
+}

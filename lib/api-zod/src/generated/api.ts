@@ -14,3 +14,52 @@ import * as zod from "zod";
 export const HealthCheckResponse = zod.object({
   status: zod.string(),
 });
+
+/**
+ * Generates a 6-digit code and emails it to the given address.
+ * @summary Request a one-time sign-in code
+ */
+export const RequestOtpBody = zod.object({
+  email: zod.string().email(),
+});
+
+export const RequestOtpResponse = zod.object({
+  ok: zod.boolean(),
+});
+
+/**
+ * Verifies the code and, on success, sets a session cookie.
+ * @summary Verify a one-time sign-in code
+ */
+export const verifyOtpBodyCodeMin = 6;
+export const verifyOtpBodyCodeMax = 6;
+
+export const VerifyOtpBody = zod.object({
+  email: zod.string().email(),
+  code: zod.string().min(verifyOtpBodyCodeMin).max(verifyOtpBodyCodeMax),
+});
+
+export const VerifyOtpResponse = zod.object({
+  user: zod.object({
+    id: zod.string().uuid(),
+    email: zod.string().email(),
+  }),
+});
+
+/**
+ * Clears the session cookie.
+ * @summary Sign out
+ */
+export const LogoutResponse = zod.object({
+  ok: zod.boolean(),
+});
+
+/**
+ * @summary Get the current signed-in user
+ */
+export const GetMeResponse = zod.object({
+  user: zod.object({
+    id: zod.string().uuid(),
+    email: zod.string().email(),
+  }),
+});

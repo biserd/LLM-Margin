@@ -1,11 +1,15 @@
-import { useUser } from "@clerk/react";
+import { useLocation } from "wouter";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth";
 
 export default function AccountPage() {
-  const { user, isLoaded } = useUser();
-  const email =
-    user?.primaryEmailAddress?.emailAddress ??
-    user?.emailAddresses?.[0]?.emailAddress ??
-    "";
+  const { user, signOut } = useAuth();
+  const [, setLocation] = useLocation();
+
+  async function handleSignOut() {
+    await signOut();
+    setLocation("/", { replace: true });
+  }
 
   return (
     <>
@@ -15,11 +19,23 @@ export default function AccountPage() {
         <h1 className="text-xl font-semibold mb-4 text-foreground">
           Your account
         </h1>
-        <p className="text-muted-foreground text-sm" data-testid="text-account-email">
-          Signed in as: {isLoaded ? email || "—" : "…"}
+        <p
+          className="text-muted-foreground text-sm"
+          data-testid="text-account-email"
+        >
+          Signed in as: {user?.email ?? "—"}
         </p>
         <p className="text-muted-foreground text-sm mt-2">Plan: Free</p>
-        <p className="text-xs text-muted-foreground/70 mt-6">
+        <Button
+          variant="outline"
+          size="sm"
+          className="mt-6 w-full"
+          onClick={handleSignOut}
+          data-testid="button-sign-out"
+        >
+          Sign out
+        </Button>
+        <p className="text-xs text-muted-foreground/70 mt-4">
           Billing management coming soon.
         </p>
       </div>

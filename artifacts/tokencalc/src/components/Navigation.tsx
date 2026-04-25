@@ -1,9 +1,18 @@
 import { Link, useLocation } from "wouter";
-import { SignInButton, Show, UserButton } from "@clerk/react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/lib/auth";
 
 export function Navigation() {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
+  const { user, isLoading, signOut } = useAuth();
 
   const links = [
     { href: "/", label: "Margin Simulator" },
@@ -11,6 +20,13 @@ export function Navigation() {
     { href: "/budget-planner", label: "Budget Planner" },
     { href: "/pricing", label: "Pricing" },
   ];
+
+  async function handleSignOut() {
+    await signOut();
+    setLocation("/", { replace: true });
+  }
+
+  const initial = (user?.email?.[0] ?? "?").toUpperCase();
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -35,20 +51,59 @@ export function Navigation() {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <Show when="signed-out">
-            <SignInButton mode="modal">
-              <button
-                type="button"
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                data-testid="button-sign-in"
-              >
-                Sign in
-              </button>
-            </SignInButton>
-          </Show>
-          <Show when="signed-in">
-            <UserButton />
-          </Show>
+          {isLoading ? (
+            <div
+              className="h-8 w-8 rounded-full bg-muted animate-pulse"
+              aria-hidden="true"
+            />
+          ) : user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  className="h-8 w-8 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center hover:opacity-90 transition-opacity"
+                  data-testid="button-user-menu"
+                  aria-label="Account menu"
+                >
+                  {initial}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="text-xs text-muted-foreground">
+                    Signed in as
+                  </div>
+                  <div
+                    className="text-sm font-medium truncate"
+                    data-testid="text-menu-email"
+                  >
+                    {user.email}
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onSelect={() => setLocation("/account")}
+                  data-testid="menu-item-account"
+                >
+                  Account
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={handleSignOut}
+                  data-testid="menu-item-sign-out"
+                >
+                  Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link
+              href="/sign-in"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              data-testid="button-sign-in"
+            >
+              Sign in
+            </Link>
+          )}
           <Link href="/pricing">
             <Button
               variant="default"
