@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import { and, desc, eq, isNull, gt } from "drizzle-orm";
+import { and, desc, eq, isNull, gt, lte, or, isNotNull } from "drizzle-orm";
 import { db, usersTable, otpCodesTable } from "@workspace/db";
 import {
   generateOtpCode,
@@ -21,6 +21,24 @@ import { logger } from "../lib/logger";
 
 const router: IRouter = Router();
 
+async function pruneStaleOtpCodes(email: string, now: Date): Promise<void> {
+  try {
+    await db
+      .delete(otpCodesTable)
+      .where(
+        and(
+          eq(otpCodesTable.email, email),
+          or(
+            isNotNull(otpCodesTable.consumedAt),
+            lte(otpCodesTable.expiresAt, now),
+          ),
+        ),
+      );
+  } catch (err) {
+    logger.warn({ err, email }, "Failed to prune stale OTP codes (non-fatal)");
+  }
+}
+
 router.post("/auth/request-otp", async (req, res) => {
   try {
     const rawEmail = String(req.body?.email ?? "");
@@ -31,12 +49,7 @@ router.post("/auth/request-otp", async (req, res) => {
       return;
     }
 
-    const ip =
-      (req.headers["x-forwarded-for"] as string | undefined)
-        ?.split(",")[0]
-        ?.trim() ||
-      req.socket.remoteAddress ||
-      "unknown";
+    const ip = req.ip ?? "unknown";
 
     const emailLimit = checkRateLimit(`otp:email:${email}`);
     const ipLimit = checkRateLimit(`otp:ip:${ip}`);
@@ -57,6 +70,7 @@ router.post("/auth/request-otp", async (req, res) => {
     const codeHash = hashOtpCode(code);
     const expiresAt = otpExpiry();
 
+    await pruneStaleOtpCodes(email, new Date());
     await db.insert(otpCodesTable).values({ email, codeHash, expiresAt });
     await sendOtpEmail(email, code);
 
@@ -78,12 +92,7 @@ router.post("/auth/verify-otp", async (req, res) => {
       return;
     }
 
-    const ip =
-      (req.headers["x-forwarded-for"] as string | undefined)
-        ?.split(",")[0]
-        ?.trim() ||
-      req.socket.remoteAddress ||
-      "unknown";
+    const ip = req.ip ?? "unknown";
 
     const emailLimit = checkRateLimit(`verify:email:${email}`);
     const ipLimit = checkRateLimit(`verify:ip:${ip}`);
@@ -155,6 +164,9 @@ router.post("/auth/verify-otp", async (req, res) => {
 
     const { token, expiresAt } = createSessionToken(user.id);
     res.cookie(SESSION_COOKIE_NAME, token, sessionCookieOptions(expiresAt));
+
+    void pruneStaleOtpCodes(email, now);
+
     res.status(200).json({ user: { id: user.id, email: user.email } });
   } catch (err) {
     logger.error({ err }, "verify-otp failed");
