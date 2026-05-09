@@ -56,42 +56,52 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://tokencalc.com/compare/gpt-5-vs-claude-3-7-sonnet</loc>
+    <loc>https://tokencalc.com/compare/gpt-5-5-vs-claude-opus-4-7</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://tokencalc.com/compare/gpt-5-vs-gemini-2-5-pro</loc>
+    <loc>https://tokencalc.com/compare/gpt-5-5-vs-gemini-3-1-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://tokencalc.com/compare/gpt-5-vs-o3</loc>
+    <loc>https://tokencalc.com/compare/gpt-5-5-vs-grok-4</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://tokencalc.com/compare/claude-3-7-sonnet-vs-gemini-2-5-pro</loc>
+    <loc>https://tokencalc.com/compare/claude-opus-4-7-vs-gemini-3-1-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://tokencalc.com/compare/gpt-4o-vs-claude-3-7-sonnet</loc>
+    <loc>https://tokencalc.com/compare/claude-opus-4-7-vs-grok-4</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://tokencalc.com/compare/gpt-4o-vs-gemini-2-5-pro</loc>
+    <loc>https://tokencalc.com/compare/gemini-3-1-pro-vs-grok-4</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://tokencalc.com/compare/claude-3-7-sonnet-vs-gpt-4-turbo</loc>
+    <loc>https://tokencalc.com/compare/claude-opus-4-5-vs-gpt-5-4</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://tokencalc.com/compare/gpt-4o-vs-gpt-4-turbo</loc>
+    <loc>https://tokencalc.com/compare/claude-sonnet-4-6-vs-gpt-5-1</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/compare/claude-sonnet-4-6-vs-gemini-3-1-pro</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/compare/gpt-5-1-vs-claude-sonnet-4-5</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -101,12 +111,22 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://tokencalc.com/compare/o3-vs-claude-3-7-sonnet</loc>
+    <loc>https://tokencalc.com/compare/o3-vs-o4-mini</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://tokencalc.com/compare/o3-vs-gpt-4o</loc>
+    <loc>https://tokencalc.com/compare/o4-mini-vs-claude-sonnet-4-6</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/compare/o3-vs-claude-opus-4-7</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/compare/o3-vs-gpt-5-1</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -206,6 +226,16 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://tokencalc.com/compare/gpt-5-5-vs-gpt-5-1</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/compare/gpt-5-1-vs-gpt-5</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://tokencalc.com/compare/gpt-5-vs-gpt-4o</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -221,6 +251,16 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://tokencalc.com/compare/claude-opus-4-7-vs-claude-sonnet-4-6</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/compare/claude-sonnet-4-6-vs-claude-3-7-sonnet</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://tokencalc.com/compare/claude-3-7-sonnet-vs-claude-3-5-haiku</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -232,6 +272,11 @@
   </url>
   <url>
     <loc>https://tokencalc.com/compare/claude-haiku-4-5-vs-claude-3-5-haiku</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/compare/gemini-3-1-pro-vs-gemini-2-5-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -262,6 +307,21 @@
   </url>
   <url>
     <loc>https://tokencalc.com/compare/sonar-vs-gpt-4o-mini</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/compare/grok-4-3-vs-gpt-5-1</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/compare/grok-4-vs-claude-sonnet-4-6</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/compare/llama-4-maverick-vs-gpt-4o-mini</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>

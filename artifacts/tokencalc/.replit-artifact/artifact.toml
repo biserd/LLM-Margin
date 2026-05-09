@@ -63,48 +63,64 @@ from = "/compare"
 to = "/compare/index.html"
 
 [[services.production.rewrites]]
-from = "/compare/gpt-5-vs-claude-3-7-sonnet"
-to = "/compare/gpt-5-vs-claude-3-7-sonnet/index.html"
+from = "/compare/gpt-5-5-vs-claude-opus-4-7"
+to = "/compare/gpt-5-5-vs-claude-opus-4-7/index.html"
 
 [[services.production.rewrites]]
-from = "/compare/gpt-5-vs-gemini-2-5-pro"
-to = "/compare/gpt-5-vs-gemini-2-5-pro/index.html"
+from = "/compare/gpt-5-5-vs-gemini-3-1-pro"
+to = "/compare/gpt-5-5-vs-gemini-3-1-pro/index.html"
 
 [[services.production.rewrites]]
-from = "/compare/gpt-5-vs-o3"
-to = "/compare/gpt-5-vs-o3/index.html"
+from = "/compare/gpt-5-5-vs-grok-4"
+to = "/compare/gpt-5-5-vs-grok-4/index.html"
 
 [[services.production.rewrites]]
-from = "/compare/claude-3-7-sonnet-vs-gemini-2-5-pro"
-to = "/compare/claude-3-7-sonnet-vs-gemini-2-5-pro/index.html"
+from = "/compare/claude-opus-4-7-vs-gemini-3-1-pro"
+to = "/compare/claude-opus-4-7-vs-gemini-3-1-pro/index.html"
 
 [[services.production.rewrites]]
-from = "/compare/gpt-4o-vs-claude-3-7-sonnet"
-to = "/compare/gpt-4o-vs-claude-3-7-sonnet/index.html"
+from = "/compare/claude-opus-4-7-vs-grok-4"
+to = "/compare/claude-opus-4-7-vs-grok-4/index.html"
 
 [[services.production.rewrites]]
-from = "/compare/gpt-4o-vs-gemini-2-5-pro"
-to = "/compare/gpt-4o-vs-gemini-2-5-pro/index.html"
+from = "/compare/gemini-3-1-pro-vs-grok-4"
+to = "/compare/gemini-3-1-pro-vs-grok-4/index.html"
 
 [[services.production.rewrites]]
-from = "/compare/claude-3-7-sonnet-vs-gpt-4-turbo"
-to = "/compare/claude-3-7-sonnet-vs-gpt-4-turbo/index.html"
+from = "/compare/claude-opus-4-5-vs-gpt-5-4"
+to = "/compare/claude-opus-4-5-vs-gpt-5-4/index.html"
 
 [[services.production.rewrites]]
-from = "/compare/gpt-4o-vs-gpt-4-turbo"
-to = "/compare/gpt-4o-vs-gpt-4-turbo/index.html"
+from = "/compare/claude-sonnet-4-6-vs-gpt-5-1"
+to = "/compare/claude-sonnet-4-6-vs-gpt-5-1/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/claude-sonnet-4-6-vs-gemini-3-1-pro"
+to = "/compare/claude-sonnet-4-6-vs-gemini-3-1-pro/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/gpt-5-1-vs-claude-sonnet-4-5"
+to = "/compare/gpt-5-1-vs-claude-sonnet-4-5/index.html"
 
 [[services.production.rewrites]]
 from = "/compare/o1-vs-o3"
 to = "/compare/o1-vs-o3/index.html"
 
 [[services.production.rewrites]]
-from = "/compare/o3-vs-claude-3-7-sonnet"
-to = "/compare/o3-vs-claude-3-7-sonnet/index.html"
+from = "/compare/o3-vs-o4-mini"
+to = "/compare/o3-vs-o4-mini/index.html"
 
 [[services.production.rewrites]]
-from = "/compare/o3-vs-gpt-4o"
-to = "/compare/o3-vs-gpt-4o/index.html"
+from = "/compare/o4-mini-vs-claude-sonnet-4-6"
+to = "/compare/o4-mini-vs-claude-sonnet-4-6/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/o3-vs-claude-opus-4-7"
+to = "/compare/o3-vs-claude-opus-4-7/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/o3-vs-gpt-5-1"
+to = "/compare/o3-vs-gpt-5-1/index.html"
 
 [[services.production.rewrites]]
 from = "/compare/o1-vs-claude-3-7-sonnet"
@@ -183,6 +199,14 @@ from = "/compare/qwen-2-5-72b-vs-deepseek-v3"
 to = "/compare/qwen-2-5-72b-vs-deepseek-v3/index.html"
 
 [[services.production.rewrites]]
+from = "/compare/gpt-5-5-vs-gpt-5-1"
+to = "/compare/gpt-5-5-vs-gpt-5-1/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/gpt-5-1-vs-gpt-5"
+to = "/compare/gpt-5-1-vs-gpt-5/index.html"
+
+[[services.production.rewrites]]
 from = "/compare/gpt-5-vs-gpt-4o"
 to = "/compare/gpt-5-vs-gpt-4o/index.html"
 
@@ -195,6 +219,14 @@ from = "/compare/gpt-4o-vs-gpt-4-turbo"
 to = "/compare/gpt-4o-vs-gpt-4-turbo/index.html"
 
 [[services.production.rewrites]]
+from = "/compare/claude-opus-4-7-vs-claude-sonnet-4-6"
+to = "/compare/claude-opus-4-7-vs-claude-sonnet-4-6/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/claude-sonnet-4-6-vs-claude-3-7-sonnet"
+to = "/compare/claude-sonnet-4-6-vs-claude-3-7-sonnet/index.html"
+
+[[services.production.rewrites]]
 from = "/compare/claude-3-7-sonnet-vs-claude-3-5-haiku"
 to = "/compare/claude-3-7-sonnet-vs-claude-3-5-haiku/index.html"
 
@@ -205,6 +237,10 @@ to = "/compare/claude-3-7-sonnet-vs-claude-haiku-4-5/index.html"
 [[services.production.rewrites]]
 from = "/compare/claude-haiku-4-5-vs-claude-3-5-haiku"
 to = "/compare/claude-haiku-4-5-vs-claude-3-5-haiku/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/gemini-3-1-pro-vs-gemini-2-5-pro"
+to = "/compare/gemini-3-1-pro-vs-gemini-2-5-pro/index.html"
 
 [[services.production.rewrites]]
 from = "/compare/gemini-2-5-pro-vs-gemini-2-5-flash"
@@ -229,6 +265,18 @@ to = "/compare/command-r-plus-vs-gpt-4o/index.html"
 [[services.production.rewrites]]
 from = "/compare/sonar-vs-gpt-4o-mini"
 to = "/compare/sonar-vs-gpt-4o-mini/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/grok-4-3-vs-gpt-5-1"
+to = "/compare/grok-4-3-vs-gpt-5-1/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/grok-4-vs-claude-sonnet-4-6"
+to = "/compare/grok-4-vs-claude-sonnet-4-6/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/llama-4-maverick-vs-gpt-4o-mini"
+to = "/compare/llama-4-maverick-vs-gpt-4o-mini/index.html"
 
 [[services.production.rewrites]]
 from = "/*"

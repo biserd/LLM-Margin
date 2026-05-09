@@ -17,19 +17,26 @@ export const STATIC_ROUTES = [
 ];
 
 export const COMPARE_PAIR_SLUGS = [
-  "gpt-5-vs-claude-3-7-sonnet",
-  "gpt-5-vs-gemini-2-5-pro",
-  "gpt-5-vs-o3",
-  "claude-3-7-sonnet-vs-gemini-2-5-pro",
-  "gpt-4o-vs-claude-3-7-sonnet",
-  "gpt-4o-vs-gemini-2-5-pro",
-  "claude-3-7-sonnet-vs-gpt-4-turbo",
-  "gpt-4o-vs-gpt-4-turbo",
+  // Frontier vs Frontier
+  "gpt-5-5-vs-claude-opus-4-7",
+  "gpt-5-5-vs-gemini-3-1-pro",
+  "gpt-5-5-vs-grok-4",
+  "claude-opus-4-7-vs-gemini-3-1-pro",
+  "claude-opus-4-7-vs-grok-4",
+  "gemini-3-1-pro-vs-grok-4",
+  "claude-opus-4-5-vs-gpt-5-4",
+  "claude-sonnet-4-6-vs-gpt-5-1",
+  "claude-sonnet-4-6-vs-gemini-3-1-pro",
+  "gpt-5-1-vs-claude-sonnet-4-5",
+  // Reasoning Models
   "o1-vs-o3",
-  "o3-vs-claude-3-7-sonnet",
-  "o3-vs-gpt-4o",
+  "o3-vs-o4-mini",
+  "o4-mini-vs-claude-sonnet-4-6",
+  "o3-vs-claude-opus-4-7",
+  "o3-vs-gpt-5-1",
   "o1-vs-claude-3-7-sonnet",
   "o1-vs-gpt-4o",
+  // Cheap & Fast
   "gpt-4o-mini-vs-claude-3-5-haiku",
   "gpt-4o-mini-vs-gemini-2-5-flash",
   "gpt-4o-mini-vs-claude-haiku-4-5",
@@ -39,6 +46,7 @@ export const COMPARE_PAIR_SLUGS = [
   "claude-3-5-haiku-vs-deepseek-v3",
   "gemini-2-5-flash-vs-deepseek-v3",
   "claude-3-haiku-vs-claude-3-5-haiku",
+  // Open Source vs Hosted
   "llama-3-3-70b-vs-gpt-4o-mini",
   "llama-3-3-70b-vs-claude-3-5-haiku",
   "deepseek-v3-vs-gpt-4o-mini",
@@ -47,18 +55,31 @@ export const COMPARE_PAIR_SLUGS = [
   "mixtral-8x22b-vs-llama-3-3-70b",
   "qwen-2-5-72b-vs-llama-3-3-70b",
   "qwen-2-5-72b-vs-deepseek-v3",
+  // OpenAI Lineup
+  "gpt-5-5-vs-gpt-5-1",
+  "gpt-5-1-vs-gpt-5",
   "gpt-5-vs-gpt-4o",
   "gpt-4o-vs-gpt-4o-mini",
   "gpt-4o-vs-gpt-4-turbo",
+  // Anthropic Lineup
+  "claude-opus-4-7-vs-claude-sonnet-4-6",
+  "claude-sonnet-4-6-vs-claude-3-7-sonnet",
   "claude-3-7-sonnet-vs-claude-3-5-haiku",
   "claude-3-7-sonnet-vs-claude-haiku-4-5",
   "claude-haiku-4-5-vs-claude-3-5-haiku",
+  // Google Lineup
+  "gemini-3-1-pro-vs-gemini-2-5-pro",
   "gemini-2-5-pro-vs-gemini-2-5-flash",
   "gemini-2-5-flash-vs-gemini-2-0-flash",
+  // Meta Lineup
   "llama-3-1-70b-vs-llama-3-1-8b",
+  // Specialty
   "mistral-large-vs-mixtral-8x22b",
   "command-r-plus-vs-gpt-4o",
   "sonar-vs-gpt-4o-mini",
+  "grok-4-3-vs-gpt-5-1",
+  "grok-4-vs-claude-sonnet-4-6",
+  "llama-4-maverick-vs-gpt-4o-mini",
 ];
 
 export const COMPARE_ROUTES = COMPARE_PAIR_SLUGS.map((s) => `/compare/${s}`);
