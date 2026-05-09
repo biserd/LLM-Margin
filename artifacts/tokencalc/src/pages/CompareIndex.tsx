@@ -17,7 +17,7 @@ export default function CompareIndex() {
         name="keywords"
         content="LLM price comparison, GPT vs Claude, Claude vs Gemini, OpenAI pricing comparison, AI model cost comparison, LLM token cost comparison"
       />
-      <link rel="canonical" href="https://tokencalc.com/compare" />
+      <link rel="canonical" href="https://llmmargin.com/compare" />
       <meta property="og:title" content="Compare LLM Pricing — Side-by-Side Token Costs" />
       <meta
         property="og:description"

@@ -57,7 +57,7 @@ export default function Pricing() {
       <meta name="description" content="LLM Margin is free for founders. Pro unlocks saved scenarios, team sharing, and CSV export for $19/mo. No credit card for the free tier." />
       <meta property="og:title" content="Simple pricing for founders who hate pricing pages" />
       <meta property="og:description" content="Free forever for solo founders. Pro ($19/mo) adds saved scenarios, team sharing, and CSV export when your cap table needs it." />
-      <link rel="canonical" href="https://tokencalc.com/pricing" />
+      <link rel="canonical" href="https://llmmargin.com/pricing" />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-14 text-center">

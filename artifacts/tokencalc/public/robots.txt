@@ -4,4 +4,4 @@ Disallow: /sign-in
 Disallow: /sign-up
 Disallow: /account
 
-Sitemap: https://tokencalc.com/sitemap.xml
+Sitemap: https://llmmargin.com/sitemap.xml

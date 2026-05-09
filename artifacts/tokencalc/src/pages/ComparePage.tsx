@@ -129,7 +129,7 @@ function PairView({ pair }: PairViewProps) {
   const titleStr = `${a.name} vs ${b.name}: Token Pricing & Cost Compared (2026)`;
   const descStr = `Side-by-side ${a.name} vs ${b.name} pricing — input, output, total monthly cost at any MAU. Live OpenRouter prices for ${pair.a.provider} and ${pair.b.provider}.`;
   const keywordsStr = `${a.name} vs ${b.name}, ${a.name} pricing, ${b.name} pricing, ${a.name} cost, ${b.name} cost, ${pair.a.provider} vs ${pair.b.provider}, LLM price comparison`;
-  const canonical = `https://tokencalc.com/compare/${pair.slug}`;
+  const canonical = `https://llmmargin.com/compare/${pair.slug}`;
 
   return (
     <div className="min-h-screen bg-background">
@@ -155,7 +155,7 @@ function PairView({ pair }: PairViewProps) {
             publisher: {
               "@type": "Organization",
               name: "LLM Margin",
-              logo: { "@type": "ImageObject", url: "https://tokencalc.com/favicon.svg" },
+              logo: { "@type": "ImageObject", url: "https://llmmargin.com/favicon.svg" },
             },
             mainEntityOfPage: canonical,
             about: [

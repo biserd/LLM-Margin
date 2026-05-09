@@ -27,7 +27,7 @@ const SITEMAP_PRIORITIES = {
 };
 
 const COMPARE_DEFAULT = { changefreq: "weekly", priority: "0.6" };
-const BASE_URL = "https://tokencalc.com";
+const BASE_URL = "https://llmmargin.com";
 
 function buildSitemap() {
   const entries = [];

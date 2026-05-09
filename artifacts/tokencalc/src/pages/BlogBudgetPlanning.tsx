@@ -48,7 +48,7 @@ export default function BlogBudgetPlanning() {
       />
       <link
         rel="canonical"
-        href="https://tokencalc.com/blog/ai-api-budget-planning-for-startups"
+        href="https://llmmargin.com/blog/ai-api-budget-planning-for-startups"
       />
       <meta property="og:type" content="article" />
       <meta
@@ -75,10 +75,10 @@ export default function BlogBudgetPlanning() {
             publisher: {
               "@type": "Organization",
               name: "LLM Margin",
-              logo: { "@type": "ImageObject", url: "https://tokencalc.com/favicon.svg" },
+              logo: { "@type": "ImageObject", url: "https://llmmargin.com/favicon.svg" },
             },
             mainEntityOfPage:
-              "https://tokencalc.com/blog/ai-api-budget-planning-for-startups",
+              "https://llmmargin.com/blog/ai-api-budget-planning-for-startups",
           }),
         }}
       />

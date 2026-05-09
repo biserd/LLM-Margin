@@ -105,7 +105,7 @@ export default function CostPerUser() {
       <meta name="description" content="Calculate exact LLM cost per monthly active user for GPT-4o, Claude, and Gemini. Free tool for SaaS founders modeling AI unit economics at scale." />
       <meta property="og:title" content="How much does each user actually cost you in AI spend?" />
       <meta property="og:description" content="The LLM cost per user calculator the SERP has been missing. Real numbers for GPT-4o, Claude, and Gemini at any MAU." />
-      <link rel="canonical" href="https://tokencalc.com/cost-per-user" />
+      <link rel="canonical" href="https://llmmargin.com/cost-per-user" />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-10">

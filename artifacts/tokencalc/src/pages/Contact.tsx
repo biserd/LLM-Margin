@@ -39,7 +39,7 @@ export default function Contact() {
               <div>
                 <h3 className="font-semibold mb-1">Email</h3>
                 <p className="text-sm text-muted-foreground">
-                  <a href="mailto:hello@tokencalc.com" className="text-primary hover:underline">hello@tokencalc.com</a>
+                  <a href="mailto:hello@llmmargin.com" className="text-primary hover:underline">hello@llmmargin.com</a>
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">We reply within 1 business day.</p>
               </div>
@@ -52,7 +52,7 @@ export default function Contact() {
               <div>
                 <h3 className="font-semibold mb-1">Support</h3>
                 <p className="text-sm text-muted-foreground">
-                  <a href="mailto:support@tokencalc.com" className="text-primary hover:underline">support@tokencalc.com</a>
+                  <a href="mailto:support@llmmargin.com" className="text-primary hover:underline">support@llmmargin.com</a>
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">Pro subscribers get priority response.</p>
               </div>

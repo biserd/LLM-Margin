@@ -48,7 +48,7 @@ export default function Blog() {
         name="keywords"
         content="LLM cost guides, AI unit economics blog, OpenAI cost articles, AI startup budget"
       />
-      <link rel="canonical" href="https://tokencalc.com/blog" />
+      <link rel="canonical" href="https://llmmargin.com/blog" />
       <meta property="og:title" content="The LLM Margin Blog — AI cost math for founders" />
       <meta
         property="og:description"

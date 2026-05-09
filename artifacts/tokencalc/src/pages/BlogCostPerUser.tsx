@@ -47,7 +47,7 @@ export default function BlogCostPerUser() {
         name="keywords"
         content="LLM cost per user, calculate AI cost per user, OpenAI cost per user, ChatGPT API cost per user, Claude cost per user, Gemini cost per user, AI unit economics"
       />
-      <link rel="canonical" href="https://tokencalc.com/blog/how-to-calculate-llm-cost-per-user" />
+      <link rel="canonical" href="https://llmmargin.com/blog/how-to-calculate-llm-cost-per-user" />
       <meta property="og:type" content="article" />
       <meta property="og:title" content="How to Calculate LLM Cost Per User (Formula + Examples)" />
       <meta
@@ -70,9 +70,9 @@ export default function BlogCostPerUser() {
             publisher: {
               "@type": "Organization",
               name: "LLM Margin",
-              logo: { "@type": "ImageObject", url: "https://tokencalc.com/favicon.svg" },
+              logo: { "@type": "ImageObject", url: "https://llmmargin.com/favicon.svg" },
             },
-            mainEntityOfPage: "https://tokencalc.com/blog/how-to-calculate-llm-cost-per-user",
+            mainEntityOfPage: "https://llmmargin.com/blog/how-to-calculate-llm-cost-per-user",
           }),
         }}
       />

@@ -227,7 +227,7 @@ export default function BudgetPlanner() {
       <meta name="description" content="Plan monthly AI spend across OpenAI, Anthropic, and infra. Set caps, forecast burn, and catch cost overruns before your CFO does. Free planner." />
       <meta property="og:title" content="Stop guessing your AI budget. Plan it." />
       <meta property="og:description" content="The AI budget planner founders use to forecast LLM spend, set caps, and survive growth spikes without blowing runway." />
-      <link rel="canonical" href="https://tokencalc.com/budget-planner" />
+      <link rel="canonical" href="https://llmmargin.com/budget-planner" />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-10">
