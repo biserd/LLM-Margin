@@ -63,11 +63,12 @@ Live Stripe is wired into both api-server and tokencalc.
   - `src/pages/SignInPage.tsx` — After successful sign-in honors `?next=` and `?plan=` (auto-starts checkout if `plan=pro_monthly|pro_annual`), enabling "click Upgrade → sign in → land on Stripe Checkout" in one flow.
   - `src/pages/AccountPage.tsx` — Shows current plan + "Manage billing" (portal) or "Upgrade" link. After `?upgraded=1` it polls `/auth/me` every 1.5s up to 6 times to wait for the webhook to flip the plan.
 - **Env**: `STRIPE_SECRET_KEY` (live `sk_live_...`, set), `STRIPE_WEBHOOK_SECRET` (`whsec_...`, required for webhook signature verification). Optional `APP_BASE_URL` to override the success/cancel URL host.
-- **Stripe dashboard webhook setup** (one-time, after first deploy):
-  - https://dashboard.stripe.com/webhooks → Add endpoint
+- **Stripe webhook endpoint** (already provisioned via Stripe API on 2026-05-09):
+  - Endpoint id: `we_1TVDYJ2Lf3YOal78CvWcJhdM`
   - URL: `https://llmmargin.com/api/stripe/webhook`
   - Events: `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`
-  - Copy the signing secret into `STRIPE_WEBHOOK_SECRET`.
+  - Manage at: https://dashboard.stripe.com/webhooks/we_1TVDYJ2Lf3YOal78CvWcJhdM
+  - The signing secret is stored as the `STRIPE_WEBHOOK_SECRET` Replit secret. To recreate (if rotated/lost): `POST /v1/webhook_endpoints` with the events above — the response includes a one-time `secret` field. Subsequent retrieves do NOT return it; you'd have to delete and recreate.
 - **Note on Stripe SDK / API version**: We pass `{ typescript: true }` only and let the SDK use its pinned `apiVersion` default. If a future Stripe SDK upgrade moves `current_period_end` between subscription and item levels, `applySubscription()` already reads from both via a small cast.
 
 ## Artifacts

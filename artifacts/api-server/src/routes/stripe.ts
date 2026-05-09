@@ -54,6 +54,27 @@ router.post("/stripe/checkout", requireAuth, async (req, res) => {
       return;
     }
 
+    // Guard: if user already has an active/trialing subscription in Stripe,
+    // don't create a duplicate. Send them to the billing portal instead.
+    if (user.stripeCustomerId) {
+      const existing = await stripe.subscriptions.list({
+        customer: user.stripeCustomerId,
+        status: "all",
+        limit: 10,
+      });
+      const liveSub = existing.data.find(
+        (s) => s.status === "active" || s.status === "trialing",
+      );
+      if (liveSub) {
+        const portal = await stripe.billingPortal.sessions.create({
+          customer: user.stripeCustomerId,
+          return_url: `${appBaseUrl()}/account`,
+        });
+        res.status(200).json({ url: portal.url, alreadySubscribed: true });
+        return;
+      }
+    }
+
     const prices = await stripe.prices.list({
       lookup_keys: [lookupKey],
       active: true,
@@ -168,6 +189,24 @@ async function applySubscription(sub: Stripe.Subscription): Promise<void> {
 async function clearSubscription(sub: Stripe.Subscription): Promise<void> {
   const customerId =
     typeof sub.customer === "string" ? sub.customer : sub.customer.id;
+
+  // Don't blindly downgrade: another active subscription may still exist for
+  // this customer. Re-derive entitlement from Stripe's current state.
+  const live = await stripe.subscriptions.list({
+    customer: customerId,
+    status: "all",
+    limit: 10,
+  });
+  const stillActive = live.data.find(
+    (s) =>
+      s.id !== sub.id && (s.status === "active" || s.status === "trialing"),
+  );
+
+  if (stillActive) {
+    await applySubscription(stillActive);
+    return;
+  }
+
   await db
     .update(usersTable)
     .set({

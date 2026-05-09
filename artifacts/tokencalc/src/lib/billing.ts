@@ -26,7 +26,10 @@ export async function startCheckout(lookupKey: LookupKey): Promise<void> {
       | null;
     throw new Error(data?.error ?? `Checkout failed (${res.status})`);
   }
-  const data = (await res.json()) as { url: string };
+  const data = (await res.json()) as {
+    url: string;
+    alreadySubscribed?: boolean;
+  };
   window.location.href = data.url;
 }
 
