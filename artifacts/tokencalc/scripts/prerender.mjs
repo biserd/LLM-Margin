@@ -5,6 +5,7 @@ import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import handler from "serve-handler";
 import puppeteer from "puppeteer";
+import { ALL_ROUTES } from "./seo-routes.mjs";
 
 function resolveChromium() {
   if (process.env.PUPPETEER_EXECUTABLE_PATH) {
@@ -23,18 +24,7 @@ function resolveChromium() {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, "..", "dist", "public");
 
-const ROUTES = [
-  "/",
-  "/cost-per-user",
-  "/budget-planner",
-  "/pricing",
-  "/terms",
-  "/privacy",
-  "/contact",
-  "/blog",
-  "/blog/how-to-calculate-llm-cost-per-user",
-  "/blog/ai-api-budget-planning-for-startups",
-];
+const ROUTES = ALL_ROUTES;
 
 const rawBase = process.env.BASE_PATH || "/";
 const basePath = rawBase.endsWith("/") ? rawBase.slice(0, -1) : rawBase;

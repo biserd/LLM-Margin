@@ -18,6 +18,7 @@ export function Navigation() {
     { href: "/", label: "Margin Simulator" },
     { href: "/cost-per-user", label: "Cost Per User" },
     { href: "/budget-planner", label: "Budget Planner" },
+    { href: "/compare", label: "Compare" },
     { href: "/blog", label: "Blog" },
     { href: "/pricing", label: "Pricing" },
   ];

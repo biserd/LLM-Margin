@@ -22,6 +22,7 @@ export function Footer() {
               <li><Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Margin Simulator</Link></li>
               <li><Link href="/cost-per-user" className="text-muted-foreground hover:text-primary transition-colors">Cost Per User</Link></li>
               <li><Link href="/budget-planner" className="text-muted-foreground hover:text-primary transition-colors">Budget Planner</Link></li>
+              <li><Link href="/compare" className="text-muted-foreground hover:text-primary transition-colors">Compare Models</Link></li>
             </ul>
           </div>
 
