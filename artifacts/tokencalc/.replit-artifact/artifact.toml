@@ -47,6 +47,18 @@ from = "/contact"
 to = "/contact/index.html"
 
 [[services.production.rewrites]]
+from = "/blog"
+to = "/blog/index.html"
+
+[[services.production.rewrites]]
+from = "/blog/how-to-calculate-llm-cost-per-user"
+to = "/blog/how-to-calculate-llm-cost-per-user/index.html"
+
+[[services.production.rewrites]]
+from = "/blog/ai-api-budget-planning-for-startups"
+to = "/blog/ai-api-budget-planning-for-startups/index.html"
+
+[[services.production.rewrites]]
 from = "/*"
 to = "/index.html"
 

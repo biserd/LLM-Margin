@@ -16,6 +16,9 @@ const Pricing = lazy(() => import("@/pages/Pricing"));
 const Terms = lazy(() => import("@/pages/Terms"));
 const Privacy = lazy(() => import("@/pages/Privacy"));
 const Contact = lazy(() => import("@/pages/Contact"));
+const Blog = lazy(() => import("@/pages/Blog"));
+const BlogCostPerUser = lazy(() => import("@/pages/BlogCostPerUser"));
+const BlogBudgetPlanning = lazy(() => import("@/pages/BlogBudgetPlanning"));
 const SignInPage = lazy(() => import("@/pages/SignInPage"));
 const SignUpPage = lazy(() => import("@/pages/SignUpPage"));
 const AccountPage = lazy(() => import("@/pages/AccountPage"));
@@ -45,6 +48,9 @@ function Router() {
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/contact" component={Contact} />
+            <Route path="/blog" component={Blog} />
+            <Route path="/blog/how-to-calculate-llm-cost-per-user" component={BlogCostPerUser} />
+            <Route path="/blog/ai-api-budget-planning-for-startups" component={BlogBudgetPlanning} />
             <Route path="/sign-in" component={SignInPage} />
             <Route path="/sign-up" component={SignUpPage} />
             <Route path="/account">

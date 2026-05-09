@@ -31,6 +31,9 @@ const ROUTES = [
   "/terms",
   "/privacy",
   "/contact",
+  "/blog",
+  "/blog/how-to-calculate-llm-cost-per-user",
+  "/blog/ai-api-budget-planning-for-startups",
 ];
 
 const rawBase = process.env.BASE_PATH || "/";

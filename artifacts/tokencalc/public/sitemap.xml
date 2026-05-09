@@ -26,6 +26,21 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://tokencalc.com/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/blog/how-to-calculate-llm-cost-per-user</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tokencalc.com/blog/ai-api-budget-planning-for-startups</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tokencalc.com/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="border-t bg-card/30 mt-12">
       <div className="container mx-auto px-4 py-10">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-5 gap-8">
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2 font-bold text-base mb-2">
               <div className="w-6 h-6 rounded bg-primary text-primary-foreground flex items-center justify-center text-[10px] font-bold">LM</div>
@@ -22,6 +22,15 @@ export function Footer() {
               <li><Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Margin Simulator</Link></li>
               <li><Link href="/cost-per-user" className="text-muted-foreground hover:text-primary transition-colors">Cost Per User</Link></li>
               <li><Link href="/budget-planner" className="text-muted-foreground hover:text-primary transition-colors">Budget Planner</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">Learn</h4>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
+              <li><Link href="/blog/how-to-calculate-llm-cost-per-user" className="text-muted-foreground hover:text-primary transition-colors">LLM cost per user</Link></li>
+              <li><Link href="/blog/ai-api-budget-planning-for-startups" className="text-muted-foreground hover:text-primary transition-colors">AI budget planning</Link></li>
             </ul>
           </div>
 
