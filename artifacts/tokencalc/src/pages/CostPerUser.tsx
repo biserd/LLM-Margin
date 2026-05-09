@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Legend } from "recharts";
-import { fetchModels, type ModelPrice } from "@/lib/pricing";
+import { fetchModels, pickLatestModel, type ModelPrice } from "@/lib/pricing";
 import { calcCallCost, formatUSD, formatPct } from "@/lib/calculator";
 import { ModelDropdown } from "@/components/ModelDropdown";
 import { MarginHealthBadge } from "@/components/MarginHealthBadge";
@@ -10,11 +10,10 @@ import { SeoFooter } from "@/components/SeoFooter";
 
 const CHART_COLORS = ['#2563eb', '#16a34a', '#dc2626', '#d97706', '#7c3aed', '#0891b2'];
 
-const DEFAULT_MODEL_ID = "openai/gpt-4o";
 
 export default function CostPerUser() {
   const [models, setModels] = useState<ModelPrice[]>([]);
-  const [modelId, setModelId] = useState(DEFAULT_MODEL_ID);
+  const [modelId, setModelId] = useState("");
   const [model, setModel] = useState<ModelPrice | null>(null);
   const [callsPerUserPerDay, setCallsPerUserPerDay] = useState(5);
   const [avgInputTokens, setAvgInputTokens] = useState(500);
@@ -28,8 +27,11 @@ export default function CostPerUser() {
   useEffect(() => {
     fetchModels().then((m) => {
       setModels(m);
-      const found = m.find((x) => x.id === DEFAULT_MODEL_ID) ?? m[Math.floor(m.length / 2)];
-      setModel(found);
+      const found = pickLatestModel(m);
+      if (found) {
+        setModel(found);
+        setModelId(found.id);
+      }
     });
   }, []);
 

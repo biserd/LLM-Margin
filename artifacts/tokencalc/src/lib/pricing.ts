@@ -1,3 +1,22 @@
+export const LATEST_MODEL_PRIORITY = [
+  "openai/gpt-5.5",
+  "openai/gpt-5.4",
+  "openai/gpt-5.1",
+  "openai/gpt-5",
+  "anthropic/claude-opus-4.7",
+  "anthropic/claude-sonnet-4.6",
+  "google/gemini-3.1-pro-preview",
+  "openai/gpt-4o",
+];
+
+export function pickLatestModel<T extends { id: string }>(models: T[]): T | undefined {
+  for (const id of LATEST_MODEL_PRIORITY) {
+    const hit = models.find((m) => m.id === id);
+    if (hit) return hit;
+  }
+  return models[0];
+}
+
 export interface ModelPrice {
   id: string;
   name: string;

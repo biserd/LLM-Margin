@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, ResponsiveContainer } from "recharts";
 import { ChevronDown, ChevronUp, Share2, Lock } from "lucide-react";
-import { fetchModels, type ModelPrice } from "@/lib/pricing";
+import { fetchModels, pickLatestModel, type ModelPrice } from "@/lib/pricing";
 import {
   calcCallCost, calcGrossMargin, calcBreakevenMAU, calcPowerUserRisk,
   formatUSD, formatPct, getMarginColor, getMarginLabel
@@ -12,15 +12,13 @@ import { InlineCostPreview } from "@/components/InlineCostPreview";
 import { DisclaimerFooter } from "@/components/DisclaimerFooter";
 import { SeoFooter } from "@/components/SeoFooter";
 
-const DEFAULT_MODEL_ID = "openai/gpt-4o";
-
 function parseQP() {
   const p = new URLSearchParams(window.location.search);
   return {
     arpu: parseFloat(p.get("arpu") ?? "19"),
     mau: parseInt(p.get("mau") ?? "1000"),
     fixedCosts: parseFloat(p.get("fixedCosts") ?? "2000"),
-    modelId: p.get("model") ?? DEFAULT_MODEL_ID,
+    modelId: p.get("model") ?? "",
     callsPerUserPerDay: parseFloat(p.get("calls") ?? "5"),
     avgInputTokens: parseInt(p.get("input") ?? "500"),
     avgOutputTokens: parseInt(p.get("output") ?? "300"),
@@ -82,8 +80,11 @@ export default function MarginSimulator() {
 
   useEffect(() => {
     fetchModels().then((models) => {
-      const found = models.find((m) => m.id === modelId) ?? models[Math.floor(models.length / 2)];
-      setModel(found);
+      const found = (modelId && models.find((m) => m.id === modelId)) || pickLatestModel(models);
+      if (found) {
+        setModel(found);
+        if (!modelId) setModelId(found.id);
+      }
     });
   }, []);
 

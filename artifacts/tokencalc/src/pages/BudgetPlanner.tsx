@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from "recharts";
 import { Plus, Trash2, Lock } from "lucide-react";
-import { fetchModels, type ModelPrice } from "@/lib/pricing";
+import { fetchModels, pickLatestModel, type ModelPrice } from "@/lib/pricing";
 import { calcCallCost, formatUSD, formatPct, getMarginColor } from "@/lib/calculator";
 import { ModelDropdown } from "@/components/ModelDropdown";
 import { MarginHealthBadge } from "@/components/MarginHealthBadge";
@@ -50,7 +50,6 @@ function defaultFeature(tiers: Tier[], modelId: string): Feature {
   };
 }
 
-const DEFAULT_MODEL_ID = "openai/gpt-4o";
 
 export default function BudgetPlanner() {
   const [models, setModels] = useState<ModelPrice[]>([]);
@@ -73,7 +72,7 @@ export default function BudgetPlanner() {
     {
       id: mkId(),
       name: "AI Chat Assistant",
-      modelId: DEFAULT_MODEL_ID,
+      modelId: "",
       usage: [
         { tierId: freeId, callsPerUserPerDay: 2, inputTokens: 300, outputTokens: 150 },
         { tierId: proId, callsPerUserPerDay: 8, inputTokens: 600, outputTokens: 400 },
@@ -82,7 +81,15 @@ export default function BudgetPlanner() {
   ]);
 
   useEffect(() => {
-    fetchModels().then(setModels);
+    fetchModels().then((m) => {
+      setModels(m);
+      const latest = pickLatestModel(m);
+      if (latest) {
+        setFeatures((prev) =>
+          prev.map((f) => (f.modelId ? f : { ...f, modelId: latest.id })),
+        );
+      }
+    });
   }, []);
 
   function getModel(modelId: string): ModelPrice | undefined {
@@ -179,7 +186,7 @@ export default function BudgetPlanner() {
 
   const addFeature = () => {
     if (features.length >= 8) return;
-    const defaultModelId = models[Math.floor(models.length / 2)]?.id ?? DEFAULT_MODEL_ID;
+    const defaultModelId = pickLatestModel(models)?.id ?? "";
     const f = defaultFeature(tiers, defaultModelId);
     setFeatures((prev) => [...prev, f]);
   };
