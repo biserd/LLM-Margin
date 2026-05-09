@@ -101,9 +101,15 @@ router.post("/stripe/checkout", async (req, res) => {
       line_items: [{ price: price.id, quantity: 1 }],
       allow_promotion_codes: true,
       billing_address_collection: "auto",
+      // 7-day risk-free trial. Card is required up front
+      // (`payment_method_collection: "always"`) so the subscription auto-
+      // converts at trial end without re-engaging the user. If the user
+      // cancels in the trial window they're never charged.
+      payment_method_collection: "always",
       success_url: `${base}/api/stripe/checkout/complete?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${base}/pricing?canceled=1`,
       subscription_data: {
+        trial_period_days: 7,
         metadata: user ? { userId: user.id } : {},
       },
       metadata: {

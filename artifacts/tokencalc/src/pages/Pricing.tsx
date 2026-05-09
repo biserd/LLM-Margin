@@ -4,6 +4,7 @@ import { Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { startCheckout } from "@/lib/billing";
 import { useAuth } from "@/lib/auth";
+import { Testimonials, LogoStrip } from "@/components/SocialProof";
 
 const FREE_FEATURES = [
   "Full margin, CPAU, and breakeven calculations",
@@ -90,7 +91,7 @@ export default function Pricing() {
             Simple pricing for founders who hate pricing pages
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Free forever for solo founders. Pro ($19/mo) adds saved scenarios, team sharing, and CSV export when your cap table needs it.
+            Free forever for solo founders. Try Pro free for 7 days — full access, no charge today, cancel anytime from your account.
           </p>
 
           <div className="inline-flex items-center gap-1 bg-card border rounded-full p-1 mt-8" data-testid="billing-toggle">
@@ -193,7 +194,7 @@ export default function Pricing() {
                 disabled={submitting}
                 data-testid="button-cta-pro"
               >
-                {submitting ? "Redirecting…" : "Upgrade to Pro"}
+                {submitting ? "Redirecting…" : "Start 7-day free trial"}
               </Button>
             )}
             {error && (
@@ -207,13 +208,13 @@ export default function Pricing() {
               </p>
             )}
             <p className="text-xs text-muted-foreground text-center mt-3">
-              Cancel anytime. No credit card required to explore the free tools.
+              No charge for 7 days. We'll email you 2 days before your trial ends. Cancel anytime from your account in one click.
             </p>
           </div>
         </div>
 
         {/* FAQ */}
-        <div className="max-w-3xl mx-auto mt-20">
+        <div className="max-w-3xl mx-auto mt-16">
           <h2 className="text-2xl font-bold text-center mb-8">Frequently asked questions</h2>
           <div className="space-y-4">
             {FAQS.map((faq, i) => (
@@ -228,11 +229,17 @@ export default function Pricing() {
           </div>
         </div>
 
+      </div>
+
+      <LogoStrip />
+      <Testimonials />
+
+      <div className="container mx-auto px-4 py-16">
         {/* Bottom CTA */}
-        <div className="mt-20 text-center bg-gradient-to-br from-primary/10 via-primary/5 to-background border rounded-2xl p-10 max-w-3xl mx-auto">
-          <h3 className="text-2xl font-bold mb-2">Like what you're seeing?</h3>
+        <div className="text-center bg-gradient-to-br from-primary/10 via-primary/5 to-background border rounded-2xl p-10 max-w-3xl mx-auto">
+          <h3 className="text-2xl font-bold mb-2">Try Pro free for a week.</h3>
           <p className="text-muted-foreground mb-6">
-            Export this scenario as a PDF, save it, and get the full 12-month view with Pro.
+            Full 12-month projections, PDF export, saved scenarios. No charge today — cancel anytime in the next 7 days and you'll never see a bill.
           </p>
           {isPro ? (
             <Link href="/account">
@@ -245,7 +252,7 @@ export default function Pricing() {
               disabled={submitting}
               data-testid="button-cta-bottom"
             >
-              {submitting ? "Redirecting…" : "Upgrade to Pro"}
+              {submitting ? "Redirecting…" : "Start 7-day free trial"}
             </Button>
           )}
         </div>

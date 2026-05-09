@@ -34,7 +34,7 @@ export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(
     initial.upgraded
-      ? "Thanks for your purchase! Enter your email and verify with a code to access your account."
+      ? "Your free trial is set up. Enter your email and verify with a code to access your account — you won't be charged for 7 days."
       : null,
   );
 

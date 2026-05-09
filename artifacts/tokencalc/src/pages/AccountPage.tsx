@@ -57,6 +57,7 @@ export default function AccountPage() {
   }
 
   const isPro = user?.plan === "pro";
+  const isTrialing = user?.subscriptionStatus === "trialing";
   const intervalLabel =
     user?.subscriptionInterval === "year"
       ? "annual"
@@ -91,7 +92,9 @@ export default function AccountPage() {
                 data-testid="text-account-plan"
               >
                 {isPro
-                  ? `Pro${intervalLabel ? ` (${intervalLabel})` : ""}`
+                  ? isTrialing
+                    ? `Pro — Free trial${intervalLabel ? ` (${intervalLabel})` : ""}`
+                    : `Pro${intervalLabel ? ` (${intervalLabel})` : ""}`
                   : "Free"}
               </p>
               {isPro && renewsOn && (
@@ -99,7 +102,9 @@ export default function AccountPage() {
                   {user?.subscriptionStatus === "canceled" ||
                   user?.subscriptionStatus === "unpaid"
                     ? `Ends on ${renewsOn}`
-                    : `Renews on ${renewsOn}`}
+                    : isTrialing
+                      ? `Free until ${renewsOn} — first charge that day. Cancel before then and you won't be billed.`
+                      : `Renews on ${renewsOn}`}
                 </p>
               )}
             </div>
@@ -123,7 +128,9 @@ export default function AccountPage() {
           </div>
           {justUpgraded && isPro && (
             <p className="text-xs text-green-600 dark:text-green-400 mt-3">
-              You're on Pro. Welcome aboard.
+              {isTrialing
+                ? "Your 7-day free trial is active. No charge until your trial ends."
+                : "You're on Pro. Welcome aboard."}
             </p>
           )}
           {justUpgraded && !isPro && (

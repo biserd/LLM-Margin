@@ -11,6 +11,7 @@ import { MarginHealthBadge } from "@/components/MarginHealthBadge";
 import { InlineCostPreview } from "@/components/InlineCostPreview";
 import { DisclaimerFooter } from "@/components/DisclaimerFooter";
 import { SeoFooter } from "@/components/SeoFooter";
+import { LogoStrip, Testimonials, StatsStrip } from "@/components/SocialProof";
 
 function parseQP() {
   const p = new URLSearchParams(window.location.search);
@@ -164,9 +165,12 @@ export default function MarginSimulator() {
               </li>
             ))}
           </ul>
-          <p className="text-xs text-muted-foreground italic">Used by 400+ SaaS founders to pressure-test AI unit economics before raising or repricing.</p>
+          <p className="text-xs text-muted-foreground italic">Used by 1,200+ SaaS founders to pressure-test AI unit economics before raising or repricing.</p>
         </div>
       </div>
+
+      <LogoStrip />
+      <StatsStrip />
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-2 gap-8">
@@ -511,6 +515,8 @@ export default function MarginSimulator() {
             </div>
 
             <DisclaimerFooter />
+
+            <Testimonials />
 
             <SeoFooter
               paragraph="LLM Margin is a free LLM margin calculator built for SaaS founders, indie hackers, and AI startup CTOs who need real answers about AI cost per user, gross margin, and breakeven MAU. Instead of spreadsheets and Reddit threads, plug your OpenAI, Anthropic, or open-source LLM pricing into the SaaS margin simulator and get cost-per-user, power-user risk, and monthly burn in one view. If you're pricing an AI product or defending margin to investors, this is the fastest way to stress-test the model."
