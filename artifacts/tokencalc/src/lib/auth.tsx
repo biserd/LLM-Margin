@@ -12,6 +12,10 @@ import { useQueryClient } from "@tanstack/react-query";
 export interface AuthUser {
   id: string;
   email: string;
+  plan?: "free" | "pro";
+  subscriptionStatus?: string | null;
+  subscriptionInterval?: "month" | "year" | null;
+  currentPeriodEnd?: string | null;
 }
 
 interface AuthContextValue {

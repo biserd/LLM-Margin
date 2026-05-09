@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { startCheckout } from "@/lib/billing";
+import { useAuth } from "@/lib/auth";
 
 const FREE_FEATURES = [
   "Full margin, CPAU, and breakeven calculations",
@@ -47,9 +49,32 @@ const FAQS = [
 
 export default function Pricing() {
   const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [canceled, setCanceled] = useState(false);
+  const { user } = useAuth();
 
   const proPrice = billing === "monthly" ? 19 : 149;
   const proSuffix = billing === "monthly" ? "/mo" : "/yr";
+  const isPro = user?.plan === "pro";
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("canceled") === "1") setCanceled(true);
+  }, []);
+
+  async function handleUpgrade() {
+    setError(null);
+    setCanceled(false);
+    setSubmitting(true);
+    try {
+      await startCheckout(billing === "monthly" ? "pro_monthly" : "pro_annual");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not start checkout.");
+      setSubmitting(false);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -155,9 +180,32 @@ export default function Pricing() {
                 </li>
               ))}
             </ul>
-            <Button className="w-full" data-testid="button-cta-pro">
-              Upgrade to Pro
-            </Button>
+            {isPro ? (
+              <Link href="/account">
+                <Button className="w-full" data-testid="button-cta-pro">
+                  Manage subscription
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                className="w-full"
+                onClick={handleUpgrade}
+                disabled={submitting}
+                data-testid="button-cta-pro"
+              >
+                {submitting ? "Redirecting…" : "Upgrade to Pro"}
+              </Button>
+            )}
+            {error && (
+              <p className="text-xs text-red-600 text-center mt-2" data-testid="text-checkout-error">
+                {error}
+              </p>
+            )}
+            {canceled && !error && (
+              <p className="text-xs text-muted-foreground text-center mt-2">
+                Checkout canceled. You haven't been charged.
+              </p>
+            )}
             <p className="text-xs text-muted-foreground text-center mt-3">
               Cancel anytime. No credit card required to explore the free tools.
             </p>
@@ -186,7 +234,20 @@ export default function Pricing() {
           <p className="text-muted-foreground mb-6">
             Export this scenario as a PDF, save it, and get the full 12-month view with Pro.
           </p>
-          <Button size="lg" data-testid="button-cta-bottom">Upgrade to Pro</Button>
+          {isPro ? (
+            <Link href="/account">
+              <Button size="lg" data-testid="button-cta-bottom">Manage subscription</Button>
+            </Link>
+          ) : (
+            <Button
+              size="lg"
+              onClick={handleUpgrade}
+              disabled={submitting}
+              data-testid="button-cta-bottom"
+            >
+              {submitting ? "Redirecting…" : "Upgrade to Pro"}
+            </Button>
+          )}
         </div>
       </div>
     </div>

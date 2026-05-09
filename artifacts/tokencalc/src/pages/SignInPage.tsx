@@ -9,6 +9,19 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useAuth, requestOtpCode, verifyOtpCode } from "@/lib/auth";
+import { startCheckout, type LookupKey } from "@/lib/billing";
+
+function getRedirectIntent(): { next: string; plan: LookupKey | null } {
+  if (typeof window === "undefined") return { next: "/account", plan: null };
+  const params = new URLSearchParams(window.location.search);
+  const next = params.get("next") || "/account";
+  const planParam = params.get("plan");
+  const plan: LookupKey | null =
+    planParam === "pro_monthly" || planParam === "pro_annual"
+      ? planParam
+      : null;
+  return { next, plan };
+}
 
 type Step = "email" | "code";
 
@@ -23,7 +36,13 @@ export default function SignInPage() {
   const [info, setInfo] = useState<string | null>(null);
 
   useEffect(() => {
-    if (user) setLocation("/account", { replace: true });
+    if (!user) return;
+    const { next, plan } = getRedirectIntent();
+    if (plan) {
+      void startCheckout(plan);
+      return;
+    }
+    setLocation(next, { replace: true });
   }, [user, setLocation]);
 
   async function handleEmailSubmit(e: React.FormEvent) {
@@ -57,7 +76,12 @@ export default function SignInPage() {
     try {
       await verifyOtpCode(email.trim(), value);
       await refresh();
-      setLocation("/account", { replace: true });
+      const { next, plan } = getRedirectIntent();
+      if (plan) {
+        await startCheckout(plan);
+        return;
+      }
+      setLocation(next, { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {

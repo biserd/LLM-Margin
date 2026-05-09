@@ -185,7 +185,14 @@ router.get("/auth/me", async (req, res) => {
     return;
   }
   const rows = await db
-    .select({ id: usersTable.id, email: usersTable.email })
+    .select({
+      id: usersTable.id,
+      email: usersTable.email,
+      plan: usersTable.plan,
+      subscriptionStatus: usersTable.subscriptionStatus,
+      subscriptionInterval: usersTable.subscriptionInterval,
+      currentPeriodEnd: usersTable.currentPeriodEnd,
+    })
     .from(usersTable)
     .where(eq(usersTable.id, req.session.userId))
     .limit(1);

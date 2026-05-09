@@ -39,6 +39,37 @@ Passwordless email OTP (no Clerk).
 - **Env**: `SESSION_SECRET` (required, used for cookie + OTP HMAC), `RESEND_API_KEY` (required for real email delivery), `EMAIL_FROM` (set to a verified-domain address — currently `LLM Margin <noreply@llmmargin.com>`).
 - **Note on Resend setup**: Replit's first-class Resend connector was offered but the user opted to provide `RESEND_API_KEY` directly as a secret instead. If you ever need to swap to OAuth-based Resend, search integrations and follow the connector flow.
 
+## Billing (Stripe)
+
+Live Stripe is wired into both api-server and tokencalc.
+
+- **Stripe objects** (live mode):
+  - Product `prod_UUBi6HfivWPwJe` "LLM Margin Pro"
+  - Price `price_1TVDLT2Lf3YOal78QxofbT4s` — $19/mo, lookup_key `pro_monthly`
+  - Price `price_1TVDLU2Lf3YOal78GOXHGhoW` — $149/yr, lookup_key `pro_annual`
+  - Frontend/backend reference prices by **lookup_key**, never raw price IDs.
+- **Backend** (`artifacts/api-server`):
+  - `lib/stripe.ts` — initializes the Stripe client (`STRIPE_SECRET_KEY`), exposes `STRIPE_WEBHOOK_SECRET`, the `pro_monthly`/`pro_annual` allowlist, and `appBaseUrl()` (uses `APP_BASE_URL` if set, else first `REPLIT_DOMAINS` entry, else `http://localhost:80`).
+  - `routes/stripe.ts`:
+    - `POST /api/stripe/checkout` (auth required) — body `{ lookupKey }`. Creates a Stripe customer if missing, persists `stripe_customer_id` on the user, creates a subscription Checkout Session, returns `{ url }`. Success URL `/account?upgraded=1`, cancel URL `/pricing?canceled=1`. Sets `client_reference_id` and `subscription_data.metadata.userId`.
+    - `POST /api/stripe/portal` (auth required) — opens Stripe Billing Portal, returns `{ url }`. Returns 400 if user has no `stripe_customer_id`.
+    - `POST /api/stripe/webhook` — exported as `webhookRouter`, **mounted in `app.ts` BEFORE `express.json()`** with `express.raw({ type: 'application/json' })` so signature verification works. Handles `checkout.session.completed`, `customer.subscription.created/updated/deleted`. `applySubscription()` resolves the user via `subscription.metadata.userId` (preferred) or `stripe_customer_id` lookup, then writes `plan`, `subscription_status`, `subscription_interval`, `current_period_end`, `stripe_subscription_id`.
+  - `/auth/me` now returns `plan`, `subscriptionStatus`, `subscriptionInterval`, `currentPeriodEnd`.
+- **Database** (`lib/db/src/schema/users.ts`): added `stripe_subscription_id`, `plan` (default `"free"`), `subscription_status`, `subscription_interval`, `current_period_end`. `stripe_customer_id` already existed.
+- **Frontend** (`artifacts/tokencalc`):
+  - `src/lib/billing.ts` — `startCheckout(lookupKey)` (POST `/api/stripe/checkout`, redirects to returned URL; on 401 redirects to `/sign-in?next=...&plan=...`) and `openBillingPortal()`.
+  - `src/lib/auth.tsx` — `AuthUser` extended with plan fields.
+  - `src/pages/Pricing.tsx` — Both "Upgrade to Pro" buttons call `startCheckout` with the price matching the monthly/annual toggle. If the user is already Pro, the buttons become "Manage subscription" linking to `/account`. Reads `?canceled=1` for the cancel banner.
+  - `src/pages/SignInPage.tsx` — After successful sign-in honors `?next=` and `?plan=` (auto-starts checkout if `plan=pro_monthly|pro_annual`), enabling "click Upgrade → sign in → land on Stripe Checkout" in one flow.
+  - `src/pages/AccountPage.tsx` — Shows current plan + "Manage billing" (portal) or "Upgrade" link. After `?upgraded=1` it polls `/auth/me` every 1.5s up to 6 times to wait for the webhook to flip the plan.
+- **Env**: `STRIPE_SECRET_KEY` (live `sk_live_...`, set), `STRIPE_WEBHOOK_SECRET` (`whsec_...`, required for webhook signature verification). Optional `APP_BASE_URL` to override the success/cancel URL host.
+- **Stripe dashboard webhook setup** (one-time, after first deploy):
+  - https://dashboard.stripe.com/webhooks → Add endpoint
+  - URL: `https://llmmargin.com/api/stripe/webhook`
+  - Events: `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`
+  - Copy the signing secret into `STRIPE_WEBHOOK_SECRET`.
+- **Note on Stripe SDK / API version**: We pass `{ typescript: true }` only and let the SDK use its pinned `apiVersion` default. If a future Stripe SDK upgrade moves `current_period_end` between subscription and item levels, `applySubscription()` already reads from both via a small cast.
+
 ## Artifacts
 
 ### TokenCalc (`artifacts/tokencalc`)

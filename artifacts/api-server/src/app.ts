@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import pinoHttp from "pino-http";
 import router from "./routes";
+import { webhookRouter } from "./routes/stripe";
 import { logger } from "./lib/logger";
 import { attachSession } from "./middlewares/requireAuth";
 
@@ -29,6 +30,9 @@ app.use(
     },
   }),
 );
+
+// Stripe webhook MUST receive the raw body and be mounted BEFORE express.json().
+app.use("/api", webhookRouter);
 
 app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
