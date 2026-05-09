@@ -9,18 +9,16 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useAuth, requestOtpCode, verifyOtpCode } from "@/lib/auth";
-import { startCheckout, type LookupKey } from "@/lib/billing";
 
-function getRedirectIntent(): { next: string; plan: LookupKey | null } {
-  if (typeof window === "undefined") return { next: "/account", plan: null };
+function getQuery() {
+  if (typeof window === "undefined")
+    return { next: "/account", prefilledEmail: "", upgraded: false };
   const params = new URLSearchParams(window.location.search);
-  const next = params.get("next") || "/account";
-  const planParam = params.get("plan");
-  const plan: LookupKey | null =
-    planParam === "pro_monthly" || planParam === "pro_annual"
-      ? planParam
-      : null;
-  return { next, plan };
+  return {
+    next: params.get("next") || "/account",
+    prefilledEmail: params.get("email") || "",
+    upgraded: params.get("upgraded") === "1",
+  };
 }
 
 type Step = "email" | "code";
@@ -28,22 +26,22 @@ type Step = "email" | "code";
 export default function SignInPage() {
   const [, setLocation] = useLocation();
   const { user, refresh } = useAuth();
+  const initial = getQuery();
   const [step, setStep] = useState<Step>("email");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(initial.prefilledEmail);
   const [code, setCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(
+    initial.upgraded
+      ? "Thanks for your purchase! Enter your email and verify with a code to access your account."
+      : null,
+  );
 
   useEffect(() => {
     if (!user) return;
-    const { next, plan } = getRedirectIntent();
-    if (plan) {
-      void startCheckout(plan);
-      return;
-    }
-    setLocation(next, { replace: true });
-  }, [user, setLocation]);
+    setLocation(initial.next, { replace: true });
+  }, [user, setLocation, initial.next]);
 
   async function handleEmailSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -76,12 +74,7 @@ export default function SignInPage() {
     try {
       await verifyOtpCode(email.trim(), value);
       await refresh();
-      const { next, plan } = getRedirectIntent();
-      if (plan) {
-        await startCheckout(plan);
-        return;
-      }
-      setLocation(next, { replace: true });
+      setLocation(initial.next, { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {

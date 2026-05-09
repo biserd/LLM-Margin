@@ -13,13 +13,6 @@ export async function startCheckout(lookupKey: LookupKey): Promise<void> {
     credentials: "include",
     body: JSON.stringify({ lookupKey }),
   });
-  if (res.status === 401) {
-    const next = encodeURIComponent(
-      window.location.pathname + window.location.search,
-    );
-    window.location.href = `${basePath}/sign-in?next=${next}&plan=${lookupKey}`;
-    return;
-  }
   if (!res.ok) {
     const data = (await res.json().catch(() => null)) as
       | { error?: string }
