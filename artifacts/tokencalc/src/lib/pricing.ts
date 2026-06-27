@@ -4,6 +4,7 @@ export const LATEST_MODEL_PRIORITY = [
   "openai/gpt-5.1",
   "openai/gpt-5",
   "anthropic/claude-opus-4.7",
+  "anthropic/claude-fable-5",
   "anthropic/claude-sonnet-4.6",
   "google/gemini-3.1-pro-preview",
   "openai/gpt-4o",
@@ -33,7 +34,7 @@ function inferTokenizer(modelId: string): ModelPrice['tokenizer'] {
   if (modelId.includes('gpt-4o') || modelId.includes('gpt-5')) return 'o200k_base';
   if (modelId.includes('gpt-4') || modelId.includes('gpt-3.5')) return 'cl100k_base';
   if (modelId.includes('claude')) return 'claude';
-  if (modelId.includes('gemini') || modelId.includes('llama') || modelId.includes('mistral')) return 'sentencepiece';
+  if (modelId.includes('gemini') || modelId.includes('llama') || modelId.includes('mistral') || modelId.includes('glm')) return 'sentencepiece';
   return 'unknown';
 }
 
@@ -71,12 +72,14 @@ export const PROVIDER_COLORS: Record<string, string> = {
   anthropic: '#d4a27f',
   google: '#4285f4',
   meta: '#0668e1',
+  'meta-llama': '#0668e1',
   mistralai: '#ff7000',
   cohere: '#39594d',
   deepmind: '#4285f4',
   qwen: '#ef4444',
   deepseek: '#6366f1',
   perplexity: '#20808d',
+  'z-ai': '#00b4d8',
 };
 
 export function getProviderColor(provider: string): string {
