@@ -130,6 +130,8 @@ function PairView({ pair }: PairViewProps) {
   const descStr = `Side-by-side ${a.name} vs ${b.name} pricing — input, output, total monthly cost at any MAU. Live OpenRouter prices for ${pair.a.provider} and ${pair.b.provider}.`;
   const keywordsStr = `${a.name} vs ${b.name}, ${a.name} pricing, ${b.name} pricing, ${a.name} cost, ${b.name} cost, ${pair.a.provider} vs ${pair.b.provider}, LLM price comparison`;
   const canonical = `https://llmmargin.com/compare/${pair.slug}`;
+  const ogImage = "https://llmmargin.com/opengraph.jpg";
+  const dateModified = new Date().toISOString().split("T")[0];
 
   return (
     <div className="min-h-screen bg-background">
@@ -141,28 +143,46 @@ function PairView({ pair }: PairViewProps) {
       <meta property="og:title" content={titleStr} />
       <meta property="og:description" content={descStr} />
       <meta property="og:url" content={canonical} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:site_name" content="LLM Margin" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={titleStr} />
+      <meta name="twitter:description" content={descStr} />
+      <meta name="twitter:image" content={ogImage} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: titleStr,
-            description: descStr,
-            datePublished: "2026-05-09",
-            dateModified: "2026-05-09",
-            author: { "@type": "Organization", name: "LLM Margin" },
-            publisher: {
-              "@type": "Organization",
-              name: "LLM Margin",
-              logo: { "@type": "ImageObject", url: "https://llmmargin.com/favicon.svg" },
+          __html: JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: titleStr,
+              description: descStr,
+              datePublished: "2026-05-09",
+              dateModified,
+              author: { "@type": "Organization", name: "LLM Margin" },
+              publisher: {
+                "@type": "Organization",
+                name: "LLM Margin",
+                logo: { "@type": "ImageObject", url: "https://llmmargin.com/favicon.svg" },
+              },
+              mainEntityOfPage: canonical,
+              image: ogImage,
+              about: [
+                { "@type": "Product", name: a.name, brand: pair.a.provider },
+                { "@type": "Product", name: b.name, brand: pair.b.provider },
+              ],
             },
-            mainEntityOfPage: canonical,
-            about: [
-              { "@type": "Product", name: a.name, brand: pair.a.provider },
-              { "@type": "Product", name: b.name, brand: pair.b.provider },
-            ],
-          }),
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "LLM Margin", item: "https://llmmargin.com" },
+                { "@type": "ListItem", position: 2, name: "Compare models", item: "https://llmmargin.com/compare" },
+                { "@type": "ListItem", position: 3, name: `${a.name} vs ${b.name}`, item: canonical },
+              ],
+            },
+          ]),
         }}
       />
 

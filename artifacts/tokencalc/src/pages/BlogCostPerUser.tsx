@@ -50,11 +50,15 @@ export default function BlogCostPerUser() {
       <link rel="canonical" href="https://llmmargin.com/blog/how-to-calculate-llm-cost-per-user" />
       <meta property="og:type" content="article" />
       <meta property="og:title" content="How to Calculate LLM Cost Per User (Formula + Examples)" />
-      <meta
-        property="og:description"
-        content="The exact formula for LLM cost per user, with worked examples for GPT-4o, Claude, and Gemini at 1K, 10K, and 100K MAU."
-      />
+      <meta property="og:description" content="The exact formula for LLM cost per user, with worked examples for GPT-4o, Claude, and Gemini at 1K, 10K, and 100K MAU." />
+      <meta property="og:url" content="https://llmmargin.com/blog/how-to-calculate-llm-cost-per-user" />
+      <meta property="og:image" content="https://llmmargin.com/opengraph.jpg" />
+      <meta property="og:site_name" content="LLM Margin" />
       <meta property="article:published_time" content="2026-05-09" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="How to Calculate LLM Cost Per User (Formula + Examples)" />
+      <meta name="twitter:description" content="The exact formula for LLM cost per user, with worked examples for GPT-4o, Claude, and Gemini at 1K, 10K, and 100K MAU." />
+      <meta name="twitter:image" content="https://llmmargin.com/opengraph.jpg" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

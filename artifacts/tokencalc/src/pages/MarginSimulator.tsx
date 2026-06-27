@@ -145,9 +145,17 @@ export default function MarginSimulator() {
     <div className="min-h-screen bg-background">
       <title>LLM Margin Calculator for SaaS Founders | LLM Margin</title>
       <meta name="description" content="Model gross margin, cost-per-user, and breakeven MAU for any AI product. Plug in your LLM pricing and see if your unit economics actually work. Free." />
+      <link rel="canonical" href="https://llmmargin.com/" />
+      <meta property="og:type" content="website" />
       <meta property="og:title" content="Will your AI SaaS actually make money? Find out in 60 seconds." />
       <meta property="og:description" content="LLM Margin simulates gross margin and power-user risk for AI products. Built by founders, for founders staring at OpenAI invoices." />
-      <link rel="canonical" href="https://llmmargin.com/" />
+      <meta property="og:url" content="https://llmmargin.com/" />
+      <meta property="og:image" content="https://llmmargin.com/opengraph.jpg" />
+      <meta property="og:site_name" content="LLM Margin" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Will your AI SaaS actually make money? Find out in 60 seconds." />
+      <meta name="twitter:description" content="LLM Margin simulates gross margin and power-user risk for AI products. Built by founders, for founders staring at OpenAI invoices." />
+      <meta name="twitter:image" content="https://llmmargin.com/opengraph.jpg" />
 
       {/* Hero */}
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">

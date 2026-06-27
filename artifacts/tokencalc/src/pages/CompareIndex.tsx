@@ -18,11 +18,16 @@ export default function CompareIndex() {
         content="LLM price comparison, GPT vs Claude, Claude vs Gemini, OpenAI pricing comparison, AI model cost comparison, LLM token cost comparison"
       />
       <link rel="canonical" href="https://llmmargin.com/compare" />
+      <meta property="og:type" content="website" />
       <meta property="og:title" content="Compare LLM Pricing — Side-by-Side Token Costs" />
-      <meta
-        property="og:description"
-        content="Pick any two models. See input, output, and total monthly cost compared at your usage level."
-      />
+      <meta property="og:description" content="Pick any two models. See input, output, and total monthly cost compared at your usage level." />
+      <meta property="og:url" content="https://llmmargin.com/compare" />
+      <meta property="og:image" content="https://llmmargin.com/opengraph.jpg" />
+      <meta property="og:site_name" content="LLM Margin" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Compare LLM Pricing — Side-by-Side Token Costs" />
+      <meta name="twitter:description" content="Pick any two models. See input, output, and total monthly cost compared at your usage level." />
+      <meta name="twitter:image" content="https://llmmargin.com/opengraph.jpg" />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-12">

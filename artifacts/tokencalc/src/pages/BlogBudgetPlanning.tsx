@@ -51,15 +51,16 @@ export default function BlogBudgetPlanning() {
         href="https://llmmargin.com/blog/ai-api-budget-planning-for-startups"
       />
       <meta property="og:type" content="article" />
-      <meta
-        property="og:title"
-        content="AI API Budget Planning for Startups: A Practical 12-Month Framework"
-      />
-      <meta
-        property="og:description"
-        content="The framework for sizing your OpenAI, Anthropic, and Gemini budgets through your next fundraising milestone."
-      />
+      <meta property="og:title" content="AI API Budget Planning for Startups: A Practical 12-Month Framework" />
+      <meta property="og:description" content="The framework for sizing your OpenAI, Anthropic, and Gemini budgets through your next fundraising milestone." />
+      <meta property="og:url" content="https://llmmargin.com/blog/ai-api-budget-planning-for-startups" />
+      <meta property="og:image" content="https://llmmargin.com/opengraph.jpg" />
+      <meta property="og:site_name" content="LLM Margin" />
       <meta property="article:published_time" content="2026-05-09" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="AI API Budget Planning for Startups: A Practical 12-Month Framework" />
+      <meta name="twitter:description" content="The framework for sizing your OpenAI, Anthropic, and Gemini budgets through your next fundraising milestone." />
+      <meta name="twitter:image" content="https://llmmargin.com/opengraph.jpg" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

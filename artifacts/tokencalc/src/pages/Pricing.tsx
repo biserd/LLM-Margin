@@ -80,10 +80,18 @@ export default function Pricing() {
   return (
     <div className="min-h-screen bg-background">
       <title>Pricing — Free Forever + Pro for Teams | LLM Margin</title>
-      <meta name="description" content="LLM Margin is free for founders. Pro unlocks saved scenarios, team sharing, and CSV export for $19/mo. No credit card for the free tier." />
-      <meta property="og:title" content="Simple pricing for founders who hate pricing pages" />
-      <meta property="og:description" content="Free forever for solo founders. Pro ($19/mo) adds saved scenarios, team sharing, and CSV export when your cap table needs it." />
+      <meta name="description" content="LLM Margin is free for founders. Pro unlocks saved scenarios, team sharing, and CSV export for $19/mo. Start with a 7-day free trial." />
       <link rel="canonical" href="https://llmmargin.com/pricing" />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content="Simple pricing for founders who hate pricing pages" />
+      <meta property="og:description" content="Free forever for solo founders. Try Pro free for 7 days — saved scenarios, CSV export, 12-month projections. No charge today." />
+      <meta property="og:url" content="https://llmmargin.com/pricing" />
+      <meta property="og:image" content="https://llmmargin.com/opengraph.jpg" />
+      <meta property="og:site_name" content="LLM Margin" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Simple pricing for founders who hate pricing pages" />
+      <meta name="twitter:description" content="Free forever for solo founders. Try Pro free for 7 days — no charge today, cancel anytime." />
+      <meta name="twitter:image" content="https://llmmargin.com/opengraph.jpg" />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-14 text-center">
