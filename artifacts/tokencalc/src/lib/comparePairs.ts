@@ -49,6 +49,11 @@ export const COMPARE_MODELS: CompareModel[] = [
   { slug: "grok-4",                id: "x-ai/grok-4",                                   name: "Grok 4",                 provider: "xAI",        shortName: "Grok 4" },
   { slug: "grok-4-3",              id: "x-ai/grok-4.3",                                 name: "Grok 4.3",               provider: "xAI",        shortName: "Grok 4.3" },
   { slug: "llama-4-maverick",      id: "meta-llama/llama-4-maverick",                   name: "Llama 4 Maverick",       provider: "Meta",       shortName: "Llama 4 Maverick" },
+  // New frontier models (June 2026)
+  { slug: "claude-fable-5",       id: "anthropic/claude-fable-5",                      name: "Claude Fable 5",         provider: "Anthropic",  shortName: "Fable 5" },
+  { slug: "glm-5-2",              id: "z-ai/glm-5.2",                                  name: "GLM 5.2",                provider: "Z.AI",       shortName: "GLM 5.2" },
+  { slug: "glm-5",                id: "z-ai/glm-5",                                    name: "GLM 5",                  provider: "Z.AI",       shortName: "GLM 5" },
+  { slug: "gpt-5-2",              id: "openai/gpt-5.2",                                name: "GPT-5.2",                provider: "OpenAI",     shortName: "GPT-5.2" },
 ];
 
 export const MODELS_BY_SLUG: Record<string, CompareModel> = Object.fromEntries(
@@ -74,6 +79,21 @@ const PAIR_DEFS: Array<[string, string, string]> = [
   ["claude-sonnet-4-6", "gpt-5-1",            "Frontier vs Frontier"],
   ["claude-sonnet-4-6", "gemini-3-1-pro",     "Frontier vs Frontier"],
   ["gpt-5-1",           "claude-sonnet-4-5",  "Frontier vs Frontier"],
+  ["claude-fable-5",    "gpt-5-5",            "Frontier vs Frontier"],
+  ["claude-fable-5",    "gemini-3-1-pro",     "Frontier vs Frontier"],
+  ["claude-fable-5",    "grok-4",             "Frontier vs Frontier"],
+
+  // New Frontier Models (GLM 5.2, Fable 5, GPT-5.x)
+  ["glm-5-2",           "gpt-5-5",            "New Frontier Models"],
+  ["glm-5-2",           "claude-fable-5",     "New Frontier Models"],
+  ["glm-5-2",           "gpt-5-1",            "New Frontier Models"],
+  ["glm-5-2",           "gpt-5-4",            "New Frontier Models"],
+  ["glm-5-2",           "gemini-2-5-pro",     "New Frontier Models"],
+  ["glm-5-2",           "deepseek-v3-2",      "New Frontier Models"],
+  ["glm-5",             "glm-5-2",            "New Frontier Models"],
+  ["glm-5",             "deepseek-v3-2",      "New Frontier Models"],
+  ["claude-fable-5",    "claude-opus-4-7",    "New Frontier Models"],
+  ["claude-fable-5",    "gpt-5-1",            "New Frontier Models"],
 
   // Reasoning Models
   ["o1",                "o3",                 "Reasoning Models"],
@@ -106,7 +126,10 @@ const PAIR_DEFS: Array<[string, string, string]> = [
   ["qwen-2-5-72b",      "deepseek-v3",        "Open Source vs Hosted"],
 
   // OpenAI Lineup
+  ["gpt-5-5",           "gpt-5-4",            "OpenAI Lineup"],
   ["gpt-5-5",           "gpt-5-1",            "OpenAI Lineup"],
+  ["gpt-5-4",           "gpt-5-2",            "OpenAI Lineup"],
+  ["gpt-5-2",           "gpt-5-1",            "OpenAI Lineup"],
   ["gpt-5-1",           "gpt-5",              "OpenAI Lineup"],
   ["gpt-5",             "gpt-4o",             "OpenAI Lineup"],
   ["gpt-4o",            "gpt-4o-mini",        "OpenAI Lineup"],
@@ -118,6 +141,7 @@ const PAIR_DEFS: Array<[string, string, string]> = [
   ["claude-3-7-sonnet", "claude-3-5-haiku",   "Anthropic Lineup"],
   ["claude-3-7-sonnet", "claude-haiku-4-5",   "Anthropic Lineup"],
   ["claude-haiku-4-5",  "claude-3-5-haiku",   "Anthropic Lineup"],
+  ["claude-fable-5",    "claude-sonnet-4-6",  "Anthropic Lineup"],
 
   // Google Lineup
   ["gemini-3-1-pro",    "gemini-2-5-pro",     "Google Lineup"],

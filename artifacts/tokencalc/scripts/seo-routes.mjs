@@ -18,6 +18,9 @@ export const STATIC_ROUTES = [
 
 export const COMPARE_PAIR_SLUGS = [
   // Frontier vs Frontier
+  "claude-fable-5-vs-gpt-5-5",
+  "claude-fable-5-vs-gemini-3-1-pro",
+  "claude-fable-5-vs-grok-4",
   "gpt-5-5-vs-claude-opus-4-7",
   "gpt-5-5-vs-gemini-3-1-pro",
   "gpt-5-5-vs-grok-4",
@@ -28,6 +31,17 @@ export const COMPARE_PAIR_SLUGS = [
   "claude-sonnet-4-6-vs-gpt-5-1",
   "claude-sonnet-4-6-vs-gemini-3-1-pro",
   "gpt-5-1-vs-claude-sonnet-4-5",
+  // New Frontier Models
+  "glm-5-2-vs-gpt-5-5",
+  "glm-5-2-vs-claude-fable-5",
+  "glm-5-2-vs-gpt-5-1",
+  "glm-5-2-vs-gpt-5-4",
+  "glm-5-2-vs-gemini-2-5-pro",
+  "glm-5-2-vs-deepseek-v3-2",
+  "glm-5-vs-glm-5-2",
+  "glm-5-vs-deepseek-v3-2",
+  "claude-fable-5-vs-claude-opus-4-7",
+  "claude-fable-5-vs-gpt-5-1",
   // Reasoning Models
   "o1-vs-o3",
   "o3-vs-o4-mini",
@@ -56,12 +70,16 @@ export const COMPARE_PAIR_SLUGS = [
   "qwen-2-5-72b-vs-llama-3-3-70b",
   "qwen-2-5-72b-vs-deepseek-v3",
   // OpenAI Lineup
+  "gpt-5-5-vs-gpt-5-4",
   "gpt-5-5-vs-gpt-5-1",
+  "gpt-5-4-vs-gpt-5-2",
+  "gpt-5-2-vs-gpt-5-1",
   "gpt-5-1-vs-gpt-5",
   "gpt-5-vs-gpt-4o",
   "gpt-4o-vs-gpt-4o-mini",
   "gpt-4o-vs-gpt-4-turbo",
   // Anthropic Lineup
+  "claude-fable-5-vs-claude-sonnet-4-6",
   "claude-opus-4-7-vs-claude-sonnet-4-6",
   "claude-sonnet-4-6-vs-claude-3-7-sonnet",
   "claude-3-7-sonnet-vs-claude-3-5-haiku",
