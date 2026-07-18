@@ -56,6 +56,26 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://llmmargin.com/compare/claude-opus-4-8-vs-gpt-5-5</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/claude-opus-4-8-vs-gemini-3-1-pro</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/deepseek-v4-pro-vs-gpt-5-1</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/deepseek-v4-pro-vs-claude-sonnet-4-6</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://llmmargin.com/compare/claude-fable-5-vs-gpt-5-5</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -171,6 +191,16 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://llmmargin.com/compare/deepseek-r1-vs-o1</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/deepseek-r1-vs-o3</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://llmmargin.com/compare/o1-vs-o3</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -202,6 +232,26 @@
   </url>
   <url>
     <loc>https://llmmargin.com/compare/o1-vs-gpt-4o</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/gemini-3-5-flash-vs-gpt-4o-mini</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/gemini-3-5-flash-vs-claude-haiku-4-5</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/deepseek-v4-flash-vs-gpt-4o-mini</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/deepseek-v4-flash-vs-gemini-3-5-flash</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -247,6 +297,26 @@
   </url>
   <url>
     <loc>https://llmmargin.com/compare/claude-3-haiku-vs-claude-3-5-haiku</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/deepseek-r1-vs-deepseek-v3</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/deepseek-v4-pro-vs-deepseek-v4-flash</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/llama-4-scout-vs-gpt-4o-mini</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/llama-4-scout-vs-gemini-2-5-flash</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -331,6 +401,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://llmmargin.com/compare/claude-opus-4-8-vs-claude-opus-4-7</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://llmmargin.com/compare/claude-fable-5-vs-claude-sonnet-4-6</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -361,6 +436,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://llmmargin.com/compare/gemini-3-5-flash-vs-gemini-2-5-flash</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://llmmargin.com/compare/gemini-3-1-pro-vs-gemini-2-5-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -376,7 +456,22 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://llmmargin.com/compare/llama-4-scout-vs-llama-4-maverick</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://llmmargin.com/compare/llama-3-1-70b-vs-llama-3-1-8b</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/mistral-medium-3-1-vs-gpt-4o-mini</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://llmmargin.com/compare/mistral-medium-3-1-vs-mistral-large</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>

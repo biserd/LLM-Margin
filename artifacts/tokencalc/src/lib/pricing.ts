@@ -3,9 +3,11 @@ export const LATEST_MODEL_PRIORITY = [
   "openai/gpt-5.4",
   "openai/gpt-5.1",
   "openai/gpt-5",
+  "anthropic/claude-opus-4.8",
   "anthropic/claude-opus-4.7",
   "anthropic/claude-fable-5",
   "anthropic/claude-sonnet-4.6",
+  "google/gemini-3.5-flash",
   "google/gemini-3.1-pro-preview",
   "openai/gpt-4o",
 ];

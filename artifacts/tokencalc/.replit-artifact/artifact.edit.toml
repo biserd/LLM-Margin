@@ -63,6 +63,22 @@ from = "/compare"
 to = "/compare/index.html"
 
 [[services.production.rewrites]]
+from = "/compare/claude-opus-4-8-vs-gpt-5-5"
+to = "/compare/claude-opus-4-8-vs-gpt-5-5/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/claude-opus-4-8-vs-gemini-3-1-pro"
+to = "/compare/claude-opus-4-8-vs-gemini-3-1-pro/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/deepseek-v4-pro-vs-gpt-5-1"
+to = "/compare/deepseek-v4-pro-vs-gpt-5-1/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/deepseek-v4-pro-vs-claude-sonnet-4-6"
+to = "/compare/deepseek-v4-pro-vs-claude-sonnet-4-6/index.html"
+
+[[services.production.rewrites]]
 from = "/compare/claude-fable-5-vs-gpt-5-5"
 to = "/compare/claude-fable-5-vs-gpt-5-5/index.html"
 
@@ -155,6 +171,14 @@ from = "/compare/claude-fable-5-vs-gpt-5-1"
 to = "/compare/claude-fable-5-vs-gpt-5-1/index.html"
 
 [[services.production.rewrites]]
+from = "/compare/deepseek-r1-vs-o1"
+to = "/compare/deepseek-r1-vs-o1/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/deepseek-r1-vs-o3"
+to = "/compare/deepseek-r1-vs-o3/index.html"
+
+[[services.production.rewrites]]
 from = "/compare/o1-vs-o3"
 to = "/compare/o1-vs-o3/index.html"
 
@@ -181,6 +205,22 @@ to = "/compare/o1-vs-claude-3-7-sonnet/index.html"
 [[services.production.rewrites]]
 from = "/compare/o1-vs-gpt-4o"
 to = "/compare/o1-vs-gpt-4o/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/gemini-3-5-flash-vs-gpt-4o-mini"
+to = "/compare/gemini-3-5-flash-vs-gpt-4o-mini/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/gemini-3-5-flash-vs-claude-haiku-4-5"
+to = "/compare/gemini-3-5-flash-vs-claude-haiku-4-5/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/deepseek-v4-flash-vs-gpt-4o-mini"
+to = "/compare/deepseek-v4-flash-vs-gpt-4o-mini/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/deepseek-v4-flash-vs-gemini-3-5-flash"
+to = "/compare/deepseek-v4-flash-vs-gemini-3-5-flash/index.html"
 
 [[services.production.rewrites]]
 from = "/compare/gpt-4o-mini-vs-claude-3-5-haiku"
@@ -217,6 +257,22 @@ to = "/compare/gemini-2-5-flash-vs-deepseek-v3/index.html"
 [[services.production.rewrites]]
 from = "/compare/claude-3-haiku-vs-claude-3-5-haiku"
 to = "/compare/claude-3-haiku-vs-claude-3-5-haiku/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/deepseek-r1-vs-deepseek-v3"
+to = "/compare/deepseek-r1-vs-deepseek-v3/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/deepseek-v4-pro-vs-deepseek-v4-flash"
+to = "/compare/deepseek-v4-pro-vs-deepseek-v4-flash/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/llama-4-scout-vs-gpt-4o-mini"
+to = "/compare/llama-4-scout-vs-gpt-4o-mini/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/llama-4-scout-vs-gemini-2-5-flash"
+to = "/compare/llama-4-scout-vs-gemini-2-5-flash/index.html"
 
 [[services.production.rewrites]]
 from = "/compare/llama-3-3-70b-vs-gpt-4o-mini"
@@ -283,6 +339,10 @@ from = "/compare/gpt-4o-vs-gpt-4-turbo"
 to = "/compare/gpt-4o-vs-gpt-4-turbo/index.html"
 
 [[services.production.rewrites]]
+from = "/compare/claude-opus-4-8-vs-claude-opus-4-7"
+to = "/compare/claude-opus-4-8-vs-claude-opus-4-7/index.html"
+
+[[services.production.rewrites]]
 from = "/compare/claude-fable-5-vs-claude-sonnet-4-6"
 to = "/compare/claude-fable-5-vs-claude-sonnet-4-6/index.html"
 
@@ -307,6 +367,10 @@ from = "/compare/claude-haiku-4-5-vs-claude-3-5-haiku"
 to = "/compare/claude-haiku-4-5-vs-claude-3-5-haiku/index.html"
 
 [[services.production.rewrites]]
+from = "/compare/gemini-3-5-flash-vs-gemini-2-5-flash"
+to = "/compare/gemini-3-5-flash-vs-gemini-2-5-flash/index.html"
+
+[[services.production.rewrites]]
 from = "/compare/gemini-3-1-pro-vs-gemini-2-5-pro"
 to = "/compare/gemini-3-1-pro-vs-gemini-2-5-pro/index.html"
 
@@ -319,8 +383,20 @@ from = "/compare/gemini-2-5-flash-vs-gemini-2-0-flash"
 to = "/compare/gemini-2-5-flash-vs-gemini-2-0-flash/index.html"
 
 [[services.production.rewrites]]
+from = "/compare/llama-4-scout-vs-llama-4-maverick"
+to = "/compare/llama-4-scout-vs-llama-4-maverick/index.html"
+
+[[services.production.rewrites]]
 from = "/compare/llama-3-1-70b-vs-llama-3-1-8b"
 to = "/compare/llama-3-1-70b-vs-llama-3-1-8b/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/mistral-medium-3-1-vs-gpt-4o-mini"
+to = "/compare/mistral-medium-3-1-vs-gpt-4o-mini/index.html"
+
+[[services.production.rewrites]]
+from = "/compare/mistral-medium-3-1-vs-mistral-large"
+to = "/compare/mistral-medium-3-1-vs-mistral-large/index.html"
 
 [[services.production.rewrites]]
 from = "/compare/mistral-large-vs-mixtral-8x22b"

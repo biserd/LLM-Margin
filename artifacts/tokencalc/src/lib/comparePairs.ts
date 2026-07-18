@@ -54,6 +54,14 @@ export const COMPARE_MODELS: CompareModel[] = [
   { slug: "glm-5-2",              id: "z-ai/glm-5.2",                                  name: "GLM 5.2",                provider: "Z.AI",       shortName: "GLM 5.2" },
   { slug: "glm-5",                id: "z-ai/glm-5",                                    name: "GLM 5",                  provider: "Z.AI",       shortName: "GLM 5" },
   { slug: "gpt-5-2",              id: "openai/gpt-5.2",                                name: "GPT-5.2",                provider: "OpenAI",     shortName: "GPT-5.2" },
+  // July 2026 additions
+  { slug: "claude-opus-4-8",      id: "anthropic/claude-opus-4.8",                     name: "Claude Opus 4.8",        provider: "Anthropic",  shortName: "Claude Opus 4.8" },
+  { slug: "gemini-3-5-flash",     id: "google/gemini-3.5-flash",                       name: "Gemini 3.5 Flash",       provider: "Google",     shortName: "Gemini 3.5 Flash" },
+  { slug: "deepseek-r1",          id: "deepseek/deepseek-r1",                          name: "DeepSeek R1",            provider: "DeepSeek",   shortName: "DeepSeek R1" },
+  { slug: "deepseek-v4-pro",      id: "deepseek/deepseek-v4-pro",                      name: "DeepSeek V4 Pro",        provider: "DeepSeek",   shortName: "DeepSeek V4 Pro" },
+  { slug: "deepseek-v4-flash",    id: "deepseek/deepseek-v4-flash",                    name: "DeepSeek V4 Flash",      provider: "DeepSeek",   shortName: "DeepSeek V4 Flash" },
+  { slug: "llama-4-scout",        id: "meta-llama/llama-4-scout",                      name: "Llama 4 Scout",          provider: "Meta",       shortName: "Llama 4 Scout" },
+  { slug: "mistral-medium-3-1",   id: "mistralai/mistral-medium-3.1",                  name: "Mistral Medium 3.1",     provider: "Mistral",    shortName: "Mistral Medium 3.1" },
 ];
 
 export const MODELS_BY_SLUG: Record<string, CompareModel> = Object.fromEntries(
@@ -69,6 +77,10 @@ export interface ComparePair {
 
 const PAIR_DEFS: Array<[string, string, string]> = [
   // Frontier vs Frontier
+  ["claude-opus-4-8",   "gpt-5-5",            "Frontier vs Frontier"],
+  ["claude-opus-4-8",   "gemini-3-1-pro",     "Frontier vs Frontier"],
+  ["deepseek-v4-pro",   "gpt-5-1",            "Frontier vs Frontier"],
+  ["deepseek-v4-pro",   "claude-sonnet-4-6",  "Frontier vs Frontier"],
   ["gpt-5-5",           "claude-opus-4-7",    "Frontier vs Frontier"],
   ["gpt-5-5",           "gemini-3-1-pro",     "Frontier vs Frontier"],
   ["gpt-5-5",           "grok-4",             "Frontier vs Frontier"],
@@ -96,6 +108,8 @@ const PAIR_DEFS: Array<[string, string, string]> = [
   ["claude-fable-5",    "gpt-5-1",            "New Frontier Models"],
 
   // Reasoning Models
+  ["deepseek-r1",       "o1",                 "Reasoning Models"],
+  ["deepseek-r1",       "o3",                 "Reasoning Models"],
   ["o1",                "o3",                 "Reasoning Models"],
   ["o3",                "o4-mini",            "Reasoning Models"],
   ["o4-mini",           "claude-sonnet-4-6",  "Reasoning Models"],
@@ -105,6 +119,10 @@ const PAIR_DEFS: Array<[string, string, string]> = [
   ["o1",                "gpt-4o",             "Reasoning Models"],
 
   // Cheap & Fast
+  ["gemini-3-5-flash",  "gpt-4o-mini",        "Cheap & Fast"],
+  ["gemini-3-5-flash",  "claude-haiku-4-5",   "Cheap & Fast"],
+  ["deepseek-v4-flash", "gpt-4o-mini",        "Cheap & Fast"],
+  ["deepseek-v4-flash", "gemini-3-5-flash",   "Cheap & Fast"],
   ["gpt-4o-mini",       "claude-3-5-haiku",   "Cheap & Fast"],
   ["gpt-4o-mini",       "gemini-2-5-flash",   "Cheap & Fast"],
   ["gpt-4o-mini",       "claude-haiku-4-5",   "Cheap & Fast"],
@@ -116,6 +134,10 @@ const PAIR_DEFS: Array<[string, string, string]> = [
   ["claude-3-haiku",    "claude-3-5-haiku",   "Cheap & Fast"],
 
   // Open Source vs Hosted
+  ["deepseek-r1",       "deepseek-v3",        "Open Source vs Hosted"],
+  ["deepseek-v4-pro",   "deepseek-v4-flash",  "Open Source vs Hosted"],
+  ["llama-4-scout",     "gpt-4o-mini",        "Open Source vs Hosted"],
+  ["llama-4-scout",     "gemini-2-5-flash",   "Open Source vs Hosted"],
   ["llama-3-3-70b",     "gpt-4o-mini",        "Open Source vs Hosted"],
   ["llama-3-3-70b",     "claude-3-5-haiku",   "Open Source vs Hosted"],
   ["deepseek-v3",       "gpt-4o-mini",        "Open Source vs Hosted"],
@@ -136,6 +158,7 @@ const PAIR_DEFS: Array<[string, string, string]> = [
   ["gpt-4o",            "gpt-4-turbo",        "OpenAI Lineup"],
 
   // Anthropic Lineup
+  ["claude-opus-4-8",   "claude-opus-4-7",    "Anthropic Lineup"],
   ["claude-opus-4-7",   "claude-sonnet-4-6",  "Anthropic Lineup"],
   ["claude-sonnet-4-6", "claude-3-7-sonnet",  "Anthropic Lineup"],
   ["claude-3-7-sonnet", "claude-3-5-haiku",   "Anthropic Lineup"],
@@ -144,14 +167,18 @@ const PAIR_DEFS: Array<[string, string, string]> = [
   ["claude-fable-5",    "claude-sonnet-4-6",  "Anthropic Lineup"],
 
   // Google Lineup
+  ["gemini-3-5-flash",  "gemini-2-5-flash",   "Google Lineup"],
   ["gemini-3-1-pro",    "gemini-2-5-pro",     "Google Lineup"],
   ["gemini-2-5-pro",    "gemini-2-5-flash",   "Google Lineup"],
   ["gemini-2-5-flash",  "gemini-2-0-flash",   "Google Lineup"],
 
   // Meta Lineup
+  ["llama-4-scout",     "llama-4-maverick",   "Meta Lineup"],
   ["llama-3-1-70b",     "llama-3-1-8b",       "Meta Lineup"],
 
   // Specialty
+  ["mistral-medium-3-1", "gpt-4o-mini",       "Specialty"],
+  ["mistral-medium-3-1", "mistral-large",     "Specialty"],
   ["mistral-large",     "mixtral-8x22b",      "Specialty"],
   ["command-r-plus",    "gpt-4o",             "Specialty"],
   ["sonar",             "gpt-4o-mini",        "Specialty"],

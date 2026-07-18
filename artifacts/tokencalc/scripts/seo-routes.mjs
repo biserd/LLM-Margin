@@ -19,6 +19,10 @@ export const STATIC_ROUTES = [
 
 export const COMPARE_PAIR_SLUGS = [
   // Frontier vs Frontier
+  "claude-opus-4-8-vs-gpt-5-5",
+  "claude-opus-4-8-vs-gemini-3-1-pro",
+  "deepseek-v4-pro-vs-gpt-5-1",
+  "deepseek-v4-pro-vs-claude-sonnet-4-6",
   "claude-fable-5-vs-gpt-5-5",
   "claude-fable-5-vs-gemini-3-1-pro",
   "claude-fable-5-vs-grok-4",
@@ -44,6 +48,8 @@ export const COMPARE_PAIR_SLUGS = [
   "claude-fable-5-vs-claude-opus-4-7",
   "claude-fable-5-vs-gpt-5-1",
   // Reasoning Models
+  "deepseek-r1-vs-o1",
+  "deepseek-r1-vs-o3",
   "o1-vs-o3",
   "o3-vs-o4-mini",
   "o4-mini-vs-claude-sonnet-4-6",
@@ -52,6 +58,10 @@ export const COMPARE_PAIR_SLUGS = [
   "o1-vs-claude-3-7-sonnet",
   "o1-vs-gpt-4o",
   // Cheap & Fast
+  "gemini-3-5-flash-vs-gpt-4o-mini",
+  "gemini-3-5-flash-vs-claude-haiku-4-5",
+  "deepseek-v4-flash-vs-gpt-4o-mini",
+  "deepseek-v4-flash-vs-gemini-3-5-flash",
   "gpt-4o-mini-vs-claude-3-5-haiku",
   "gpt-4o-mini-vs-gemini-2-5-flash",
   "gpt-4o-mini-vs-claude-haiku-4-5",
@@ -62,6 +72,10 @@ export const COMPARE_PAIR_SLUGS = [
   "gemini-2-5-flash-vs-deepseek-v3",
   "claude-3-haiku-vs-claude-3-5-haiku",
   // Open Source vs Hosted
+  "deepseek-r1-vs-deepseek-v3",
+  "deepseek-v4-pro-vs-deepseek-v4-flash",
+  "llama-4-scout-vs-gpt-4o-mini",
+  "llama-4-scout-vs-gemini-2-5-flash",
   "llama-3-3-70b-vs-gpt-4o-mini",
   "llama-3-3-70b-vs-claude-3-5-haiku",
   "deepseek-v3-vs-gpt-4o-mini",
@@ -80,6 +94,7 @@ export const COMPARE_PAIR_SLUGS = [
   "gpt-4o-vs-gpt-4o-mini",
   "gpt-4o-vs-gpt-4-turbo",
   // Anthropic Lineup
+  "claude-opus-4-8-vs-claude-opus-4-7",
   "claude-fable-5-vs-claude-sonnet-4-6",
   "claude-opus-4-7-vs-claude-sonnet-4-6",
   "claude-sonnet-4-6-vs-claude-3-7-sonnet",
@@ -87,12 +102,16 @@ export const COMPARE_PAIR_SLUGS = [
   "claude-3-7-sonnet-vs-claude-haiku-4-5",
   "claude-haiku-4-5-vs-claude-3-5-haiku",
   // Google Lineup
+  "gemini-3-5-flash-vs-gemini-2-5-flash",
   "gemini-3-1-pro-vs-gemini-2-5-pro",
   "gemini-2-5-pro-vs-gemini-2-5-flash",
   "gemini-2-5-flash-vs-gemini-2-0-flash",
   // Meta Lineup
+  "llama-4-scout-vs-llama-4-maverick",
   "llama-3-1-70b-vs-llama-3-1-8b",
   // Specialty
+  "mistral-medium-3-1-vs-gpt-4o-mini",
+  "mistral-medium-3-1-vs-mistral-large",
   "mistral-large-vs-mixtral-8x22b",
   "command-r-plus-vs-gpt-4o",
   "sonar-vs-gpt-4o-mini",
