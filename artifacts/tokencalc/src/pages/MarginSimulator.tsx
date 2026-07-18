@@ -529,6 +529,7 @@ export default function MarginSimulator() {
             <SeoFooter
               paragraph="LLM Margin is a free LLM margin calculator built for SaaS founders, indie hackers, and AI startup CTOs who need real answers about AI cost per user, gross margin, and breakeven MAU. Instead of spreadsheets and Reddit threads, plug your OpenAI, Anthropic, or open-source LLM pricing into the SaaS margin simulator and get cost-per-user, power-user risk, and monthly burn in one view. If you're pricing an AI product or defending margin to investors, this is the fastest way to stress-test the model."
               links={[
+                { href: "/llm-pricing", anchor: "LLM API pricing table — all models" },
                 { href: "/cost-per-user", anchor: "LLM cost per user calculator" },
                 { href: "/budget-planner", anchor: "AI budget planner for founders" },
               ]}

@@ -7,6 +7,7 @@ export const STATIC_ROUTES = [
   "/cost-per-user",
   "/budget-planner",
   "/pricing",
+  "/llm-pricing",
   "/terms",
   "/privacy",
   "/contact",

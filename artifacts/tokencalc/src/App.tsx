@@ -21,6 +21,7 @@ const BlogCostPerUser = lazy(() => import("@/pages/BlogCostPerUser"));
 const BlogBudgetPlanning = lazy(() => import("@/pages/BlogBudgetPlanning"));
 const CompareIndex = lazy(() => import("@/pages/CompareIndex"));
 const ComparePage = lazy(() => import("@/pages/ComparePage"));
+const LlmPricingPage = lazy(() => import("@/pages/LlmPricingPage"));
 const SignInPage = lazy(() => import("@/pages/SignInPage"));
 const SignUpPage = lazy(() => import("@/pages/SignUpPage"));
 const AccountPage = lazy(() => import("@/pages/AccountPage"));
@@ -53,6 +54,7 @@ function Router() {
             <Route path="/blog" component={Blog} />
             <Route path="/blog/how-to-calculate-llm-cost-per-user" component={BlogCostPerUser} />
             <Route path="/blog/ai-api-budget-planning-for-startups" component={BlogBudgetPlanning} />
+            <Route path="/llm-pricing" component={LlmPricingPage} />
             <Route path="/compare" component={CompareIndex} />
             <Route path="/compare/:slug" component={ComparePage} />
             <Route path="/sign-in" component={SignInPage} />

@@ -18,6 +18,7 @@ import { calcCallCost, formatUSD } from "@/lib/calculator";
 import {
   pairFromSlug,
   pairsRelatedTo,
+  PAIR_META,
   type ComparePair,
 } from "@/lib/comparePairs";
 import { SeoFooter } from "@/components/SeoFooter";
@@ -125,9 +126,11 @@ function PairView({ pair }: PairViewProps) {
       : { name: b.name, saved: cpauA - cpauB, savedAtMau: (cpauA - cpauB) * mau };
 
   const related = pairsRelatedTo(pair);
+  const pairMeta = PAIR_META[pair.slug];
 
-  const titleStr = `${a.name} vs ${b.name}: Token Pricing & Cost Compared (2026)`;
+  const titleStr = `${a.name} vs ${b.name}: Token Pricing & Cost Compared (July 2026)`;
   const descStr = `Side-by-side ${a.name} vs ${b.name} pricing — input, output, total monthly cost at any MAU. Live OpenRouter prices for ${pair.a.provider} and ${pair.b.provider}.`;
+  const metaDesc = pairMeta?.description ?? descStr;
   const keywordsStr = `${a.name} vs ${b.name}, ${a.name} pricing, ${b.name} pricing, ${a.name} cost, ${b.name} cost, ${pair.a.provider} vs ${pair.b.provider}, LLM price comparison`;
   const canonical = `https://llmmargin.com/compare/${pair.slug}`;
   const ogImage = "https://llmmargin.com/opengraph.jpg";
@@ -136,18 +139,18 @@ function PairView({ pair }: PairViewProps) {
   return (
     <div className="min-h-screen bg-background">
       <title>{`${titleStr} | LLM Margin`}</title>
-      <meta name="description" content={descStr} />
+      <meta name="description" content={metaDesc} />
       <meta name="keywords" content={keywordsStr} />
       <link rel="canonical" href={canonical} />
       <meta property="og:type" content="article" />
       <meta property="og:title" content={titleStr} />
-      <meta property="og:description" content={descStr} />
+      <meta property="og:description" content={metaDesc} />
       <meta property="og:url" content={canonical} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:site_name" content="LLM Margin" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={titleStr} />
-      <meta name="twitter:description" content={descStr} />
+      <meta name="twitter:description" content={metaDesc} />
       <meta name="twitter:image" content={ogImage} />
       <script
         type="application/ld+json"
@@ -157,7 +160,7 @@ function PairView({ pair }: PairViewProps) {
               "@context": "https://schema.org",
               "@type": "Article",
               headline: titleStr,
-              description: descStr,
+              description: metaDesc,
               datePublished: "2026-05-09",
               dateModified,
               author: { "@type": "Organization", name: "LLM Margin" },
@@ -182,6 +185,19 @@ function PairView({ pair }: PairViewProps) {
                 { "@type": "ListItem", position: 3, name: `${a.name} vs ${b.name}`, item: canonical },
               ],
             },
+            ...(pairMeta?.editorial?.faqs
+              ? [
+                  {
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    mainEntity: pairMeta.editorial.faqs.map(({ q, a: ans }) => ({
+                      "@type": "Question",
+                      name: q,
+                      acceptedAnswer: { "@type": "Answer", text: ans },
+                    })),
+                  },
+                ]
+              : []),
           ]),
         }}
       />
@@ -196,7 +212,7 @@ function PairView({ pair }: PairViewProps) {
               ← All comparisons
             </Link>
             <h1 className="text-3xl md:text-4xl font-bold mt-3 mb-3 leading-tight">
-              {a.name} vs {b.name}: token pricing &amp; cost compared
+              {a.name} vs {b.name}: token pricing &amp; cost compared (July 2026)
             </h1>
             <p className="text-base text-muted-foreground leading-relaxed max-w-3xl">
               How {a.name} ({pair.a.provider}) and {b.name} ({pair.b.provider})
@@ -460,6 +476,29 @@ function PairView({ pair }: PairViewProps) {
               </Link>
             </div>
           </div>
+
+          {/* Editorial + FAQ (pair-specific) */}
+          {pairMeta?.editorial && (
+            <div className="space-y-5">
+              <h2 className="text-xl font-bold">{pairMeta.editorial.heading}</h2>
+              {pairMeta.editorial.paragraphs.map((p, i) => (
+                <p key={i} className="text-sm leading-relaxed text-muted-foreground">
+                  {p}
+                </p>
+              ))}
+              {pairMeta.editorial.faqs.length > 0 && (
+                <div className="space-y-3 pt-2">
+                  <h3 className="font-semibold">Frequently asked questions</h3>
+                  {pairMeta.editorial.faqs.map(({ q, a: ans }) => (
+                    <div key={q} className="bg-card border rounded-xl p-4">
+                      <p className="font-medium text-sm mb-1.5">{q}</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{ans}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Related comparisons */}
           {related.length > 0 && (

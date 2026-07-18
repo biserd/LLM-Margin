@@ -201,3 +201,49 @@ export const PAIRS_BY_CATEGORY = COMPARE_PAIRS.reduce<Record<string, ComparePair
   },
   {},
 );
+
+export interface PairMeta {
+  description: string;
+  editorial?: {
+    heading: string;
+    paragraphs: string[];
+    faqs: Array<{ q: string; a: string }>;
+  };
+}
+
+export const PAIR_META: Record<string, PairMeta> = {
+  "gpt-4o-mini-vs-claude-haiku-4-5": {
+    description:
+      "GPT-4o mini vs Claude Haiku 4.5: exact input/output token prices, real cost per 1K calls, and monthly bill at any MAU. Which budget model is actually cheaper for your 2026 workload?",
+    editorial: {
+      heading: "GPT-4o mini vs Claude Haiku 4.5: the definitive budget-model comparison",
+      paragraphs: [
+        "GPT-4o mini and Claude Haiku 4.5 are the flagship budget models from OpenAI and Anthropic respectively — and the most-searched comparison for teams trying to keep API spend under control. Both deliver strong capability at a fraction of frontier model prices, but which one is cheaper depends on your input/output token ratio, not the headline number.",
+        "Output-heavy workloads (chat, code generation, summarisation) are governed by the output token price. Input-heavy workloads (RAG retrieval, classification, document analysis) are governed by the input token price. Most teams find the cheaper model is the one that matches their workload shape — use the calculator above with your real token counts to get a definitive answer.",
+        "Claude Haiku 4.5 is Anthropic's fastest, cheapest model and responds best to explicit XML-tagged system prompts. Its 200K context window (vs GPT-4o mini's 128K) can eliminate chunking overhead for long-document tasks. GPT-4o mini benefits from OpenAI's scale and broad ecosystem — it's the default pick for teams already on the OpenAI stack who want to cut costs without migrating.",
+      ],
+      faqs: [
+        {
+          q: "Is GPT-4o mini cheaper than Claude Haiku 4.5?",
+          a: "It depends on your token ratio. GPT-4o mini is priced at $0.15 per million input tokens and $0.60 per million output tokens via OpenRouter. Claude Haiku 4.5 is in a similar band. Plug your actual avg input/output tokens per call into the calculator above to get an exact monthly figure for your usage.",
+        },
+        {
+          q: "Which model is better for RAG and document processing?",
+          a: "RAG pipelines are input-heavy — you're stuffing context windows with retrieved chunks and getting short structured responses back. Compare input token prices first, then factor in context window limits. Claude Haiku 4.5's 200K context window can reduce the number of chunked calls needed on long documents, which may offset a higher per-token price.",
+        },
+        {
+          q: "Can I use Claude Haiku 4.5 as a drop-in for GPT-4o mini?",
+          a: "For most classification, routing, and summarisation tasks — yes, with prompt adjustments. Anthropic models respond better to explicit XML-tagged system prompts (e.g. <task>, <context>). For function calling and JSON output, both models perform comparably. Expect a 1–2 day prompt-tuning pass to fully leverage Haiku 4.5.",
+        },
+        {
+          q: "What's the context window difference?",
+          a: "GPT-4o mini supports up to 128K context tokens. Claude Haiku 4.5 supports up to 200K. For very long documents, Haiku 4.5's larger window can eliminate chunking entirely — which reduces call count, latency, and often total cost even at a similar per-token price.",
+        },
+        {
+          q: "Which model has lower latency?",
+          a: "Both are optimised for low-latency inference. GPT-4o mini benefits from OpenAI's globally distributed infrastructure. Claude Haiku 4.5 is Anthropic's fastest tier. Actual latency depends on region, prompt size, and time of day — benchmark both with your specific prompt template before committing.",
+        },
+      ],
+    },
+  },
+};
