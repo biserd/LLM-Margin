@@ -1,6 +1,7 @@
 import http from "node:http";
 import path from "node:path";
 import fs from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import handler from "serve-handler";
@@ -10,6 +11,14 @@ import { ALL_ROUTES } from "./seo-routes.mjs";
 function resolveChromium() {
   if (process.env.PUPPETEER_EXECUTABLE_PATH) {
     return process.env.PUPPETEER_EXECUTABLE_PATH;
+  }
+  if (process.platform === "win32") {
+    const candidates = [
+      path.join(process.env.ProgramFiles || "C:\\Program Files", "Google", "Chrome", "Application", "chrome.exe"),
+      path.join(process.env["ProgramFiles(x86)"] || "C:\\Program Files (x86)", "Google", "Chrome", "Application", "chrome.exe"),
+      path.join(process.env.LOCALAPPDATA || "", "Google", "Chrome", "Application", "chrome.exe"),
+    ];
+    return candidates.find((candidate) => candidate && existsSync(candidate));
   }
   try {
     const found = execSync("command -v chromium || command -v chromium-browser || command -v google-chrome", {
@@ -75,9 +84,18 @@ async function main() {
       const url = `${origin}${basePath}${route}`;
       const page = await browser.newPage();
       await page.setViewport({ width: 1280, height: 800 });
+      await page.setRequestInterception(true);
+      page.on("request", async (interceptedRequest) => {
+        const requestUrl = new URL(interceptedRequest.url());
+        if (requestUrl.origin === origin) {
+          await interceptedRequest.continue();
+        } else {
+          await interceptedRequest.abort();
+        }
+      });
 
       try {
-        await page.goto(url, { waitUntil: "networkidle0", timeout: 30000 });
+        await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
         // Wait for actual page content inside the lazy-loaded route, not just
         // the <main> shell (which renders before the Suspense fallback resolves).
         await page.waitForSelector("main h1", { timeout: 15000 });
