@@ -282,31 +282,18 @@ async function checkRateLimit(
 }
 
 async function sendOtpEmail(env: Env, to: string, code: string): Promise<void> {
-  if (!env.RESEND_API_KEY) {
-    throw new Error("RESEND_API_KEY is not configured");
-  }
   const text =
     `Your LLM Margin sign-in code is: ${code}\n\n` +
     "This code expires in 10 minutes. If you didn't request it, you can safely ignore this email.";
   const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:480px;margin:0 auto;padding:24px"><h2 style="color:#0f172a;margin:0 0 16px">Your sign-in code</h2><p style="color:#475569;font-size:14px;margin:0 0 24px">Enter this code in the LLM Margin sign-in page. It expires in 10 minutes.</p><div style="font-size:32px;font-weight:700;letter-spacing:8px;padding:16px 24px;background:#f1f5f9;color:#0f172a;border-radius:8px;text-align:center">${code}</div><p style="color:#94a3b8;font-size:12px;margin:24px 0 0">If you didn't request this code, you can safely ignore this email.</p></div>`;
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: env.EMAIL_FROM,
-      to: [to],
-      subject: "Your LLM Margin sign-in code",
-      text,
-      html,
-    }),
+  await env.EMAIL.send({
+    from: { email: env.EMAIL_FROM, name: "LLM Margin" },
+    to,
+    subject: "Your LLM Margin sign-in code",
+    text,
+    html,
   });
-  if (!response.ok) {
-    throw new Error(`Resend returned HTTP ${response.status}`);
-  }
 }
 
 function stripeClient(env: Env): Stripe {

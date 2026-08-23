@@ -5,7 +5,7 @@ LLM Margin runs as one Cloudflare Worker:
 - the Vite/React site is served with Workers Static Assets;
 - `/api/*` requests are handled by the Worker;
 - users, one-time codes, and rate limits are stored in D1;
-- email is sent through the Resend HTTP API;
+- one-time sign-in codes are sent through Cloudflare Email Sending;
 - subscriptions are managed through Stripe's HTTP API.
 
 No continuously running Node.js server or PostgreSQL service is required.
@@ -24,14 +24,13 @@ Create a D1 database named `llm-margin`, then copy the returned database ID into
 pnpm exec wrangler d1 create llm-margin
 ```
 
-Configure these encrypted Worker secrets. Preserve the existing production values during migration so current sessions, email delivery, and Stripe webhook verification continue to work:
+Configure these encrypted Worker secrets. Preserve the existing production values during migration so current sessions and Stripe webhook verification continue to work:
 
 - `SESSION_SECRET`
-- `RESEND_API_KEY`
 - `STRIPE_SECRET_KEY`
 - `STRIPE_WEBHOOK_SECRET`
 
-The non-secret values `APP_BASE_URL` and `EMAIL_FROM` are defined in `wrangler.jsonc`.
+The native Cloudflare Email Sending binding and the non-secret values `APP_BASE_URL` and `EMAIL_FROM` are defined in `wrangler.jsonc`.
 
 ## Local development
 

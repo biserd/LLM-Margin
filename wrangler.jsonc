@@ -25,9 +25,16 @@
       "migrations_dir": "./migrations"
     }
   ],
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "allowed_sender_addresses": ["noreply@llmmargin.com"],
+      "remote": true
+    }
+  ],
   "vars": {
     "APP_BASE_URL": "https://llmmargin.com",
-    "EMAIL_FROM": "LLM Margin <noreply@llmmargin.com>"
+    "EMAIL_FROM": "noreply@llmmargin.com"
   },
   "observability": {
     "enabled": true,

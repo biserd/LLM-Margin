@@ -1,4 +1,3 @@
 SESSION_SECRET=replace-with-a-long-random-value
-RESEND_API_KEY=re_replace_me
 STRIPE_SECRET_KEY=sk_test_replace_me
 STRIPE_WEBHOOK_SECRET=whsec_replace_me
