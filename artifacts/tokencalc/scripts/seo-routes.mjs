@@ -15,6 +15,18 @@ export const STATIC_ROUTES = [
   "/blog/how-to-calculate-llm-cost-per-user",
   "/blog/ai-api-budget-planning-for-startups",
   "/compare",
+  "/tools",
+];
+
+export const ACQUISITION_TOOL_SLUGS = [
+  "ai-saas-power-user-calculator",
+  "ai-credits-pricing-calculator",
+  "llm-usage-limit-calculator",
+  "llm-fallback-chain-cost-calculator",
+  "llm-conversation-context-cost-calculator",
+  "prompt-caching-break-even-calculator",
+  "ai-feature-profitability-calculator",
+  "llm-price-change-impact-calculator",
 ];
 
 export const COMPARE_PAIR_SLUGS = [
@@ -121,5 +133,6 @@ export const COMPARE_PAIR_SLUGS = [
 ];
 
 export const COMPARE_ROUTES = COMPARE_PAIR_SLUGS.map((s) => `/compare/${s}`);
+export const ACQUISITION_TOOL_ROUTES = ACQUISITION_TOOL_SLUGS.map((s) => `/tools/${s}`);
 
-export const ALL_ROUTES = [...STATIC_ROUTES, ...COMPARE_ROUTES];
+export const ALL_ROUTES = [...STATIC_ROUTES, ...ACQUISITION_TOOL_ROUTES, ...COMPARE_ROUTES];

@@ -102,6 +102,45 @@ async function main() {
         // Give React a tick to flush title/meta hoisting and any final renders.
         await new Promise((r) => setTimeout(r, 350));
 
+        // React hoists route metadata into <head> but the Vite shell already
+        // contains defaults. Keep the route's final value for each SEO field
+        // so crawlers never see a stale homepage canonical or description.
+        await page.evaluate(() => {
+          const titles = [...document.head.querySelectorAll("title")];
+          const canonicals = [...document.head.querySelectorAll('link[rel="canonical"]')];
+          const canonicalHref = canonicals.at(-1)?.getAttribute("href") ?? "";
+          const isHomepage = canonicalHref === "https://llmmargin.com/";
+          const defaultTitle = "LLM Margin Calculator for SaaS Founders | LLM Margin";
+          let preferredTitle = titles.find((node) => {
+            const text = node.textContent?.trim();
+            return text && (isHomepage || text !== defaultTitle);
+          });
+          if (!preferredTitle) {
+            const routeOgTitle = [...document.head.querySelectorAll('meta[property="og:title"]')]
+              .at(-1)
+              ?.getAttribute("content");
+            preferredTitle = titles.find((node) => node.textContent?.trim()) ?? document.createElement("title");
+            if (routeOgTitle) preferredTitle.textContent = routeOgTitle;
+            if (!preferredTitle.isConnected) document.head.append(preferredTitle);
+          }
+          titles.forEach((node) => {
+            if (node !== preferredTitle) node.remove();
+          });
+
+          canonicals.slice(0, -1).forEach((node) => node.remove());
+
+          const metadata = [...document.head.querySelectorAll("meta[name], meta[property]")];
+          const latest = new Map();
+          for (const node of metadata) {
+            const key = node.getAttribute("name") ?? node.getAttribute("property");
+            if (key) latest.set(key, node);
+          }
+          for (const node of metadata) {
+            const key = node.getAttribute("name") ?? node.getAttribute("property");
+            if (key && latest.get(key) !== node) node.remove();
+          }
+        });
+
         const html = await page.content();
 
         const outDir =
