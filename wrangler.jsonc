@@ -3,7 +3,7 @@
   "name": "llm-margin",
   "main": "./artifacts/api-server/src/worker.ts",
   "compatibility_date": "2026-08-23",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": true,
   "preview_urls": true,
   "routes": [
@@ -15,7 +15,7 @@
     "binding": "ASSETS",
     "html_handling": "drop-trailing-slash",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": true
   },
   "d1_databases": [
     {
@@ -25,6 +25,7 @@
       "migrations_dir": "./migrations"
     }
   ],
+  "kv_namespaces": [{ "binding": "OAUTH_KV", "id": "14fd2a24101c4c8ab2337d17e2745467" }],
   "send_email": [
     {
       "name": "EMAIL",

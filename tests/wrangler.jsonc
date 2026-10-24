@@ -1,0 +1,10 @@
+{
+  "name": "llm-margin-local-tests",
+  "main": "../artifacts/api-server/src/worker.ts",
+  "compatibility_date": "2026-08-23",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": "../artifacts/tokencalc/dist/public", "binding": "ASSETS", "not_found_handling": "single-page-application", "run_worker_first": true },
+  "d1_databases": [{ "binding": "DB", "database_name": "llm-margin-local-tests", "database_id": "00000000-0000-0000-0000-000000000001", "migrations_dir": "../migrations" }],
+  "kv_namespaces": [{ "binding": "OAUTH_KV", "id": "00000000000000000000000000000001" }],
+  "vars": { "APP_BASE_URL": "http://localhost:8788", "EMAIL_FROM": "test@example.invalid", "SESSION_SECRET": "local-test-session-secret-not-for-production", "STRIPE_SECRET_KEY": "sk_test_not_a_real_key", "STRIPE_WEBHOOK_SECRET": "whsec_local_test_only" }
+}

@@ -35,6 +35,8 @@ node_modules
 /.env
 /.env.*
 /.wrangler
+**/.wrangler/
+tests/screenshots/
 /work/
 /libpeerconnection.log
 npm-debug.log

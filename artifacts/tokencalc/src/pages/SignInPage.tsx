@@ -15,7 +15,7 @@ function getQuery() {
     return { next: "/account", prefilledEmail: "", upgraded: false };
   const params = new URLSearchParams(window.location.search);
   return {
-    next: params.get("next") || "/account",
+    next: /^\/(?!\/)[^\\]*$/.test(params.get("next") || "") ? params.get("next")! : "/account",
     prefilledEmail: params.get("email") || "",
     upgraded: params.get("upgraded") === "1",
   };
@@ -40,7 +40,9 @@ export default function SignInPage() {
 
   useEffect(() => {
     if (!user) return;
-    setLocation(initial.next, { replace: true });
+    // Authorization is a server endpoint, not an SPA route.
+    if (initial.next.startsWith("/authorize?")) window.location.replace(initial.next);
+    else setLocation(initial.next, { replace: true });
   }, [user, setLocation, initial.next]);
 
   async function handleEmailSubmit(e: React.FormEvent) {

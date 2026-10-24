@@ -10,6 +10,9 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { AuthProvider } from "@/lib/auth";
 
 const MarginSimulator = lazy(() => import("@/pages/MarginSimulator"));
+const QuoteHome = lazy(() => import("@/pages/QuoteHome"));
+const QuoteBuilder = lazy(() => import("@/pages/QuoteBuilder"));
+const AgentsPage = lazy(() => import("@/pages/AgentsPage"));
 const CostPerUser = lazy(() => import("@/pages/CostPerUser"));
 const BudgetPlanner = lazy(() => import("@/pages/BudgetPlanner"));
 const Pricing = lazy(() => import("@/pages/Pricing"));
@@ -46,7 +49,11 @@ function Router() {
       <main className="flex-1">
         <Suspense fallback={<LoadingSpinner />}>
           <Switch>
-            <Route path="/" component={MarginSimulator} />
+            <Route path="/" component={QuoteHome} />
+            <Route path="/margin-calculator" component={MarginSimulator} />
+            <Route path="/ai-service-pricing-calculator" component={QuoteBuilder} />
+            <Route path="/quote/:id" component={QuoteBuilder} />
+            <Route path="/agents" component={AgentsPage} />
             <Route path="/cost-per-user" component={CostPerUser} />
             <Route path="/budget-planner" component={BudgetPlanner} />
             <Route path="/pricing" component={Pricing} />

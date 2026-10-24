@@ -12,14 +12,15 @@ export function Footer() {
               LLM Margin
             </Link>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Honest unit economics for AI-powered SaaS founders.
+              Clear pricing and client quotes for AI freelancers and small agencies.
             </p>
           </div>
 
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">Tools</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Margin Simulator</Link></li>
+              <li><Link href="/ai-service-pricing-calculator" className="text-muted-foreground hover:text-primary transition-colors">AI Service Quote Builder</Link></li>
+              <li><Link href="/margin-calculator" className="text-muted-foreground hover:text-primary transition-colors">Margin Simulator</Link></li>
               <li><Link href="/cost-per-user" className="text-muted-foreground hover:text-primary transition-colors">Cost Per User</Link></li>
               <li><Link href="/budget-planner" className="text-muted-foreground hover:text-primary transition-colors">Budget Planner</Link></li>
               <li><Link href="/tools" className="text-muted-foreground hover:text-primary transition-colors">Free AI SaaS Tools</Link></li>
@@ -40,6 +41,7 @@ export function Footer() {
             <h4 className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">Product</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
+              <li><Link href="/agents" className="text-muted-foreground hover:text-primary transition-colors">API & Agent Integrations</Link></li>
               <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact us</Link></li>
             </ul>
           </div>

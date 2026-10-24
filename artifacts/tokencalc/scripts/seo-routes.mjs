@@ -4,6 +4,9 @@
 
 export const STATIC_ROUTES = [
   "/",
+  "/margin-calculator",
+  "/ai-service-pricing-calculator",
+  "/agents",
   "/cost-per-user",
   "/budget-planner",
   "/pricing",

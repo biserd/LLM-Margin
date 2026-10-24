@@ -1,7 +1,15 @@
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 Disallow: /sign-in
 Disallow: /sign-up
 Disallow: /account
+Disallow: /quote/
+Disallow: /api/quotes
+Disallow: /api/auth
+Disallow: /api/stripe
+Disallow: /agent/
+Disallow: /authorize
+Disallow: /oauth/
 
 Sitemap: https://llmmargin.com/sitemap.xml

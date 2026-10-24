@@ -110,7 +110,7 @@ async function main() {
           const canonicals = [...document.head.querySelectorAll('link[rel="canonical"]')];
           const canonicalHref = canonicals.at(-1)?.getAttribute("href") ?? "";
           const isHomepage = canonicalHref === "https://llmmargin.com/";
-          const defaultTitle = "LLM Margin Calculator for SaaS Founders | LLM Margin";
+          const defaultTitle = "Price Your AI Service. Send a Better Client Quote. | LLM Margin";
           let preferredTitle = titles.find((node) => {
             const text = node.textContent?.trim();
             return text && (isHomepage || text !== defaultTitle);
@@ -150,6 +150,25 @@ async function main() {
         await fs.mkdir(outDir, { recursive: true });
         const outFile = path.join(outDir, "index.html");
         await fs.writeFile(outFile, html, "utf8");
+        const markdown = await page.evaluate(() => {
+          function render(node) {
+            if (node.nodeType === Node.TEXT_NODE) return node.textContent || "";
+            if (!(node instanceof Element)) return "";
+            const tag = node.tagName.toLowerCase();
+            if (["script","style","button","input","select","textarea","svg"].includes(tag)) return "";
+            const text = [...node.childNodes].map(render).join("");
+            if (/^h[1-6]$/.test(tag)) return `\n\n${"#".repeat(Number(tag[1]))} ${text.trim()}\n\n`;
+            if (tag === "a") {
+              const href = node.getAttribute("href");
+              if (href && !href.startsWith("#")) return `[${text.trim()}](${new URL(href,"https://llmmargin.com").href})`;
+            }
+            if (tag === "li") return `\n- ${text.trim()}`;
+            if (["p","section","article","div","fieldset","pre","dl","tr"].includes(tag)) return `\n\n${text.trim()}\n\n`;
+            return text;
+          }
+          return render(document.querySelector("main")).replace(/\n{3,}/g,"\n\n").trim() + "\n";
+        });
+        await fs.writeFile(path.join(outDir,"index.md"),markdown,"utf8");
         console.log(
           `[prerender] ${route.padEnd(20)} → ${path.relative(distDir, outFile)}`,
         );

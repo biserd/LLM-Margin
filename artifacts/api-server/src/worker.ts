@@ -1,4 +1,8 @@
 import Stripe from "stripe";
+import { fulfillQuote, routeQuotes, validatedInput } from "./worker/quotes";
+import { calculateQuote } from "./worker/quote-model";
+import { authorize, handleA2a, handleMcp, limitRequests, withOAuth } from "./worker/agents";
+import { discovery, discoveryLinks, prefersMarkdown } from "./worker/discovery";
 
 const SESSION_COOKIE_NAME = "lm_session";
 const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000;
@@ -773,8 +777,10 @@ async function handleWebhook(request: Request, env: Env): Promise<Response> {
 
   try {
     switch (event.type) {
+      case "checkout.session.async_payment_succeeded":
       case "checkout.session.completed": {
         const checkout = event.data.object;
+        if (await fulfillQuote(env, checkout)) break;
         if (!checkout.subscription) break;
         const subscriptionId =
           typeof checkout.subscription === "string"
@@ -826,6 +832,25 @@ async function handleWebhook(request: Request, env: Env): Promise<Response> {
         await applySubscription(env, subscription);
         break;
       }
+      case "charge.refunded": {
+        const charge = event.data.object;
+        if (charge.refunded && charge.payment_intent) {
+          const intent = typeof charge.payment_intent === "string" ? charge.payment_intent : charge.payment_intent.id;
+          const reversedAt = new Date().toISOString();
+          await env.DB.batch([
+            env.DB.prepare("INSERT INTO quote_payment_reversals (payment_intent_id,reversed_at) VALUES (?,?) ON CONFLICT(payment_intent_id) DO NOTHING").bind(intent,reversedAt),
+            env.DB.prepare("UPDATE quote_purchases SET revoked_at = ? WHERE payment_intent_id = ?").bind(reversedAt, intent),
+          ]);
+        }
+        break;
+      }
+      case "checkout.session.async_payment_failed": {
+        const checkout = event.data.object;
+        if (checkout.metadata?.product === "quote_export_v1") {
+          await env.DB.prepare("UPDATE quote_checkout_attempts SET checkout_session_id = NULL, expires_at = 0 WHERE quote_id = ? AND checkout_session_id = ?").bind(checkout.metadata.quoteId,checkout.id).run();
+        }
+        break;
+      }
       case "customer.subscription.created":
       case "customer.subscription.updated":
         await applySubscription(env, event.data.object);
@@ -853,6 +878,33 @@ async function routeApi(
 ): Promise<Response> {
   const { pathname } = new URL(request.url);
   const method = request.method.toUpperCase();
+
+  if (!["GET", "HEAD", "OPTIONS"].includes(method) && pathname !== "/api/stripe/webhook") {
+    const origin = request.headers.get("Origin");
+    if (origin && origin !== new URL(request.url).origin) throw new HttpError(403, "Cross-origin requests are not allowed.");
+    if (!request.headers.get("content-type")?.includes("application/json")) throw new HttpError(415, "Use application/json.");
+  }
+  if (pathname === "/api/estimate" && method === "POST") {
+    await limitRequests(env, `public-agent:${request.headers.get("cf-connecting-ip") || "local"}`);
+    return json(calculateQuote(validatedInput(await readSmallJson(request))));
+  }
+  if (pathname === "/api/agent-connections") {
+    const session = await getSession(request,env);
+    if (!session) throw new HttpError(401,"Sign in to manage connections.");
+    if (method === "GET") return json(await env.OAUTH_PROVIDER.listUserGrants(session.userId,{limit:100}));
+    if (method === "POST") {
+      const { grantId } = await readSmallJson(request);
+      if (typeof grantId !== "string" || grantId.length > 256) throw new HttpError(400,"Invalid grant.");
+      await env.OAUTH_PROVIDER.revokeGrant(grantId,session.userId);
+      return json({revoked:true});
+    }
+    throw new HttpError(405,"Method not allowed.");
+  }
+  if (pathname === "/api/quotes" || pathname.startsWith("/api/quotes/")) {
+    const session = await getSession(request, env);
+    if (!session) throw new HttpError(401, "Sign in to access saved quotes.");
+    return routeQuotes(request, env, session.userId);
+  }
 
   if (method === "OPTIONS") {
     return new Response(null, {
@@ -895,25 +947,67 @@ async function routeApi(
   return json({ error: "Not found" }, 404);
 }
 
-export default {
+const application = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
-    if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
+    if (url.pathname === "/authorize") return authorize(request,env);
+    const metadata = await discovery(request,env);
+    if (metadata) return metadata;
+    if (url.pathname === "/mcp" || url.pathname === "/a2a") {
+      await limitRequests(env,`public-agent:${request.headers.get("cf-connecting-ip") || "local"}`);
+      return url.pathname === "/mcp" ? handleMcp(request,env) : handleA2a(request);
+    }
+    if (url.pathname.startsWith("/api/")) return routeApi(request, env, ctx);
+    if (url.pathname.startsWith("/.well-known/") || url.pathname.startsWith("/oauth/")) return json({error:"Not found"},404);
+    // Keep existing shared calculator URLs working after the homepage pivot.
+    if (url.pathname === "/" && ["arpu","mau","calls","fixedCosts"].some(key=>url.searchParams.has(key))) return Response.redirect(`${url.origin}/margin-calculator${url.search}`,301);
+    const privatePage = /^\/(quote\/|account|sign-in|sign-up)/.test(url.pathname);
+    const wantsMarkdown = !privatePage && prefersMarkdown(request.headers.get("Accept") ?? "");
+    if (wantsMarkdown && !/\.[a-z0-9]+$/i.test(url.pathname)) {
+      const mdUrl = new URL(request.url);
+      mdUrl.pathname = `${url.pathname.replace(/\/$/,"")}/index.md`;
+      const markdown = await env.ASSETS.fetch(new Request(mdUrl,{method:request.method}));
+      if (markdown.ok && !markdown.headers.get("Content-Type")?.includes("text/html")) {
+        const headers = new Headers(markdown.headers); headers.set("Content-Type","text/markdown; charset=utf-8"); headers.set("Vary","Accept");
+        return new Response(markdown.body,{status:markdown.status,headers});
+      }
+      return json({error:"No public Markdown representation exists for this page."},404);
+    }
+    const asset = await env.ASSETS.fetch(request);
+    const headers = new Headers(asset.headers);
+    if (headers.get("Content-Type")?.includes("text/html")) headers.set("Vary","Accept");
+    if (privatePage) { headers.set("Cache-Control","no-store"); headers.set("X-Robots-Tag","noindex, nofollow"); }
+    // Missing Markdown files must never become a 200 HTML SPA fallback.
+    if (url.pathname.endsWith(".md") && headers.get("Content-Type")?.includes("text/html")) return json({error:"Not found"},404);
+    if (url.pathname.endsWith(".md") && asset.ok) headers.set("Content-Type","text/markdown; charset=utf-8");
+    return new Response(asset.body,{status:asset.status,headers});
+  },
+} satisfies ExportedHandler<Env>;
 
+const oauthApplication = withOAuth(application);
+export default {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext) {
     try {
-      return await routeApi(request, env, ctx);
-    } catch (error) {
+      const requestPath = new URL(request.url).pathname;
+      if (requestPath === "/oauth/register") await limitRequests(env,`oauth-register:${request.headers.get("cf-connecting-ip") || "local"}`,10);
+      const provider = env.APP_BASE_URL === "https://llmmargin.com" ? oauthApplication : withOAuth(application,appBaseUrl(env));
+      // The provider owns path-specific RFC 9728 discovery and returns 404 for
+      // its root alias. Publish that alias before handing over OAuth routes.
+      const rootMetadata = requestPath === "/.well-known/oauth-protected-resource" ? await discovery(request,env) : null;
+      const result = rootMetadata ?? await provider.fetch(request,env,ctx);
+      const headers = new Headers(result.headers);
+      headers.append("Link",discoveryLinks);
+      headers.set("X-Content-Type-Options","nosniff");
+      headers.set("Referrer-Policy","strict-origin-when-cross-origin");
+      if (headers.get("Content-Type")?.includes("text/html") && !headers.has("Content-Security-Policy")) headers.set("Content-Security-Policy","frame-ancestors 'none'; base-uri 'self'; object-src 'none'");
+      if (!/^\/(agent\/|api\/|quote\/|account|sign-in|sign-up|authorize|oauth\/)/.test(requestPath)) headers.set("Content-Signal","search=yes, ai-input=yes, ai-train=no");
+      return new Response(request.method === "HEAD" ? null : result.body,{status:result.status,headers});
+    } catch(error) {
       const status = error instanceof HttpError ? error.status : 500;
-      log(status >= 500 ? "error" : "warn", "API request failed", {
-        error: errorMessage(error),
-        method: request.method,
-        path: url.pathname,
-        status,
-      });
-      return json(
-        { error: error instanceof HttpError ? error.message : "Internal server error" },
-        status,
-      );
+      log(status >= 500 ? "error":"warn","Request failed",{error:errorMessage(error),path:new URL(request.url).pathname,status});
+      return json({error:error instanceof HttpError ? error.message:"Internal server error"},status,status===429?{"Retry-After":"60"}:undefined);
     }
   },
 } satisfies ExportedHandler<Env>;
+
+export { HttpError, json, readSmallJson, getSession, loadUser, stripeClient, appBaseUrl };

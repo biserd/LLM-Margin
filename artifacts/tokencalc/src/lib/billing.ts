@@ -29,6 +29,7 @@ export async function startCheckout(lookupKey: LookupKey): Promise<void> {
 export async function openBillingPortal(): Promise<void> {
   const res = await fetch(apiUrl("/stripe/portal"), {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     credentials: "include",
   });
   if (!res.ok) {

@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { openBillingPortal } from "@/lib/billing";
+import { SavedQuotes } from "@/components/SavedQuotes";
 
 function formatDate(iso?: string | null): string | null {
   if (!iso) return null;
@@ -158,6 +159,7 @@ export default function AccountPage() {
           Sign out
         </Button>
       </div>
+      <SavedQuotes />
     </>
   );
 }

@@ -4,29 +4,31 @@ export default function Privacy() {
       <title>Privacy Policy — LLM Margin</title>
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <h1 className="text-3xl font-bold mb-2">Privacy Policy</h1>
-        <p className="text-sm text-muted-foreground mb-8">Last updated: April 21, 2026</p>
+        <p className="text-sm text-muted-foreground mb-8">Last updated: October 24, 2026</p>
 
         <div className="prose prose-sm dark:prose-invert max-w-none space-y-6 text-foreground">
           <section>
             <h2 className="text-xl font-semibold mb-2">The short version</h2>
             <p className="text-muted-foreground">
-              All calculator inputs stay in your browser. We do not have a backend that stores your scenarios on
-              the free tier. If you upgrade to Pro, we collect the minimum information required to provide a
-              subscription (email + Stripe customer ID). We do not sell your data, ever.
+              Browser calculations run locally. The quote builder can keep an unsaved draft in this browser tab’s
+              session storage. When you save a quote, its inputs, project scope, business and client names are stored
+              privately in your account on Cloudflare. Public API and agent estimates are processed on our server
+              but their inputs are not saved as quotes. We do not sell your data.
             </p>
           </section>
 
           <section>
             <h2 className="text-xl font-semibold mb-2">1. Information we collect</h2>
             <p className="text-muted-foreground mb-2">
-              <strong>From everyone:</strong> Anonymous, aggregated usage analytics (page views, button clicks,
-              referrer) so we can improve the product. No personally identifying information is attached to these
-              events.
+              <strong>Usage information:</strong> Google Analytics measures page views and product actions such as
+              saving a draft and opening checkout. We do not intentionally send quote contents, client names,
+              email addresses, or checkout query parameters in these events. Cloudflare processes request information
+              and operational logs for hosting, security, and rate limiting.
             </p>
             <p className="text-muted-foreground mb-2">
-              <strong>From Pro subscribers:</strong> Your email address, Stripe customer ID, subscription status,
-              and any scenarios you choose to save to your account. Payment details are handled exclusively by
-              Stripe — we never see your card information.
+              <strong>From account holders:</strong> Your email address, sign-in information, saved quotes, and
+              authorized agent connections. Purchases also record Stripe identifiers, payment status, and export
+              entitlement. Stripe handles payment card details; they are not stored in our database.
             </p>
             <p className="text-muted-foreground">
               <strong>From contact form submissions:</strong> Your name, email, and message content, used solely
@@ -58,9 +60,10 @@ export default function Privacy() {
           <section>
             <h2 className="text-xl font-semibold mb-2">4. Third-party services</h2>
             <p className="text-muted-foreground">
-              We use Stripe for payment processing, OpenRouter for live model pricing (we send no user data —
-              only public price requests), and a transactional email provider for receipts and updates. Each
-              maintains its own privacy policy.
+              We use Cloudflare Workers, D1, KV, and Email Sending for hosting, saved data, agent authorization,
+              and sign-in emails; Stripe for payments; Google Analytics for usage measurement; and OpenRouter for
+              public model pricing. Price requests do not include quote contents. Agents you explicitly authorize
+              can receive your quote data according to the approved scopes. Each service maintains its own privacy policy.
             </p>
           </section>
 
@@ -85,8 +88,9 @@ export default function Privacy() {
           <section>
             <h2 className="text-xl font-semibold mb-2">7. Cookies</h2>
             <p className="text-muted-foreground">
-              We use a minimal set of first-party cookies for session management and Pro authentication. We do
-              not use third-party tracking cookies.
+              First-party cookies maintain your sign-in and bind OAuth consent to your browser. Google Analytics
+              may use analytics cookies. The quote builder uses session storage for draft recovery. You can revoke
+              connected agents in your account and clear browser storage using your browser settings.
             </p>
           </section>
 

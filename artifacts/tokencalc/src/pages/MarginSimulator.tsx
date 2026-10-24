@@ -145,11 +145,11 @@ export default function MarginSimulator() {
     <div className="min-h-screen bg-background">
       <title>LLM Margin Calculator for SaaS Founders | LLM Margin</title>
       <meta name="description" content="Model gross margin, cost-per-user, and breakeven MAU for any AI product. Plug in your LLM pricing and see if your unit economics actually work. Free." />
-      <link rel="canonical" href="https://llmmargin.com/" />
+      <link rel="canonical" href="https://llmmargin.com/margin-calculator" />
       <meta property="og:type" content="website" />
       <meta property="og:title" content="Will your AI SaaS actually make money? Find out in 60 seconds." />
       <meta property="og:description" content="LLM Margin simulates gross margin and power-user risk for AI products. Built by founders, for founders staring at OpenAI invoices." />
-      <meta property="og:url" content="https://llmmargin.com/" />
+      <meta property="og:url" content="https://llmmargin.com/margin-calculator" />
       <meta property="og:image" content="https://llmmargin.com/opengraph.jpg" />
       <meta property="og:site_name" content="LLM Margin" />
       <meta name="twitter:card" content="summary_large_image" />
@@ -173,7 +173,7 @@ export default function MarginSimulator() {
               </li>
             ))}
           </ul>
-          <p className="text-xs text-muted-foreground italic">Used by 1,200+ SaaS founders to pressure-test AI unit economics before raising or repricing.</p>
+          <p className="text-xs text-muted-foreground italic">Pressure-test your AI unit economics before raising or repricing.</p>
         </div>
       </div>
 
@@ -518,7 +518,7 @@ export default function MarginSimulator() {
                 data-testid="button-export"
               >
                 <Lock className="w-4 h-4" />
-                Export PDF (Pro)
+                Print / Save as PDF
               </button>
             </div>
 

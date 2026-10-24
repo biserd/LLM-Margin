@@ -4,7 +4,7 @@ export default function Terms() {
       <title>Terms of Service — LLM Margin</title>
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <h1 className="text-3xl font-bold mb-2">Terms of Service</h1>
-        <p className="text-sm text-muted-foreground mb-8">Last updated: April 21, 2026</p>
+        <p className="text-sm text-muted-foreground mb-8">Last updated: October 24, 2026</p>
 
         <div className="prose prose-sm dark:prose-invert max-w-none space-y-6 text-foreground">
           <section>
@@ -18,9 +18,9 @@ export default function Terms() {
           <section>
             <h2 className="text-xl font-semibold mb-2">2. Description of service</h2>
             <p className="text-muted-foreground">
-              LLM Margin provides client-side calculators that estimate the cost and unit economics of running
-              LLM-powered SaaS products. All calculations are performed in your browser using publicly available
-              model pricing data. Results are estimates only and should not be relied upon as financial advice.
+              LLM Margin provides AI service pricing calculators, private quote drafts, client proposal exports,
+              and agent interfaces. Browser and server calculations use the supplied assumptions. Results are
+              estimates, not guaranteed prices or profits. Proposal exports are not signed contracts or professional advice.
             </p>
           </section>
 
@@ -35,11 +35,13 @@ export default function Terms() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mb-2">4. Pro subscriptions</h2>
+            <h2 className="text-xl font-semibold mb-2">4. Purchases and existing subscriptions</h2>
             <p className="text-muted-foreground">
-              Paid Pro subscriptions are billed monthly ($19/mo) or annually ($149/yr) via Stripe. You may cancel
-              at any time; you will retain access through the end of your billing period. After cancellation, saved
-              scenarios remain in read-only mode for 30 days, then become inaccessible until you resubscribe.
+              One quote export costs $29 USD, paid once through Stripe, and covers that saved quote and its revisions.
+              Free accounts may save up to 100 private drafts. Existing Pro subscriptions retain their agreed billing
+              terms and include quote export while active or trialing. You may cancel an existing subscription from
+              your account and retain paid access through its billing period. Drafts remain accessible without a subscription;
+              export requires an active entitlement. A fully refunded one-time purchase loses its export entitlement.
               Refunds are handled on a case-by-case basis — contact us within 14 days of purchase.
             </p>
           </section>
