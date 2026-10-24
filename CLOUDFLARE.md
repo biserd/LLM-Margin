@@ -65,6 +65,8 @@ node artifacts/tokencalc/scripts/audit-page.mjs https://llmmargin.com/ after-mob
 
 Lighthouse reports and browser screenshots are saved in ignored `tests/reports/` and `tests/screenshots/` directories. On 2026-10-24, all mobile/desktop/menu axe checks, no-JavaScript homepage checks, calculator checks, 16 local tests and 27 live response checks passed. Deployed version: `85e9d882-2cc5-418e-99a9-4871fe8e64e9`; rollback version: `37931e7f-5389-4b1c-b92b-10dd2160b87b`. No database migrations, DNS changes, or email changes were needed for this release.
 
+Two live Lighthouse 13.5 mobile runs passed the agent accessibility-tree audit and scored 100 accessibility. Performance was 72 and 74 (same-machine pre-change baseline: 58), FCP 1.23/1.10 seconds, LCP 1.65/1.40 seconds, CLS 0. Render-blocking and unused-CSS audits passed. Remaining limitations: Google Analytics accounts for the unused-JavaScript findings; measured main-thread blocking remains high (1.79/1.44 seconds), and the network dependency insight still lists the navigation/auth/font chain. These are lab measurements, not guarantees of PageSpeed scores or field Core Web Vitals.
+
 ## Requirements
 
 - Node.js 22 or newer
