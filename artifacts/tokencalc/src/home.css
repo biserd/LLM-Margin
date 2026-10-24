@@ -1,0 +1,6 @@
+@import "tailwindcss" source(none);
+@import "./theme.css";
+@source "./pages/QuoteHome.tsx";
+@source "./components/Navigation.tsx";
+@source "./components/Footer.tsx";
+@source "./components/ui/button.tsx";

@@ -31,17 +31,25 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4MN7655F74"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-4MN7655F74', { page_location: window.location.origin + window.location.pathname });
+      // Queue events immediately; load analytics after the critical render.
+      window.addEventListener('load', function () {
+        function loadAnalytics() {
+          var script = document.createElement('script');
+          script.async = true;
+          script.dataset.analyticsLoader = 'true';
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-4MN7655F74';
+          document.head.appendChild(script);
+        }
+        if ('requestIdleCallback' in window) window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
+        else window.setTimeout(loadAnalytics, 0);
+      }, { once: true });
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- JSON-LD: SoftwareApplication -->
     <script type="application/ld+json">

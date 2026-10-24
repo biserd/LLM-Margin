@@ -45,6 +45,26 @@ The test config is separate from production so it cannot load the root `.dev.var
 - Live quote checkout and the additional webhook event configuration remain **unverified**. The locally available Stripe key is a placeholder; the connected Stripe account has no LLM Margin webhook. Existing encrypted production Stripe credentials were preserved. Do not describe checkout as end-to-end verified or silently switch Stripe accounts.
 - Web Bot Auth is not applicable to the inbound-only estimator; no outbound crawler or signing-key claims are published. WebMCP remains browser-dependent.
 
+## Homepage accessibility and performance
+
+The homepage uses its prerendered HTML, inline route-specific Tailwind styles, a bundled Inter font with `font-display: optional`, and a 1.7 KB first-party navigation enhancement. Native links and the mobile details menu work without React or JavaScript. The calculator and other application routes still load the full React application; the small homepage entry also hands unknown/private SPA fallback paths to the real router. Signed-in homepage visitors get an Account link.
+
+Keep navigation CTAs as single anchors (`Button asChild`), with responsive visibility on the anchor itself. Hiding only a nested button leaves a nameless focusable link on mobile. Footer section headings are h2 elements.
+
+Prerendering must start every route from the original Vite shell, not from the already-generated homepage. Analytics events remain queued immediately; the Google tag loads after window load/idle. Its third-party unused-JavaScript warning may remain.
+
+Regression commands (start the isolated test Worker only after the build finishes):
+
+```shell
+node artifacts/tokencalc/scripts/home-accessibility-smoke.mjs
+node artifacts/tokencalc/scripts/quote-browser-smoke.mjs
+node --test tests/quote-model.test.mjs tests/integration.test.mjs
+node scripts/verify-public.mjs
+node artifacts/tokencalc/scripts/audit-page.mjs https://llmmargin.com/ after-mobile
+```
+
+Lighthouse reports and browser screenshots are saved in ignored `tests/reports/` and `tests/screenshots/` directories. On 2026-10-24, all mobile/desktop/menu axe checks, no-JavaScript homepage checks, calculator checks, 16 local tests and 27 live response checks passed. Deployed version: `85e9d882-2cc5-418e-99a9-4871fe8e64e9`; rollback version: `37931e7f-5389-4b1c-b92b-10dd2160b87b`. No database migrations, DNS changes, or email changes were needed for this release.
+
 ## Requirements
 
 - Node.js 22 or newer

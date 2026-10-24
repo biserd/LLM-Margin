@@ -17,7 +17,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">Tools</h4>
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">Tools</h2>
             <ul className="space-y-2 text-sm">
               <li><Link href="/ai-service-pricing-calculator" className="text-muted-foreground hover:text-primary transition-colors">AI Service Quote Builder</Link></li>
               <li><Link href="/margin-calculator" className="text-muted-foreground hover:text-primary transition-colors">Margin Simulator</Link></li>
@@ -29,7 +29,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">Learn</h4>
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">Learn</h2>
             <ul className="space-y-2 text-sm">
               <li><Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
               <li><Link href="/blog/how-to-calculate-llm-cost-per-user" className="text-muted-foreground hover:text-primary transition-colors">LLM cost per user</Link></li>
@@ -38,7 +38,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">Product</h4>
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">Product</h2>
             <ul className="space-y-2 text-sm">
               <li><Link href="/pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
               <li><Link href="/agents" className="text-muted-foreground hover:text-primary transition-colors">API & Agent Integrations</Link></li>
@@ -47,7 +47,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">Legal</h4>
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">Legal</h2>
             <ul className="space-y-2 text-sm">
               <li><Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link></li>
               <li><Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>

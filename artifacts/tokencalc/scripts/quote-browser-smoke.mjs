@@ -21,6 +21,7 @@ try {
   await page.screenshot({path:new URL("home-desktop.png",output).pathname.replace(/^\/([A-Z]:)/,"$1"),fullPage:true});
   await page.goto(base+"/ai-service-pricing-calculator",{waitUntil:"domcontentloaded"});
   await page.waitForSelector('[data-testid="quote-retainer"]');
+  await page.waitForFunction(()=>!!window.testTools?.estimate_ai_service);
   assert.match(await page.$eval('[data-testid="quote-retainer"]',el=>el.textContent),/1,500/);
   const tool=await page.evaluate(async()=>JSON.parse((await window.testTools.estimate_ai_service.execute({})).content[0].text));assert.equal(tool.minimumRetainer,1500);
   await page.$eval("#quote-platformCost",el=>{const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value").set;setter.call(el,"150");el.dispatchEvent(new Event("input",{bubbles:true}));});

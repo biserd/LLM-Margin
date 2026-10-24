@@ -14,17 +14,38 @@ function resolveChromium() {
   }
   if (process.platform === "win32") {
     const candidates = [
-      path.join(process.env.ProgramFiles || "C:\\Program Files", "Google", "Chrome", "Application", "chrome.exe"),
-      path.join(process.env["ProgramFiles(x86)"] || "C:\\Program Files (x86)", "Google", "Chrome", "Application", "chrome.exe"),
-      path.join(process.env.LOCALAPPDATA || "", "Google", "Chrome", "Application", "chrome.exe"),
+      path.join(
+        process.env.ProgramFiles || "C:\\Program Files",
+        "Google",
+        "Chrome",
+        "Application",
+        "chrome.exe",
+      ),
+      path.join(
+        process.env["ProgramFiles(x86)"] || "C:\\Program Files (x86)",
+        "Google",
+        "Chrome",
+        "Application",
+        "chrome.exe",
+      ),
+      path.join(
+        process.env.LOCALAPPDATA || "",
+        "Google",
+        "Chrome",
+        "Application",
+        "chrome.exe",
+      ),
     ];
     return candidates.find((candidate) => candidate && existsSync(candidate));
   }
   try {
-    const found = execSync("command -v chromium || command -v chromium-browser || command -v google-chrome", {
-      encoding: "utf8",
-      shell: "/bin/bash",
-    }).trim();
+    const found = execSync(
+      "command -v chromium || command -v chromium-browser || command -v google-chrome",
+      {
+        encoding: "utf8",
+        shell: "/bin/bash",
+      },
+    ).trim();
     if (found) return found;
   } catch {}
   return undefined;
@@ -38,13 +59,20 @@ const ROUTES = ALL_ROUTES;
 const rawBase = process.env.BASE_PATH || "/";
 const basePath = rawBase.endsWith("/") ? rawBase.slice(0, -1) : rawBase;
 
-function makeServer() {
+function makeServer(shell) {
   return http.createServer((req, res) => {
     let url = req.url || "/";
     if (basePath && url.startsWith(basePath)) {
       url = url.slice(basePath.length) || "/";
     }
     req.url = url;
+    // Never bootstrap later routes from an already-prerendered homepage.
+    // It would carry homepage metadata, preload links and page content with it.
+    if (ROUTES.includes(new URL(url, "http://localhost").pathname)) {
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      res.end(shell);
+      return;
+    }
     return handler(req, res, {
       public: distDir,
       rewrites: [{ source: "**", destination: "/index.html" }],
@@ -66,17 +94,37 @@ async function main() {
 
   await fs.access(path.join(distDir, "index.html"));
 
-  const server = makeServer();
+  const shell = await fs.readFile(path.join(distDir, "index.html"), "utf8");
+  const manifest = JSON.parse(
+    await fs.readFile(path.join(distDir, ".vite/manifest.json"), "utf8"),
+  );
+  const homeEntry = manifest["src/home.ts"];
+  if (!homeEntry?.file || !homeEntry.css?.length)
+    throw new Error("Static homepage entry or styles are missing");
+  const homeCss = (
+    await Promise.all(
+      homeEntry.css.map((file) =>
+        fs.readFile(path.join(distDir, file), "utf8"),
+      ),
+    )
+  ).join("\n");
+  const server = makeServer(shell);
   const port = await listen(server);
   const origin = `http://127.0.0.1:${port}`;
   console.log(`[prerender] static server on ${origin}${basePath || ""}`);
 
   const executablePath = resolveChromium();
-  console.log(`[prerender] chromium: ${executablePath || "(puppeteer bundled)"}`);
+  console.log(
+    `[prerender] chromium: ${executablePath || "(puppeteer bundled)"}`,
+  );
   const browser = await puppeteer.launch({
     headless: true,
     executablePath,
-    args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+    ],
   });
 
   try {
@@ -107,21 +155,29 @@ async function main() {
         // so crawlers never see a stale homepage canonical or description.
         await page.evaluate(() => {
           const titles = [...document.head.querySelectorAll("title")];
-          const canonicals = [...document.head.querySelectorAll('link[rel="canonical"]')];
+          const canonicals = [
+            ...document.head.querySelectorAll('link[rel="canonical"]'),
+          ];
           const canonicalHref = canonicals.at(-1)?.getAttribute("href") ?? "";
           const isHomepage = canonicalHref === "https://llmmargin.com/";
-          const defaultTitle = "Price Your AI Service. Send a Better Client Quote. | LLM Margin";
+          const defaultTitle =
+            "Price Your AI Service. Send a Better Client Quote. | LLM Margin";
           let preferredTitle = titles.find((node) => {
             const text = node.textContent?.trim();
             return text && (isHomepage || text !== defaultTitle);
           });
           if (!preferredTitle) {
-            const routeOgTitle = [...document.head.querySelectorAll('meta[property="og:title"]')]
+            const routeOgTitle = [
+              ...document.head.querySelectorAll('meta[property="og:title"]'),
+            ]
               .at(-1)
               ?.getAttribute("content");
-            preferredTitle = titles.find((node) => node.textContent?.trim()) ?? document.createElement("title");
+            preferredTitle =
+              titles.find((node) => node.textContent?.trim()) ??
+              document.createElement("title");
             if (routeOgTitle) preferredTitle.textContent = routeOgTitle;
-            if (!preferredTitle.isConnected) document.head.append(preferredTitle);
+            if (!preferredTitle.isConnected)
+              document.head.append(preferredTitle);
           }
           titles.forEach((node) => {
             if (node !== preferredTitle) node.remove();
@@ -129,18 +185,49 @@ async function main() {
 
           canonicals.slice(0, -1).forEach((node) => node.remove());
 
-          const metadata = [...document.head.querySelectorAll("meta[name], meta[property]")];
+          const metadata = [
+            ...document.head.querySelectorAll("meta[name], meta[property]"),
+          ];
           const latest = new Map();
           for (const node of metadata) {
-            const key = node.getAttribute("name") ?? node.getAttribute("property");
+            const key =
+              node.getAttribute("name") ?? node.getAttribute("property");
             if (key) latest.set(key, node);
           }
           for (const node of metadata) {
-            const key = node.getAttribute("name") ?? node.getAttribute("property");
+            const key =
+              node.getAttribute("name") ?? node.getAttribute("property");
             if (key && latest.get(key) !== node) node.remove();
           }
         });
 
+        // Don't serialize runtime-inserted analytics back into a blocking load.
+        await page.evaluate(() =>
+          document
+            .querySelectorAll("script[data-analytics-loader]")
+            .forEach((node) => node.remove()),
+        );
+        if (route === "/") {
+          await page.evaluate(
+            ({ scriptUrl, css }) => {
+              document
+                .querySelectorAll(
+                  'script[type="module"],link[rel="modulepreload"],link[rel="stylesheet"]',
+                )
+                .forEach((node) => node.remove());
+              const style = document.createElement("style");
+              style.dataset.homeStyles = "true";
+              style.textContent = css;
+              document.head.append(style);
+              const script = document.createElement("script");
+              script.type = "module";
+              script.src = scriptUrl;
+              document.head.append(script);
+              document.getElementById("root").dataset.staticPage = "home";
+            },
+            { scriptUrl: `${basePath}/${homeEntry.file}`, css: homeCss },
+          );
+        }
         const html = await page.content();
 
         const outDir =
@@ -155,20 +242,49 @@ async function main() {
             if (node.nodeType === Node.TEXT_NODE) return node.textContent || "";
             if (!(node instanceof Element)) return "";
             const tag = node.tagName.toLowerCase();
-            if (["script","style","button","input","select","textarea","svg"].includes(tag)) return "";
+            if (
+              [
+                "script",
+                "style",
+                "button",
+                "input",
+                "select",
+                "textarea",
+                "svg",
+              ].includes(tag)
+            )
+              return "";
             const text = [...node.childNodes].map(render).join("");
-            if (/^h[1-6]$/.test(tag)) return `\n\n${"#".repeat(Number(tag[1]))} ${text.trim()}\n\n`;
+            if (/^h[1-6]$/.test(tag))
+              return `\n\n${"#".repeat(Number(tag[1]))} ${text.trim()}\n\n`;
             if (tag === "a") {
               const href = node.getAttribute("href");
-              if (href && !href.startsWith("#")) return `[${text.trim()}](${new URL(href,"https://llmmargin.com").href})`;
+              if (href && !href.startsWith("#"))
+                return `[${text.trim()}](${new URL(href, "https://llmmargin.com").href})`;
             }
             if (tag === "li") return `\n- ${text.trim()}`;
-            if (["p","section","article","div","fieldset","pre","dl","tr"].includes(tag)) return `\n\n${text.trim()}\n\n`;
+            if (
+              [
+                "p",
+                "section",
+                "article",
+                "div",
+                "fieldset",
+                "pre",
+                "dl",
+                "tr",
+              ].includes(tag)
+            )
+              return `\n\n${text.trim()}\n\n`;
             return text;
           }
-          return render(document.querySelector("main")).replace(/\n{3,}/g,"\n\n").trim() + "\n";
+          return (
+            render(document.querySelector("main"))
+              .replace(/\n{3,}/g, "\n\n")
+              .trim() + "\n"
+          );
         });
-        await fs.writeFile(path.join(outDir,"index.md"),markdown,"utf8");
+        await fs.writeFile(path.join(outDir, "index.md"), markdown, "utf8");
         console.log(
           `[prerender] ${route.padEnd(20)} → ${path.relative(distDir, outFile)}`,
         );

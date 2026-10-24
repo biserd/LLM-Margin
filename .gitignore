@@ -37,6 +37,7 @@ node_modules
 /.wrangler
 **/.wrangler/
 tests/screenshots/
+tests/reports/
 /work/
 /libpeerconnection.log
 npm-debug.log

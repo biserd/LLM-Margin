@@ -45,7 +45,9 @@ export function Navigation() {
               key={link.href}
               href={link.href}
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                location === link.href ? "text-primary" : "text-muted-foreground"
+                location === link.href
+                  ? "text-primary"
+                  : "text-muted-foreground"
               }`}
             >
               {link.label}
@@ -53,7 +55,20 @@ export function Navigation() {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <details className="md:hidden relative"><summary className="cursor-pointer text-sm">Menu</summary><div className="absolute right-0 top-8 bg-background border rounded-lg p-4 w-48 shadow-lg space-y-3">{links.map(link => <Link key={link.href} href={link.href} className="block text-sm">{link.label}</Link>)}</div></details>
+          <details className="md:hidden relative">
+            <summary className="cursor-pointer text-sm">Menu</summary>
+            <div className="absolute right-0 top-8 bg-background border rounded-lg p-4 w-48 shadow-lg space-y-3">
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block text-sm"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </details>
           {isLoading ? (
             <div
               className="h-8 w-8 rounded-full bg-muted animate-pulse"
@@ -107,16 +122,15 @@ export function Navigation() {
               Sign in
             </Link>
           )}
-          <Link href="/ai-service-pricing-calculator">
-            <Button
-              variant="default"
-              size="sm"
-              className="hidden md:inline-flex"
-              data-testid="button-get-pro"
-            >
-              Build a quote
-            </Button>
-          </Link>
+          <Button
+            asChild
+            variant="default"
+            size="sm"
+            className="hidden md:inline-flex"
+            data-testid="button-get-pro"
+          >
+            <Link href="/ai-service-pricing-calculator">Build a quote</Link>
+          </Button>
         </div>
       </div>
     </nav>
