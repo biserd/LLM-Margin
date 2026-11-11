@@ -1,0 +1,124 @@
+{
+  "run": "43043602109",
+  "attempt": "1",
+  "started_at": "2026-11-11T14:58:14.456160+00:00",
+  "base_commit": "63a3ce0d23358137f30ca5b24989586cb4b61bd2",
+  "codex": "OPENAI_API_KEY missing",
+  "site": {
+    "sitemap_count": 114,
+    "internal_targets": 122,
+    "issues": []
+  },
+  "source_status": {
+    "search_console": {
+      "status": "unchecked",
+      "reason": "GSC_SERVICE_ACCOUNT_JSON is missing"
+    },
+    "indexing": {
+      "status": "unchecked",
+      "reason": "GSC_SERVICE_ACCOUNT_JSON is missing"
+    },
+    "serp": {
+      "status": "unchecked",
+      "reason": "SERPAPI_API_KEY is missing"
+    },
+    "analytics": {
+      "status": "unchecked",
+      "reason": "SEO_GA4_PROPERTY_ID and GSC_SERVICE_ACCOUNT_JSON are required"
+    }
+  },
+  "indexing": {},
+  "indexing_regressions": [],
+  "observed_query_overlap_count": 0,
+  "ai_visibility": {
+    "How should a small agency price an AI automation project for a client?": {
+      "ChatGPT Search": {
+        "status": "unchecked",
+        "reason": "No ChatGPT Search measurement integration is configured"
+      },
+      "Perplexity Sonar": {
+        "status": "unchecked",
+        "reason": "PERPLEXITY_API_KEY is missing"
+      },
+      "Google AI Overviews": {
+        "status": "unchecked",
+        "reason": "SERPAPI_API_KEY is missing"
+      }
+    },
+    "What free calculators estimate AI service setup fees and monthly retainers?": {
+      "ChatGPT Search": {
+        "status": "unchecked",
+        "reason": "No ChatGPT Search measurement integration is configured"
+      },
+      "Perplexity Sonar": {
+        "status": "unchecked",
+        "reason": "PERPLEXITY_API_KEY is missing"
+      },
+      "Google AI Overviews": {
+        "status": "unchecked",
+        "reason": "SERPAPI_API_KEY is missing"
+      }
+    },
+    "How do I calculate gross margin for an AI support assistant service?": {
+      "ChatGPT Search": {
+        "status": "unchecked",
+        "reason": "No ChatGPT Search measurement integration is configured"
+      },
+      "Perplexity Sonar": {
+        "status": "unchecked",
+        "reason": "PERPLEXITY_API_KEY is missing"
+      },
+      "Google AI Overviews": {
+        "status": "unchecked",
+        "reason": "SERPAPI_API_KEY is missing"
+      }
+    },
+    "What tools estimate LLM cost per user for an AI SaaS product?": {
+      "ChatGPT Search": {
+        "status": "unchecked",
+        "reason": "No ChatGPT Search measurement integration is configured"
+      },
+      "Perplexity Sonar": {
+        "status": "unchecked",
+        "reason": "PERPLEXITY_API_KEY is missing"
+      },
+      "Google AI Overviews": {
+        "status": "unchecked",
+        "reason": "SERPAPI_API_KEY is missing"
+      }
+    },
+    "What tools turn an AI project cost estimate into a client proposal?": {
+      "ChatGPT Search": {
+        "status": "unchecked",
+        "reason": "No ChatGPT Search measurement integration is configured"
+      },
+      "Perplexity Sonar": {
+        "status": "unchecked",
+        "reason": "PERPLEXITY_API_KEY is missing"
+      },
+      "Google AI Overviews": {
+        "status": "unchecked",
+        "reason": "SERPAPI_API_KEY is missing"
+      }
+    }
+  },
+  "measurements_completed": [],
+  "blog_position_progress": [],
+  "edits": [],
+  "stages": {
+    "seo-autopilot": "Editor unavailable: OPENAI_API_KEY missing; production crawl and available integrations completed",
+    "blog-refresher": "Editor unavailable: OPENAI_API_KEY missing",
+    "seo-title-optimization": "Editor unavailable: OPENAI_API_KEY missing"
+  },
+  "keyword_overlaps": {},
+  "build": "failure",
+  "rejected_plan": "Build or rendered SEO validation failed",
+  "deployment": {
+    "status": "blocked: candidate rejected",
+    "source_commit": "",
+    "previous_worker_version": "",
+    "cloudflare_credential": "CLOUDFLARE_API_TOKEN missing",
+    "workflow_run": "https://github.com/biserd/LLM-Margin/actions/runs/43043602109"
+  },
+  "live_urls": []
+}
