@@ -88,6 +88,7 @@ jobs:
         if: steps.patch.outputs.content == 'true' || inputs.validate_build
         with:
           node-version: '24'
+          package-manager-cache: false
       - name: Build, prerender, and verify candidate SEO
         id: build
         if: steps.patch.outputs.content == 'true' || inputs.validate_build
@@ -167,6 +168,7 @@ jobs:
         if: steps.prereq.outputs.deploy == 'true'
         with:
           node-version: '24'
+          package-manager-cache: false
       - name: Prepare the existing Wrangler deployment
         if: steps.prereq.outputs.deploy == 'true'
         run: |

@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-11",
+  "mode": "setup session using existing Wrangler login",
+  "status": "verified",
+  "source_commit": "904d942",
+  "worker_version": "a9b7156b-4194-4f41-b772-0235c2684ee4",
+  "previous_worker_version": "85e9d882-2cc5-418e-99a9-4871fe8e64e9",
+  "sitemap_urls_checked": 114,
+  "internal_targets_checked": 122,
+  "crawl_findings_before": 5,
+  "crawl_findings_after": 0,
+  "live_response_checks_passed": 27,
+  "live_urls": [
+    "https://llmmargin.com/contact",
+    "https://llmmargin.com/privacy",
+    "https://llmmargin.com/terms"
+  ],
+  "changes": [
+    "Replaced homepage canonicals with self-referencing canonicals on all three pages.",
+    "Replaced the shared fallback description with accurate, distinct descriptions on Privacy and Terms."
+  ],
+  "search_performance": {
+    "status": "unchecked",
+    "reason": "GSC_SERVICE_ACCOUNT_JSON is unavailable. This release fixed verified technical findings."
+  }
+}
