@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-11",
+  "runner": "local Codex scheduled task",
+  "automation_id": "daily-llm-margin-seo",
+  "triggered_at": "2026-11-11T15:22:15.368Z",
+  "daily_schedule_restored": "07:15 America/New_York",
+  "stages": {
+    "seo-autopilot": "Checked 114 sitemap URLs and 122 internal link targets before and after deployment. No verified technical issues. Direct indexing and AI visibility were unchecked. No qualifying comparison was identified.",
+    "blog-refresher": "Skipped because finalized Search Console page-and-query data was unavailable.",
+    "seo-title-optimization": "Corrected dated wording on the LLM pricing comparison page. Search performance metrics were unchecked."
+  },
+  "changes": [
+    {
+      "url": "https://llmmargin.com/llm-pricing",
+      "before": {
+        "title": "LLM API Pricing (July 2026): GPT-4o mini, Claude, Gemini & 200+ Models | LLM Margin",
+        "h1": "LLM API pricing — 206 models, July 2026"
+      },
+      "after": {
+        "title": "LLM API Pricing Comparison by Model | LLM Margin",
+        "h1": "LLM API pricing comparison"
+      },
+      "reason": "The table requests OpenRouter data on page load and has a saved fallback, so its title and H1 should describe the comparison without assigning it a fixed snapshot month.",
+      "sources": [
+        "artifacts/tokencalc/src/lib/pricing.ts",
+        "https://modelpricelab.com/prices",
+        "https://apistatuscheck.com/llm-api-pricing"
+      ],
+      "revisit_after": "2026-12-09"
+    }
+  ],
+  "deployment": {
+    "status": "verified",
+    "source_commit": "299b103",
+    "previous_worker_version": "568d2358-7818-4e70-a5df-17a14680ee65",
+    "worker_version": "322d993a-7a7f-4e6f-a7ff-1cc5230e36a8",
+    "production_traffic_percent": 100,
+    "local_regression_tests_passed": 7,
+    "public_smoke_checks_passed": 27,
+    "authentication": "existing Wrangler OAuth login",
+    "permissions": "Default sandbox blocked outbound requests. Scoped automatic approval enabled the production crawl, GitHub push, and Wrangler deployment without interactive approval."
+  }
+}
