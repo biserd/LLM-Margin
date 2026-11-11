@@ -42,8 +42,8 @@ const FAQS = [
 
 const CANONICAL = "https://llmmargin.com/llm-pricing";
 const OG_IMAGE = "https://llmmargin.com/opengraph.jpg";
-const TITLE_STR = "LLM API Pricing (July 2026): GPT-4o mini, Claude, Gemini & 200+ Models";
-const DESC = "Complete LLM pricing table — GPT-4o mini, Claude Haiku 4.5, Gemini 2.5 Flash, DeepSeek V3.2, Llama, and 200+ models. Input, output, and cache prices per million tokens. Live data via OpenRouter.";
+const TITLE_STR = "LLM API Pricing Comparison by Model";
+const DESC = "Compare LLM input and output prices per million tokens, context windows, and cache rates. Uses OpenRouter pricing with a saved fallback.";
 
 type SortCol = "name" | "input" | "output" | "ctx";
 
@@ -162,12 +162,12 @@ export default function LlmPricingPage() {
               LLM API Pricing
             </p>
             <h1 className="text-3xl md:text-4xl font-bold mt-1 mb-3 leading-tight">
-              LLM API pricing — {loaded ? models.length : "200+"} models, July 2026
+              LLM API pricing comparison
             </h1>
             <p className="text-base text-muted-foreground leading-relaxed max-w-3xl">
-              Input price, output price, context window, and cache rates for every major model —
-              GPT-4o mini, Claude Haiku 4.5, Gemini 2.5 Flash, DeepSeek V3.2, Llama 3.3 70B, and
-              more. Prices pulled live from OpenRouter and updated on every deploy.
+              Compare input and output costs per million tokens, context windows, and cache rates
+              where available. The table uses OpenRouter pricing and falls back to a saved snapshot
+              when live data is unavailable.
             </p>
           </div>
         </div>
