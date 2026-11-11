@@ -38,6 +38,8 @@ node_modules
 **/.wrangler/
 tests/screenshots/
 tests/reports/
+/.seo-work/
+__pycache__/
 /work/
 /libpeerconnection.log
 npm-debug.log

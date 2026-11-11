@@ -1,0 +1,191 @@
+name: Daily SEO
+
+on:
+  schedule:
+    - cron: '15 7 * * *'
+      timezone: America/New_York
+  workflow_dispatch:
+    inputs:
+      validate_build:
+        description: Run the full build even when there are no edits
+        type: boolean
+        default: true
+  pull_request_target:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.event_name == 'pull_request_target' && !startsWith(github.event.pull_request.head.ref, 'seo/automated-') && github.run_id || 'llmmargin-production-seo' }}
+  cancel-in-progress: false
+
+jobs:
+  edit:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request_target'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      SEO_HAS_CODEX: ${{ secrets.OPENAI_API_KEY != '' }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check production and collect provider evidence
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          SEO_GSC_PROPERTY: ${{ vars.SEO_GSC_PROPERTY }}
+          SEO_GA4_PROPERTY_ID: ${{ vars.SEO_GA4_PROPERTY_ID }}
+          SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
+          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+        run: python scripts/seo/research.py
+      - name: Run all three pinned SEO skills
+        id: codex
+        if: env.SEO_HAS_CODEX == 'true'
+        continue-on-error: true
+        uses: openai/codex-action@bdf19a4a223ec2549a3e2274a0cf61556bc07675 # v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt-file: .github/codex/seo-daily.md
+          sandbox: workspace-write
+          codex-args: '["--ephemeral","--config","sandbox_workspace_write.network_access=true","--config","web_search=\"live\""]'
+          safety-strategy: drop-sudo
+      - name: Validate the candidate and export its patch
+        env:
+          SEO_CODEX_STATUS: ${{ env.SEO_HAS_CODEX == 'true' && steps.codex.outcome || 'OPENAI_API_KEY missing' }}
+        run: python scripts/seo/release.py capture
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: seo-candidate-${{ github.run_attempt }}
+          path: .seo-work/out/
+          include-hidden-files: true
+          if-no-files-found: error
+
+  validate:
+    needs: edit
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: seo-candidate-${{ github.run_attempt }}
+          path: .seo-work/out
+      - name: Apply candidate to a clean checkout
+        id: patch
+        run: |
+          if test -f .seo-work/out/changes.patch; then
+            git apply --index .seo-work/out/changes.patch
+          fi
+          python scripts/seo/release.py patch
+          echo "content=$(jq -r '.edits | length > 0' .seo-work/out/record.json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        if: steps.patch.outputs.content == 'true' || inputs.validate_build
+        with:
+          node-version: '24'
+      - name: Build, prerender, and verify candidate SEO
+        id: build
+        if: steps.patch.outputs.content == 'true' || inputs.validate_build
+        env:
+          WRANGLER_LOG_PATH: .wrangler/logs
+        run: |
+          npm install --global pnpm@11.19.0
+          pnpm install --frozen-lockfile
+          export PUPPETEER_EXECUTABLE_PATH="$(command -v google-chrome || command -v chromium)"
+          test -n "$PUPPETEER_EXECUTABLE_PATH"
+          pnpm build
+          node --test tests/quote-model.test.mjs
+          python scripts/seo/release.py built
+          if test -f .seo-work/out/changes.patch && jq -e '.edits | length > 0' .seo-work/out/record.json >/dev/null; then
+            test -z "$(find artifacts/tokencalc/dist/public -type l -print -quit)"
+            tar -czf .seo-work/out/assets.tar.gz -C artifacts/tokencalc/dist/public .
+          fi
+      - name: Record validation status
+        if: always() && hashFiles('.seo-work/out/record.json') != ''
+        env:
+          SEO_VALIDATION: ${{ steps.patch.outcome == 'success' && steps.build.outcome || 'failure' }}
+        run: python scripts/seo/release.py validation
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always() && hashFiles('.seo-work/out/record.json') != ''
+        with:
+          name: seo-validated-${{ github.run_attempt }}
+          path: .seo-work/out/
+          include-hidden-files: true
+          if-no-files-found: error
+
+  publish:
+    needs: validate
+    if: >-
+      always() && (
+        (github.event_name != 'pull_request_target' && needs.validate.result != 'skipped' && needs.validate.result != 'cancelled') ||
+        (github.event_name == 'pull_request_target' && github.event.pull_request.merged &&
+         github.event.pull_request.head.repo.full_name == github.repository &&
+         startsWith(github.event.pull_request.head.ref, 'seo/automated-'))
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event_name == 'pull_request_target' && 'main' || github.sha }}
+          fetch-depth: 0
+          token: ${{ secrets.SEO_GITHUB_TOKEN || github.token }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        if: github.event_name != 'pull_request_target'
+        with:
+          name: seo-validated-${{ github.run_attempt }}
+          path: .seo-work/out
+      - name: Retrieve validation from the merged SEO pull request
+        if: github.event_name == 'pull_request_target'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SEO_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          [[ "$SEO_HEAD_REF" =~ ^seo/automated-([0-9]+)-([0-9]+)$ ]]
+          run_id="${BASH_REMATCH[1]}"
+          attempt="${BASH_REMATCH[2]}"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" --jq '.path' | grep -Fx '.github/workflows/seo-daily.yml'
+          gh run download "$run_id" --name "seo-validated-$attempt" --dir .seo-work/out
+      - name: Check release prerequisites
+        id: prereq
+        env:
+          HAS_CLOUDFLARE: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+        run: |
+          if test "$HAS_CLOUDFLARE" = true && test -f .seo-work/out/assets.tar.gz; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        if: steps.prereq.outputs.deploy == 'true'
+        with:
+          node-version: '24'
+      - name: Prepare the existing Wrangler deployment
+        if: steps.prereq.outputs.deploy == 'true'
+        run: |
+          npm install --global pnpm@11.19.0
+          pnpm install --frozen-lockfile
+          mkdir -p artifacts/tokencalc/dist/public
+          tar --extract --gzip --no-same-owner --no-same-permissions --file .seo-work/out/assets.tar.gz --directory artifacts/tokencalc/dist/public
+      - name: Publish and verify production, or record the blocked change
+        env:
+          GH_TOKEN: ${{ secrets.SEO_GITHUB_TOKEN || github.token }}
+          SEO_HAS_PR_TOKEN: ${{ secrets.SEO_GITHUB_TOKEN != '' }}
+          SEO_MERGED_HEAD: ${{ github.event.pull_request.head.sha }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || '73d71a2bef58f7469ecb48e2b8e84c0e' }}
+          WRANGLER_LOG_PATH: .wrangler/logs
+        run: python scripts/seo/publish.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always() && hashFiles('.seo-work/history/runs/*.json') != ''
+        with:
+          name: seo-run-record-${{ github.run_attempt }}
+          path: .seo-work/history/runs/
+          include-hidden-files: true
