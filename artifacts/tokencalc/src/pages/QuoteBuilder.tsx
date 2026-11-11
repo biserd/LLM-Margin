@@ -91,11 +91,11 @@ export default function QuoteBuilder() {
     } catch (e) { setError((e as Error).message); setBusy(false); }
   }
   return <div className="container mx-auto px-4 py-12 max-w-6xl">
-    <title>AI Service Pricing Calculator & Client Quote Builder | LLM Margin</title>
+    <title>AI Service Pricing Calculator | LLM Margin</title>
     <meta name="description" content="Price your AI agency service from token costs, delivery hours, hosting and target margin. Preview a client quote free. Export one quote for $29, no subscription." />
     {id ? <meta name="robots" content="noindex,nofollow" /> : <link rel="canonical" href="https://llmmargin.com/ai-service-pricing-calculator" />}
     <p className="text-primary text-sm font-semibold uppercase tracking-widest mb-3">For AI freelancers & small agencies</p>
-    <h1 className="text-3xl md:text-5xl font-bold tracking-tight max-w-3xl">What should you charge for this AI service?</h1>
+    <h1 className="text-3xl md:text-5xl font-bold tracking-tight max-w-3xl">AI Service Pricing Calculator</h1>
     <p className="text-muted-foreground mt-4 max-w-2xl text-lg">Turn delivery costs into a retainer, setup fee, and usage allowance. Explore free; sign in to save. All amounts are USD.</p>
     {id && !user && !isLoading ? <div className="border rounded-xl p-8 mt-8"><h2 className="text-xl font-semibold">This is a private saved quote.</h2><Button onClick={signIn} className="mt-4">Sign in to open it</Button></div> : <div className="grid lg:grid-cols-[1fr_0.95fr] gap-8 mt-10">
       <section className="space-y-6" aria-label="Quote inputs">
