@@ -1,6 +1,8 @@
 # Daily SEO for LLM Margin
 
-The [Daily SEO workflow](https://github.com/biserd/LLM-Margin/actions/workflows/seo-daily.yml) runs at 7:15 a.m. America/New_York, including daylight saving time. Run it manually from Actions to validate the full build even on a no-edit day. Runs serialize through the production concurrency group.
+The local Codex Scheduled task is the daily runner at 7:15 a.m. America/New_York. It uses the existing ChatGPT sign-in, checkout, and Wrangler login. Keep the computer on and the desktop app running. See [the local run instructions](codex-daily.md).
+
+The [GitHub workflow](https://github.com/biserd/LLM-Margin/actions/workflows/seo-daily.yml) is available for manual dispatch as a fallback. Its runner credentials below are only relevant to the GitHub path.
 
 The [pinned skills](../.agents/skills/UPSTREAM.md) are invoked by the [daily prompt](../.github/codex/seo-daily.md). The collector uses the production origin in Wrangler, and Codex edits the existing React pages and SEO templates. The candidate scope is checked by `scripts/seo/release.py`. Editable state is `keyword-map.csv`, `context.md`, and `backlog.md`. A clean job builds and prerenders the candidate, then the release job pushes and deploys with the repo's Wrangler deployment. The release verifies rendered production pages and rolls its Worker version back if a new regression is confirmed. Content-only runs use the existing D1 schema.
 

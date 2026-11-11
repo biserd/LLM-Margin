@@ -1,9 +1,6 @@
 name: Daily SEO
 
 on:
-  schedule:
-    - cron: '15 7 * * *'
-      timezone: America/New_York
   workflow_dispatch:
     inputs:
       validate_build:
