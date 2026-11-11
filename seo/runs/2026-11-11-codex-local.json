@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-11",
+  "runner": "local Codex, manual first pass",
+  "stages": {
+    "seo-autopilot": "Crawled 114 sitemap URLs and 122 internal link targets. No technical findings. Direct indexing and AI visibility measurements were unavailable. No qualifying comparison was established.",
+    "blog-refresher": "Skipped because finalized Search Console page-and-query data was unavailable.",
+    "seo-title-optimization": "Published an editorial title and H1 change supported by page functionality and current search results."
+  },
+  "changes": [
+    {
+      "url": "https://llmmargin.com/ai-service-pricing-calculator",
+      "before": {
+        "title": "AI Service Pricing Calculator & Client Quote Builder | LLM Margin",
+        "h1": "What should you charge for this AI service?"
+      },
+      "after": {
+        "title": "AI Service Pricing Calculator | LLM Margin",
+        "h1": "AI Service Pricing Calculator"
+      },
+      "reason": "Make the calculator explicit in the H1 and use a concise title aligned with the existing target query.",
+      "sources": [
+        "https://dlowda.com/ai-agency-pricing-calculator",
+        "https://www.aiagencycalculator.com/index_calculator",
+        "https://strideaiacademy.com/tools/ai-agency-pricing-calculator"
+      ],
+      "search_metrics": "unchecked",
+      "revisit_after": "2026-12-09"
+    }
+  ],
+  "deployment": {
+    "status": "verified",
+    "source_commit": "21619a0",
+    "worker_version": "568d2358-7818-4e70-a5df-17a14680ee65",
+    "previous_worker_version": "a9b7156b-4194-4f41-b772-0235c2684ee4",
+    "live_response_checks_passed": 27
+  }
+}
