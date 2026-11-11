@@ -2,6 +2,7 @@
 
 import base64
 from concurrent.futures import ThreadPoolExecutor
+import csv
 from datetime import date, datetime, timedelta, timezone
 import json
 import os
@@ -67,9 +68,7 @@ def metrics(row):
     }
 
 
-def gsc(service_account, pages, pending):
-    token = google_token(service_account, GSC_SCOPE)
-    property_id = os.getenv("SEO_GSC_PROPERTY") or "sc-domain:" + urlsplit(ORIGIN).hostname
+def gsc(token, property_id, pages, pending):
     endpoint = "https://www.googleapis.com/webmasters/v3/sites/" + quote(property_id, safe="") + "/searchAnalytics/query"
 
     def search(start, end, dimensions=(), state="final", filters=()):
@@ -159,7 +158,7 @@ def gsc(service_account, pages, pending):
     return {"status": "checked", "property": property_id, "window": [str(start), str(end)],
             "blog_candidates": blog[:10], "title_candidates": title[:10], "measurements": measured,
             "blog_position_progress": progress,
-            "queries": sorted(queries, key=lambda row: -row["impressions"])[:300]}, token, property_id
+            "queries": sorted(queries, key=lambda row: -row["impressions"])[:300]}
 
 
 def unchecked(reason):
@@ -206,7 +205,7 @@ def research_serps(key, candidates, comparison_queries):
                 for row in rows[:10]
             ]}
         results[f"{device}:{query}"] = check("SERP", load)
-    return {"status": "checked", "locale": "US/en", "results": results}
+    return {"status": "checked", "locale": "US/en", "comparison_queries": comparison_queries, "results": results}
 
 
 def visibility(text, citations):
@@ -258,9 +257,10 @@ def main():
     console = unchecked("GSC_SERVICE_ACCOUNT_JSON is missing")
     indexing = console
     if service_account:
-        result = check("Search Console", lambda: gsc(service_account, site["pages"], pending))
-        if isinstance(result, tuple):
-            console, token, property_id = result
+        token = check("Google authorization", lambda: google_token(service_account, GSC_SCOPE))
+        if isinstance(token, str):
+            property_id = os.getenv("SEO_GSC_PROPERTY") or "sc-domain:" + urlsplit(ORIGIN).hostname
+            console = check("Search Console", lambda: gsc(token, property_id, site["pages"], pending))
             urls = sorted(site["pages"])
             with ThreadPoolExecutor(max_workers=4) as pool:
                 results = pool.map(lambda url: check("URL Inspection", lambda: index_status(url, token, property_id)), urls)
@@ -275,10 +275,15 @@ def main():
                 ))
             ]
         else:
-            console = indexing = result
+            console = indexing = token
     serp_key = os.getenv("SERPAPI_API_KEY")
     pplx_key = os.getenv("PERPLEXITY_API_KEY")
-    comparison_queries = read(ROOT / "seo/queries.json")["comparison_research"]
+    defaults = read(ROOT / "seo/queries.json")["comparison_research"]
+    with (ROOT / "seo/keyword-map.csv").open(encoding="utf-8", newline="") as file:
+        mapped = list(csv.DictReader(file))
+    live_queries = {row["query"] for row in mapped if row["status"] == "live"}
+    gaps = [row["query"] for row in mapped if row["intent"] == "comparison" and row["status"] == "gap"]
+    comparison_queries = [query for query in dict.fromkeys([*gaps, *defaults]) if query not in live_queries][:3]
     serp_data = (research_serps(serp_key, console.get("blog_candidates", [])[:3] +
                               console.get("title_candidates", [])[:3], comparison_queries)
                  if serp_key else unchecked("SERPAPI_API_KEY is missing"))

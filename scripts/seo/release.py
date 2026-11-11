@@ -45,6 +45,8 @@ def output(name, value):
 
 def evidence_record(evidence, codex):
     site, gsc = evidence["site"], evidence["search_console"]
+    completed = {item["id"] for item in gsc.get("measurements", [])}
+    pending = {item["url"] for item in read(HISTORY / "measurements.json") if item["id"] not in completed}
     return {
         "run": os.getenv("GITHUB_RUN_ID", "local"),
         "attempt": os.getenv("GITHUB_RUN_ATTEMPT", "1"),
@@ -60,6 +62,10 @@ def evidence_record(evidence, codex):
         "ai_visibility": evidence["ai_visibility"],
         "measurements_completed": gsc.get("measurements", []),
         "blog_position_progress": gsc.get("blog_position_progress", []),
+        "pending_title_fields": {
+            url: {key: site["pages"][url][key] for key in ("title", "h1")}
+            for url in pending if url in site["pages"]
+        },
         "edits": [],
         "stages": {},
     }
@@ -89,11 +95,12 @@ def validate_plan(plan, evidence, record):
         edit = {"url": url, "kind": kind, "reason": reason[:2000], "before_html": baseline_pages.get(url)}
         if kind == "health":
             related = set([url] + item.get("finding_urls", []))
-            if not related.intersection(finding["url"] for finding in evidence["site"]["issues"]):
+            findings = [*evidence["site"]["issues"], *evidence["indexing"].get("regressions", [])]
+            if not related.intersection(finding["url"] for finding in findings):
                 raise ValueError(f"No verified site finding supports {url}")
         elif kind in {"blog", "title", "comparison"}:
             if kind == "comparison":
-                if url in baseline_pages or item.get("query") not in read(ROOT / "seo/queries.json")["comparison_research"]:
+                if url in baseline_pages or item.get("query") not in evidence["serp"].get("comparison_queries", []):
                     raise ValueError("Comparison must target a researched query and a new URL")
             else:
                 baseline = candidate(console, item, kind)
@@ -198,9 +205,9 @@ def built():
     for url in urls:
         route = urlsplit(url).path.strip("/")
         pages[url] = Page((DIST / route / "index.html").read_text(encoding="utf-8")).signature()
-    load_history()
-    completed = {item["id"] for item in record["measurements_completed"]}
-    pending = {item["url"] for item in read(HISTORY / "measurements.json") if item["id"] not in completed}
+    for url, fields in record.get("pending_title_fields", {}).items():
+        if any(pages.get(url, {}).get(key) != expected for key, expected in fields.items()):
+            raise ValueError(f"Pending 28-day measurement locks title and H1: {url}")
     for item in record["edits"]:
         url, before = item["url"], item["before_html"]
         path = urlsplit(url).path
@@ -215,8 +222,6 @@ def built():
         for key in ("title", "description"):
             if sum(page[key] == after[key] for page in pages.values()) != 1:
                 raise ValueError(f"Duplicate rendered {key}: {url}")
-        if url in pending and before and any(before[key] != after[key] for key in ("title", "h1")):
-            raise ValueError(f"Pending 28-day measurement locks title and H1: {url}")
         if item["kind"] == "title" and (not before or before["title"] == after["title"]):
             raise ValueError(f"Title did not change: {url}")
         if item["kind"] == "blog" and (not before or before["main_sha256"] == after["main_sha256"]):
@@ -258,6 +263,7 @@ def log():
     record["deployment"] = {
         "status": status, "source_commit": os.getenv("SEO_RELEASE_COMMIT", ""),
         "previous_worker_version": os.getenv("SEO_PREVIOUS_VERSION", ""),
+        "worker_version": os.getenv("SEO_WORKER_VERSION", ""),
         "cloudflare_credential": "configured" if os.getenv("CLOUDFLARE_API_TOKEN") else "CLOUDFLARE_API_TOKEN missing",
         "workflow_run": f"{os.getenv('GITHUB_SERVER_URL', 'https://github.com')}/{os.getenv('GITHUB_REPOSITORY', 'biserd/LLM-Margin')}/actions/runs/{record['run']}",
     }

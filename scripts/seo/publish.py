@@ -112,11 +112,11 @@ def publish(record):
     # Same Worker and deployment command used by the repo. The allowlist
     # excludes D1 migrations and Worker code, so only validated site assets change.
     deploy = run("pnpm", "exec", "wrangler", "deploy", check=False)
-    if deploy.returncode:
-        return "deploy failed; source reverted" if revert_source(commit) else "deploy failed; source rollback blocked"
     deployed_version = current_worker()
     if deployed_version == os.environ["SEO_PREVIOUS_VERSION"]:
-        return "blocked: Wrangler did not activate a new Worker version"
+        reason = "deploy failed" if deploy.returncode else "deploy failed to activate a new version"
+        return f"{reason}; source {'reverted' if revert_source(commit) else 'rollback blocked'}"
+    os.environ["SEO_WORKER_VERSION"] = deployed_version
     for delay in (5, 20):
         time.sleep(delay)
         if verify("verify") and run("node", "scripts/verify-public.mjs", check=False).returncode == 0:
@@ -124,7 +124,7 @@ def publish(record):
     if current_worker() != deployed_version:
         return "verification failed; a newer Worker deployment prevents automatic rollback"
     rollback = run("pnpm", "exec", "wrangler", "rollback", os.environ["SEO_PREVIOUS_VERSION"],
-                   "--message", "Restore previous Worker after SEO release verification failed", check=False)
+                   "--yes", "--message", "Restore previous Worker after SEO release verification failed", check=False)
     if rollback.returncode:
         return "verification failed; Worker rollback failed"
     source_reverted = revert_source(commit)
