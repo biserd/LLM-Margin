@@ -2,6 +2,8 @@ export default function Privacy() {
   return (
     <div className="min-h-screen bg-background">
       <title>Privacy Policy — LLM Margin</title>
+      <meta name="description" content="Learn what information LLM Margin collects, how it handles saved quotes and account data, and how to exercise your privacy rights." />
+      <link rel="canonical" href="https://llmmargin.com/privacy" />
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <h1 className="text-3xl font-bold mb-2">Privacy Policy</h1>
         <p className="text-sm text-muted-foreground mb-8">Last updated: October 24, 2026</p>

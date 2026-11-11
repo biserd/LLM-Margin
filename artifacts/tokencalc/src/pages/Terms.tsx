@@ -2,6 +2,8 @@ export default function Terms() {
   return (
     <div className="min-h-screen bg-background">
       <title>Terms of Service — LLM Margin</title>
+      <meta name="description" content="Read the LLM Margin terms for using its calculators and quote tools, including purchases, existing subscriptions, and acceptable use." />
+      <link rel="canonical" href="https://llmmargin.com/terms" />
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <h1 className="text-3xl font-bold mb-2">Terms of Service</h1>
         <p className="text-sm text-muted-foreground mb-8">Last updated: October 24, 2026</p>
