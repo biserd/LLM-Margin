@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from "recharts";
-import { Plus, Trash2, Lock } from "lucide-react";
+import { Plus, Printer, Trash2 } from "lucide-react";
 import { fetchModels, pickLatestModel, type ModelPrice } from "@/lib/pricing";
 import { calcCallCost, formatUSD, formatPct, getMarginColor } from "@/lib/calculator";
 import { ModelDropdown } from "@/components/ModelDropdown";
@@ -223,27 +223,26 @@ export default function BudgetPlanner() {
 
   return (
     <div className="min-h-screen bg-background">
-      <title>AI Budget Planner for Founders & SaaS Teams | LLM Margin</title>
-      <meta name="description" content="Plan monthly AI spend across OpenAI, Anthropic, and infra. Set caps, forecast burn, and catch cost overruns before your CFO does. Free planner." />
-      <meta property="og:title" content="Stop guessing your AI budget. Plan it." />
-      <meta property="og:description" content="The AI budget planner founders use to forecast LLM spend, set caps, and survive growth spikes without blowing runway." />
+      <title>AI Budget Planner for SaaS Teams | LLM Margin</title>
+      <meta name="description" content="Estimate monthly LLM spend by feature and subscription tier. Adjust growth and churn to forecast 12 months of AI costs with this free SaaS budget planner." />
+      <meta property="og:title" content="AI Budget Planner for SaaS Teams" />
+      <meta property="og:description" content="Estimate LLM costs by feature and subscription tier, then forecast 12 months of AI spend from your growth and churn assumptions." />
       <link rel="canonical" href="https://llmmargin.com/budget-planner" />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-10">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">The AI budget planner founders use before every board meeting</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl">Forecast monthly LLM spend across OpenAI, Anthropic, and your infra stack. Set usage caps, model growth scenarios, and know exactly how many months of runway your AI spend is eating.</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">AI Budget Planner for SaaS Teams</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl">Estimate monthly LLM spend by feature and subscription tier. Adjust user growth and churn to see how AI costs could change over the next 12 months.</p>
           <ul className="mt-3 space-y-1">
-            {["Month-by-month AI burn forecast across multiple models and providers in one view.",
-              "Scenario toggles for 2x, 5x, and viral-growth MAU — see which month you blow the budget.",
-              "Alert thresholds so you catch a runaway prompt chain before the invoice lands.",
+            {["Choose a model and enter token usage for each AI feature.",
+              "Compare AI costs across free and paid tiers.",
+              "See how model costs, payment fees, and overhead affect gross margin.",
             ].map((item) => (
               <li key={item} className="text-sm text-muted-foreground flex items-start gap-2">
                 <span className="text-primary">·</span> {item}
               </li>
             ))}
           </ul>
-          <p className="text-xs text-muted-foreground italic mt-3">Trusted by founders managing $5K–$500K/month in AI spend across production SaaS.</p>
         </div>
       </div>
 
@@ -616,8 +615,8 @@ export default function BudgetPlanner() {
               className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-card hover:bg-accent transition-colors text-sm font-medium text-muted-foreground"
               data-testid="button-export-budget"
             >
-              <Lock className="w-4 h-4" />
-              Export Budget Summary (Pro)
+              <Printer className="w-4 h-4" />
+              Print budget summary
             </button>
           </div>
         </div>
@@ -625,9 +624,9 @@ export default function BudgetPlanner() {
         <DisclaimerFooter />
 
         <SeoFooter
-          paragraph="The LLM Margin AI budget planner is built for founders and SaaS operators who need to forecast AI spend with the same rigor as payroll. Model OpenAI API pricing, Anthropic API pricing, and self-hosted inference side by side, set caps per feature, and watch the 12-month burn update live. It's the AI pricing calculator for founders who've already learned the hard way that 'we'll figure out costs later' is how runway disappears."
+          paragraph="Start with active users in each subscription tier. For each AI feature, enter the model, calls per user per day, and input and output tokens per call. The planner uses those assumptions to estimate monthly model costs and show how growth and churn affect your 12-month projection."
           links={[
-            { href: "/", anchor: "model your AI SaaS gross margin" },
+            { href: "/margin-calculator", anchor: "model your AI SaaS gross margin" },
             { href: "/cost-per-user", anchor: "break it down to cost per user" },
           ]}
         />
