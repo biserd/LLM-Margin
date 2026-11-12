@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-12",
+  "runner": "local Codex scheduled task",
+  "automation_id": "daily-llm-margin-seo",
+  "triggered_at": "2026-11-12T12:16:07.230Z",
+  "skills_commit": "11c4f9407d1142301ae1dee2a5370e506c80745a",
+  "stages": {
+    "seo-autopilot": "Crawled 114 sitemap URLs and 122 internal link targets before and after release. No technical findings or duplicate primary keyword targets. The planner serves calculator intent and the startup budget article serves guide intent. The two comparison queries did not establish enough distinct intent to justify a page.",
+    "blog-refresher": "Skipped because finalized Search Console page-and-query data was unavailable, so positions 8–20 and meaningful impressions could not be verified.",
+    "seo-title-optimization": "Published an editorial title, H1, metadata and copy correction on the AI Budget Planner. Current search results supported monthly cost forecasting as the query intent. Source code and production copy established the mismatch."
+  },
+  "evidence": {
+    "search_console": "Unchecked. GSC_SERVICE_ACCOUNT_JSON was unavailable to the local job, so clicks, impressions, CTR, position and URL Inspection could not be measured.",
+    "analytics": "Unchecked. The local job did not have SEO_GA4_PROPERTY_ID or the Google service account.",
+    "serp": "Built-in web search used for editorial intent and comparison research. Exact Google rankings were unchecked because SERPAPI_API_KEY was unavailable.",
+    "semrush": "The connected account had insufficient API units.",
+    "ai_visibility": {
+      "queries": "The five stable prompts in seo/queries.json.",
+      "ChatGPT Search": "Unchecked. No direct measurement integration configured.",
+      "Perplexity": "Unchecked. PERPLEXITY_API_KEY was unavailable.",
+      "Google AI Overviews": "Unchecked. SERPAPI_API_KEY was unavailable."
+    }
+  },
+  "changes": [
+    {
+      "url": "https://llmmargin.com/budget-planner",
+      "before": {
+        "title": "AI Budget Planner for Founders & SaaS Teams | LLM Margin",
+        "h1": "The AI budget planner founders use before every board meeting",
+        "description": "Plan monthly AI spend across OpenAI, Anthropic, and infra. Set caps, forecast burn, and catch cost overruns before your CFO does. Free planner."
+      },
+      "after": {
+        "title": "AI Budget Planner for SaaS Teams | LLM Margin",
+        "h1": "AI Budget Planner for SaaS Teams",
+        "description": "Estimate monthly LLM spend by feature and subscription tier. Adjust growth and churn to forecast 12 months of AI costs with this free SaaS budget planner."
+      },
+      "reason": "Describe the real feature and tier inputs, the 12-month projection, and the print action. Removed claims about alerts, usage caps, preset growth toggles, runway and customer adoption that the page could not substantiate.",
+      "sources": [
+        "artifacts/tokencalc/src/pages/BudgetPlanner.tsx",
+        "https://llmmargin.com/pricing",
+        "https://aicostbudget.com/en/ai-budget-planner",
+        "https://www.aicost.ai/tools/budget-planner",
+        "https://costrivo.com/"
+      ],
+      "search_metrics": "Unchecked before and after. No Search Console baseline or CTR measurement opened.",
+      "revisit_after": "2026-12-10"
+    }
+  ],
+  "deployment": {
+    "status": "verified",
+    "source_commit": "d64526d",
+    "previous_worker_version": "322d993a-7a7f-4e6f-a7ff-1cc5230e36a8",
+    "worker_version": "2e426647-fa80-4cc4-b0d7-22b38e29dc1c",
+    "production_traffic_percent": 100,
+    "build": "Passed with the existing bundled Node 24 runtime. Vite emitted non-fatal sourcemap warnings.",
+    "local_regression_tests_passed": 7,
+    "public_smoke_checks_passed": 27,
+    "live_render": "Matched the build. Other sitemap-page metadata and body signatures, sitemap and robots signatures were unchanged.",
+    "authentication": "existing Wrangler OAuth login"
+  }
+}
