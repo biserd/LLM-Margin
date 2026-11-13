@@ -6,7 +6,9 @@ import csv
 from datetime import date, datetime, timedelta, timezone
 import json
 import os
+from pathlib import Path
 import re
+from shutil import which
 import subprocess
 import tempfile
 from urllib.parse import quote, urlencode, urlsplit
@@ -45,6 +47,16 @@ def encoded(value):
     return base64.urlsafe_b64encode(value).rstrip(b"=")
 
 
+def openssl_executable():
+    if executable := which("openssl"):
+        return executable
+    if os.name == "nt" and (git := which("git")):
+        bundled = Path(git).resolve().parents[1] / "usr" / "bin" / "openssl.exe"
+        if bundled.is_file():
+            return str(bundled)
+    raise FileNotFoundError("OpenSSL is required to authorize the Google service account")
+
+
 def google_token(service_account, scope):
     now = int(datetime.now(timezone.utc).timestamp())
     claims = {"iss": service_account["client_email"], "scope": scope, "aud": GOOGLE_TOKEN_URL,
@@ -54,7 +66,7 @@ def google_token(service_account, scope):
         key = os.path.join(directory, "key.pem")
         with open(key, "w", encoding="utf-8") as file:
             file.write(service_account["private_key"])
-        result = subprocess.run(["openssl", "dgst", "-sha256", "-sign", key], input=message,
+        result = subprocess.run([openssl_executable(), "dgst", "-sha256", "-sign", key], input=message,
                                 capture_output=True, check=True, timeout=15)
     assertion = (message + b"." + encoded(result.stdout)).decode()
     return api(GOOGLE_TOKEN_URL, {
@@ -171,7 +183,11 @@ def check(source, action):
     except (ValueError, KeyError, TypeError, IndexError, OSError, subprocess.SubprocessError) as error:
         # Provider errors must not echo credentials, request bodies, or provider-supplied text.
         message = str(error)
-        safe = message if re.fullmatch(r"[a-z.]+ HTTP \d+|Search Console returned no recent finalized days", message) else type(error).__name__
+        safe_errors = {
+            "Search Console returned no recent finalized days",
+            "OpenSSL is required to authorize the Google service account",
+        }
+        safe = message if message in safe_errors or re.fullmatch(r"[a-z.]+ HTTP \d+", message) else type(error).__name__
         return unchecked(f"{source}: {safe}")
 
 
