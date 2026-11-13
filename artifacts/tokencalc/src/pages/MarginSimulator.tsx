@@ -143,30 +143,30 @@ export default function MarginSimulator() {
 
   return (
     <div className="min-h-screen bg-background">
-      <title>LLM Margin Calculator for SaaS Founders | LLM Margin</title>
-      <meta name="description" content="Model gross margin, cost-per-user, and breakeven MAU for any AI product. Plug in your LLM pricing and see if your unit economics actually work. Free." />
+      <title>LLM Gross Margin Calculator for AI SaaS | LLM Margin</title>
+      <meta name="description" content="Estimate AI SaaS gross margin, monthly LLM cost per user, and break-even user count from your plan price, token usage, and operating costs." />
       <link rel="canonical" href="https://llmmargin.com/margin-calculator" />
       <meta property="og:type" content="website" />
-      <meta property="og:title" content="Will your AI SaaS actually make money? Find out in 60 seconds." />
-      <meta property="og:description" content="LLM Margin simulates gross margin and power-user risk for AI products. Built by founders, for founders staring at OpenAI invoices." />
+      <meta property="og:title" content="LLM Gross Margin Calculator for AI SaaS" />
+      <meta property="og:description" content="Estimate AI SaaS gross margin, monthly LLM cost per user, and break-even user count from your plan price, token usage, and operating costs." />
       <meta property="og:url" content="https://llmmargin.com/margin-calculator" />
       <meta property="og:image" content="https://llmmargin.com/opengraph.jpg" />
       <meta property="og:site_name" content="LLM Margin" />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="Will your AI SaaS actually make money? Find out in 60 seconds." />
-      <meta name="twitter:description" content="LLM Margin simulates gross margin and power-user risk for AI products. Built by founders, for founders staring at OpenAI invoices." />
+      <meta name="twitter:title" content="LLM Gross Margin Calculator for AI SaaS" />
+      <meta name="twitter:description" content="Estimate AI SaaS gross margin, monthly LLM cost per user, and break-even user count from your plan price, token usage, and operating costs." />
       <meta name="twitter:image" content="https://llmmargin.com/opengraph.jpg" />
 
       {/* Hero */}
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
         <div className="container mx-auto px-4 py-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Model your AI SaaS margins before your OpenAI bill eats them.</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mb-3">LLM Margin is a margin simulator for founders shipping AI products. Enter your pricing, token usage, and MAU — get gross margin, cost-per-user, and breakeven in seconds.</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">LLM Gross Margin Calculator for AI SaaS</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mb-3">Choose an LLM and enter your plan price, active users, and token usage. Estimate gross margin and monthly model cost per user, then see how many users you need to cover fixed costs.</p>
           <ul className="space-y-1 max-w-2xl mb-3">
             {[
-              "See your true gross margin % after LLM costs — not the back-of-napkin version your board deck uses.",
-              "Spot power-user risk before one heavy customer wipes out margin on the other 500.",
-              "Find the MAU number where you actually break even at your current pricing.",
+              "Include model spend and other per-user costs in your gross margin estimate.",
+              "Test how different mixes of light and heavy users affect model spend.",
+              "Estimate your break-even user count at your current pricing.",
             ].map((b) => (
               <li key={b} className="text-sm text-muted-foreground flex items-start gap-2">
                 <span className="text-primary mt-1">·</span>{b}
