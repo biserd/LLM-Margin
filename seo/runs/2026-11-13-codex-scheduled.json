@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-13",
+  "runner": "local Codex scheduled task",
+  "automation_id": "daily-llm-margin-seo",
+  "triggered_at": "2026-11-13T12:10:29.437Z",
+  "skills_commit": "11c4f9407d1142301ae1dee2a5370e506c80745a",
+  "stages": {
+    "seo-autopilot": "Crawled 114 sitemap URLs and 122 internal link targets before and after release. No technical findings or duplicate mapped targets. Verified MCP Registry 1.0.1 and its live icon. Neither comparison query showed enough evidence of distinct intent to publish a separate page.",
+    "blog-refresher": "Skipped. Finalized Search Console page-and-query data was unavailable, so positions 8–20 and meaningful impressions could not be verified.",
+    "seo-title-optimization": "Published a clearer title, H1, description, and hero copy for the gross margin calculator. Used the live page, calculator code, and current web search results to verify intent and functionality."
+  },
+  "evidence": {
+    "search_console": "Unchecked. GSC_SERVICE_ACCOUNT_JSON was unavailable, so clicks, impressions, CTR, position and URL Inspection could not be measured.",
+    "analytics": "Unchecked. SEO_GA4_PROPERTY_ID and the Google service account were unavailable.",
+    "serp": "Built-in web search supported editorial and comparison research. Exact Google ranks were unchecked because SERPAPI_API_KEY was unavailable. The connected Semrush account had insufficient API units on the previous run.",
+    "ai_visibility": {
+      "queries": "The five stable prompts in seo/queries.json.",
+      "ChatGPT Search": "Unchecked. No direct measurement integration configured.",
+      "Perplexity": "Unchecked. PERPLEXITY_API_KEY was unavailable.",
+      "Google AI Overviews": "Unchecked. SERPAPI_API_KEY was unavailable."
+    }
+  },
+  "changes": [
+    {
+      "url": "https://llmmargin.com/margin-calculator",
+      "before": {
+        "title": "LLM Margin Calculator for SaaS Founders | LLM Margin",
+        "h1": "Model your AI SaaS margins before your OpenAI bill eats them.",
+        "description": "Model gross margin, cost-per-user, and breakeven MAU for any AI product. Plug in your LLM pricing and see if your unit economics actually work. Free."
+      },
+      "after": {
+        "title": "LLM Gross Margin Calculator for AI SaaS | LLM Margin",
+        "h1": "LLM Gross Margin Calculator for AI SaaS",
+        "description": "Estimate AI SaaS gross margin, monthly LLM cost per user, and break-even user count from your plan price, token usage, and operating costs."
+      },
+      "reason": "The old H1 named only OpenAI. The calculator lets users select models across providers and estimates gross margin, monthly model cost per user, break-even user count and the effect of different usage mixes. The updated title and hero name those tasks directly.",
+      "sources": [
+        "artifacts/tokencalc/src/pages/MarginSimulator.tsx",
+        "https://aicost.ai/tools/margin-calculator",
+        "https://aicostbudget.com/en/ai-saas-margin-calculator",
+        "https://marginward.com/tools/margin-calculator",
+        "https://founderdecisions.com/tools/ai-gross-margin-calculator/",
+        "https://margintrace.io/calculator"
+      ],
+      "search_metrics": "Unchecked before and after. No Search Console baseline or CTR measurement opened.",
+      "revisit_after": "2026-12-11"
+    }
+  ],
+  "deployment": {
+    "status": "verified",
+    "source_commit": "9deab3d",
+    "previous_worker_version": "b9220dab-5396-438e-9057-49bb975dae27",
+    "worker_version": "58beba1f-8ed9-487f-973d-5720641eda19",
+    "production_traffic_percent": 100,
+    "build": "Passed using the bundled Node 24 runtime. Vite emitted non-fatal sourcemap warnings.",
+    "local_regression_tests_passed": 7,
+    "public_smoke_checks_passed": 27,
+    "live_render": "HTML matched the build, and the Markdown response showed the new heading. Other sitemap-page metadata and body signatures and the robots and sitemap signatures were unchanged.",
+    "authentication": "existing Wrangler OAuth login"
+  }
+}
