@@ -2,16 +2,19 @@ import { Link } from "wouter";
 import { COMPARE_PAIRS, PAIRS_BY_CATEGORY } from "@/lib/comparePairs";
 import { SeoFooter } from "@/components/SeoFooter";
 
+const title = "LLM Model Matchups: Token & Monthly Costs";
+
 export default function CompareIndex() {
   const categories = Object.keys(PAIRS_BY_CATEGORY);
   const totalPairs = COMPARE_PAIRS.length;
+  const description = `Browse ${totalPairs} preset LLM matchups. Compare input and output token prices and estimate monthly costs for the same workload.`;
 
   return (
     <div className="min-h-screen bg-background">
-      <title>Compare LLM Pricing: GPT-4o, Claude, Gemini, Llama Side-by-Side | LLM Margin</title>
+      <title>{`${title} | LLM Margin`}</title>
       <meta
         name="description"
-        content={`Side-by-side token pricing and total cost comparisons across ${totalPairs} popular LLM matchups — GPT-4o, Claude 3.5 Sonnet, Gemini, Llama, DeepSeek, and more. Live prices via OpenRouter.`}
+        content={description}
       />
       <meta
         name="keywords"
@@ -19,14 +22,14 @@ export default function CompareIndex() {
       />
       <link rel="canonical" href="https://llmmargin.com/compare" />
       <meta property="og:type" content="website" />
-      <meta property="og:title" content="Compare LLM Pricing — Side-by-Side Token Costs" />
-      <meta property="og:description" content="Pick any two models. See input, output, and total monthly cost compared at your usage level." />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
       <meta property="og:url" content="https://llmmargin.com/compare" />
       <meta property="og:image" content="https://llmmargin.com/opengraph.jpg" />
       <meta property="og:site_name" content="LLM Margin" />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="Compare LLM Pricing — Side-by-Side Token Costs" />
-      <meta name="twitter:description" content="Pick any two models. See input, output, and total monthly cost compared at your usage level." />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content="https://llmmargin.com/opengraph.jpg" />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
@@ -35,12 +38,11 @@ export default function CompareIndex() {
             LLM Comparison Hub
           </p>
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
-            Compare LLM pricing, side by side
+            Compare LLM model matchups
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl">
-            Pick a matchup. We show you input vs output token prices, total
-            monthly cost at any MAU, and which model wins for your usage
-            profile. Live prices via OpenRouter.
+            Open a preset matchup to compare input and output token prices. Enter
+            the same usage for both models to estimate what each would cost per month.
           </p>
         </div>
       </div>
@@ -80,10 +82,11 @@ export default function CompareIndex() {
           ))}
 
           <SeoFooter
-            paragraph="LLM pricing changes monthly and the differences across providers run 100×. These comparisons are kept fresh against live OpenRouter prices and are designed to answer one question: for my usage profile, which model is actually cheaper?"
+            paragraph="Matchup pages use OpenRouter pricing when available and fall back to saved prices. For a searchable view of model rates, open the LLM API pricing table."
             links={[
+              { href: "/llm-pricing", anchor: "LLM API pricing table" },
               { href: "/cost-per-user", anchor: "Cost Per User Calculator" },
-              { href: "/", anchor: "SaaS Margin Simulator" },
+              { href: "/margin-calculator", anchor: "SaaS Margin Simulator" },
               { href: "/budget-planner", anchor: "AI Budget Planner" },
             ]}
           />
