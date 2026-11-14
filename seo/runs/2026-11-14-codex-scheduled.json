@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-14",
+  "runner": "local Codex scheduled task",
+  "automation_id": "daily-llm-margin-seo",
+  "triggered_at": "2026-11-14T12:13:21.290Z",
+  "skills_commit": "11c4f9407d1142301ae1dee2a5370e506c80745a",
+  "stages": {
+    "seo-autopilot": "Crawled 114 sitemap URLs and 122 internal link targets before and after release with no technical findings. Added a keyword map entry for the preset model matchup hub and clarified its distinction from the searchable pricing table. No duplicate mapped queries or qualifying new comparison page.",
+    "blog-refresher": "Skipped because finalized Search Console page-and-query data was unavailable to the scheduled runner. The November 13 manual check found fewer than 30 total impressions on either blog post for October 14 through November 10.",
+    "seo-title-optimization": "Corrected the comparison hub title, H1, and snippets. The page offers 90 preset matchups, despite the previous social description saying visitors could pick any two models."
+  },
+  "evidence": {
+    "search_console": "Unchecked by the runner. GSC_SERVICE_ACCOUNT_JSON was unavailable, so clicks, impressions, CTR, position and URL Inspection were not measured in this run.",
+    "analytics": "Unchecked. SEO_GA4_PROPERTY_ID and the Google service account were unavailable.",
+    "serp": "Public web search supported the distinction between a model price table and individual model matchups. Exact Google positions were unchecked because SERPAPI_API_KEY was unavailable.",
+    "ai_visibility": {
+      "queries": "The five stable prompts in seo/queries.json.",
+      "ChatGPT Search": "Unchecked. No direct measurement integration configured.",
+      "Perplexity": "Unchecked. PERPLEXITY_API_KEY was unavailable.",
+      "Google AI Overviews": "Unchecked. SERPAPI_API_KEY was unavailable."
+    }
+  },
+  "changes": [
+    {
+      "url": "https://llmmargin.com/compare",
+      "before": {
+        "title": "Compare LLM Pricing: GPT-4o, Claude, Gemini, Llama Side-by-Side | LLM Margin",
+        "h1": "Compare LLM pricing, side by side"
+      },
+      "after": {
+        "title": "LLM Model Matchups: Token & Monthly Costs | LLM Margin",
+        "h1": "Compare LLM model matchups",
+        "description": "Browse 90 preset LLM matchups. Compare input and output token prices and estimate monthly costs for the same workload."
+      },
+      "reason": "Align the page with its preset comparisons and saved pricing fallback. Link to the searchable rates table and correct the gross margin calculator link.",
+      "sources": [
+        "artifacts/tokencalc/src/pages/CompareIndex.tsx",
+        "artifacts/tokencalc/src/pages/ComparePage.tsx",
+        "artifacts/tokencalc/src/lib/pricing.ts",
+        "https://anotherwrapper.com/tools/llm-pricing",
+        "https://www.llmapicosts.com/models",
+        "https://leanlm.ai/llm-cost-calculator",
+        "https://llmprice.com/"
+      ],
+      "search_metrics": "Unchecked before and after. No Search Console baseline or CTR measurement opened.",
+      "revisit_after": "2026-12-12"
+    }
+  ],
+  "deployment": {
+    "status": "verified",
+    "source_commit": "97823c2",
+    "previous_worker_version": "58beba1f-8ed9-487f-973d-5720641eda19",
+    "worker_version": "5555b569-75ab-41cf-9833-280fd7ff765f",
+    "production_traffic_percent": 100,
+    "build": "Passed using the bundled Node 24 runtime after correcting JSX title rendering. Vite emitted non-fatal sourcemap warnings.",
+    "local_regression_tests_passed": 7,
+    "public_smoke_checks_passed": 27,
+    "live_render": "HTML matched the build, including all 90 matchup links. Markdown showed the new heading. Other sitemap-page metadata and body signatures and the robots and sitemap signatures were unchanged.",
+    "authentication": "existing Wrangler OAuth login"
+  }
+}
