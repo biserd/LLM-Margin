@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-15",
+  "runner": "local Codex scheduled task",
+  "automation_id": "daily-llm-margin-seo",
+  "triggered_at": "2026-11-15T12:16:35.561Z",
+  "skills_commit": "11c4f9407d1142301ae1dee2a5370e506c80745a",
+  "stages": {
+    "seo-autopilot": "Crawled 114 sitemap URLs and 122 internal link targets with zero technical findings. The two comparison queries returned calculators, general guidance and proposal software, with insufficient evidence of distinct intent for a new page. No duplicate mapped query targets were found.",
+    "blog-refresher": "Read the live 28-day Search Console Web report and checked both blog URLs under the /blog/ filter. Each page had fewer than 30 impressions total, so neither could meet the per-query threshold. No query-level refresh qualified.",
+    "seo-title-optimization": "Reviewed rendered metadata and recent releases. The sitewide Search Console totals did not establish weak CTR for a specific page against comparable devices and positions. No supported title change or measurement was opened."
+  },
+  "evidence": {
+    "search_console": "The existing signed-in Chrome session worked on the scheduled run. The Google Search Console Web report displayed October 17 through November 13. A brief browser interruption recovered via accessibility controls. Exact dashboard figures were retained in local ignored evidence. API access and URL Inspection remain unchecked.",
+    "analytics": "The linked GA4 organic search traffic report was opened during the browser interruption. Its October 18 through November 14 landing-page report supported the same blog eligibility decision. The GA4 API was unchecked.",
+    "serp": "Built-in public web search was used for comparison intent. Exact ranks were unchecked because SERPAPI_API_KEY was unavailable.",
+    "ai_visibility": {
+      "ChatGPT Search": "Unchecked. No direct measurement integration configured.",
+      "Perplexity": "Unchecked. PERPLEXITY_API_KEY was unavailable.",
+      "Google AI Overviews": "Unchecked. SERPAPI_API_KEY was unavailable."
+    }
+  },
+  "changes": [],
+  "deployment": {"status": "no qualifying changes", "production_smoke_checks_passed": 27}
+}
