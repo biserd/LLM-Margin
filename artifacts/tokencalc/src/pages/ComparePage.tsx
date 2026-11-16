@@ -128,7 +128,7 @@ function PairView({ pair }: PairViewProps) {
   const related = pairsRelatedTo(pair);
   const pairMeta = PAIR_META[pair.slug];
 
-  const titleStr = `${a.name} vs ${b.name}: Token Pricing & Cost Compared (July 2026)`;
+  const titleStr = `${a.name} vs ${b.name}: Token Pricing & Monthly Cost`;
   const descStr = `Side-by-side ${a.name} vs ${b.name} pricing — input, output, total monthly cost at any MAU. Live OpenRouter prices for ${pair.a.provider} and ${pair.b.provider}.`;
   const metaDesc = pairMeta?.description ?? descStr;
   const keywordsStr = `${a.name} vs ${b.name}, ${a.name} pricing, ${b.name} pricing, ${a.name} cost, ${b.name} cost, ${pair.a.provider} vs ${pair.b.provider}, LLM price comparison`;
@@ -212,7 +212,7 @@ function PairView({ pair }: PairViewProps) {
               ← All comparisons
             </Link>
             <h1 className="text-3xl md:text-4xl font-bold mt-3 mb-3 leading-tight">
-              {a.name} vs {b.name}: token pricing &amp; cost compared (July 2026)
+              {a.name} vs {b.name}: token pricing &amp; monthly cost
             </h1>
             <p className="text-base text-muted-foreground leading-relaxed max-w-3xl">
               How {a.name} ({pair.a.provider}) and {b.name} ({pair.b.provider})
