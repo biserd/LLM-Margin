@@ -464,7 +464,7 @@ function PairView({ pair }: PairViewProps) {
               <Link href="/cost-per-user">
                 <Button data-testid="cta-cost-per-user">Cost Per User Calculator →</Button>
               </Link>
-              <Link href="/">
+              <Link href="/margin-calculator">
                 <Button variant="outline" data-testid="cta-margin-simulator">
                   Margin Simulator
                 </Button>

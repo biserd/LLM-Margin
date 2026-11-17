@@ -362,7 +362,7 @@ export default function BlogBudgetPlanning() {
               Budgeting is the macro view. To actually defend the numbers in
               a board meeting, you need the micro view too: gross margin per
               feature and per user. Run your assumptions through the{" "}
-              <Link href="/" className="text-primary hover:underline font-medium">
+              <Link href="/margin-calculator" className="text-primary hover:underline font-medium">
                 SaaS margin simulator
               </Link>{" "}
               and our companion guide on{" "}
@@ -381,7 +381,7 @@ export default function BlogBudgetPlanning() {
             links={[
               { href: "/budget-planner", anchor: "AI Budget Planner" },
               { href: "/cost-per-user", anchor: "Cost Per User Calculator" },
-              { href: "/", anchor: "SaaS Margin Simulator" },
+              { href: "/margin-calculator", anchor: "SaaS Margin Simulator" },
             ]}
           />
         </div>

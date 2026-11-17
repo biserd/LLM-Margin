@@ -323,7 +323,7 @@ export default function BlogCostPerUser() {
                   Open the Cost Per User Calculator →
                 </Button>
               </Link>
-              <Link href="/">
+              <Link href="/margin-calculator">
                 <Button size="default" variant="outline" data-testid="cta-margin-simulator">
                   Run the Margin Simulator
                 </Button>
@@ -345,7 +345,7 @@ export default function BlogCostPerUser() {
               </Link>
               . If you only have ten minutes today, run your numbers through
               the{" "}
-              <Link href="/" className="text-primary hover:underline font-medium">
+              <Link href="/margin-calculator" className="text-primary hover:underline font-medium">
                 SaaS margin simulator
               </Link>{" "}
               and see whether your AI feature actually clears 60% gross
@@ -358,7 +358,7 @@ export default function BlogCostPerUser() {
             links={[
               { href: "/cost-per-user", anchor: "Cost Per User Calculator" },
               { href: "/budget-planner", anchor: "AI Budget Planner" },
-              { href: "/", anchor: "SaaS Margin Simulator" },
+              { href: "/margin-calculator", anchor: "SaaS Margin Simulator" },
             ]}
           />
         </div>

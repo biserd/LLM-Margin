@@ -337,7 +337,7 @@ export default function CostPerUser() {
             <SeoFooter
               paragraph="This LLM cost per user calculator gives SaaS founders a straight answer to one of the hardest questions in AI pricing: how much does one active user really cost per month? It handles GPT-4o, Claude, Gemini, and custom token pricing, and it scales cleanly from 100 MAU to 100,000. If you've been patching together a ChatGPT API cost calculator out of spreadsheets and Reddit math, replace it with this."
               links={[
-                { href: "/", anchor: "SaaS margin simulator" },
+                { href: "/margin-calculator", anchor: "SaaS margin simulator" },
                 { href: "/budget-planner", anchor: "forecast your monthly AI budget" },
               ]}
             />

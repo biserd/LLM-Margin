@@ -1,4 +1,4 @@
-import { ArrowRight, Calculator, Sparkles } from "lucide-react";
+import { ArrowRight, Calculator } from "lucide-react";
 import { Link } from "wouter";
 import { SeoFooter } from "@/components/SeoFooter";
 import { ToolIcon } from "@/components/ToolIcon";
@@ -53,15 +53,11 @@ export default function ToolsIndex() {
 
       <section className="border-b bg-gradient-to-b from-primary/10 via-primary/5 to-background">
         <div className="container mx-auto px-4 py-14 md:py-20 text-center">
-          <div className="mx-auto mb-4 flex w-fit items-center gap-2 rounded-full border bg-card px-3 py-1 text-xs font-semibold text-primary">
-            <Sparkles className="h-3.5 w-3.5" />
-            Free calculators built for AI SaaS
-          </div>
           <h1 className="mx-auto max-w-4xl text-4xl font-bold tracking-tight md:text-6xl">
-            Find the unit-economics problem hiding behind your AI feature
+            Free AI SaaS pricing and LLM cost calculators
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            Model the expensive edge cases that average token calculators miss. Every tool uses current model pricing and produces an actionable answer—no signup required.
+            Model AI credits, usage limits, retry and context costs, and feature profitability. No signup required.
           </p>
         </div>
       </section>
@@ -102,13 +98,13 @@ export default function ToolsIndex() {
             <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-primary-foreground/80">
               <Calculator className="h-4 w-4" /> From one answer to a living model
             </div>
-            <h2 className="text-2xl font-bold">Want to monitor the full business?</h2>
+            <h2 className="text-2xl font-bold">Model your SaaS gross margin</h2>
             <p className="mt-2 max-w-2xl text-sm text-primary-foreground/80">
               Use the complete margin simulator to combine plan revenue, model routing, infrastructure costs, and customer usage in one scenario.
             </p>
           </div>
           <Link
-            href="/"
+            href="/margin-calculator"
             className="mt-5 inline-flex items-center gap-2 rounded-lg bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition-opacity hover:opacity-90 md:mt-0"
           >
             Open margin simulator <ArrowRight className="h-4 w-4" />

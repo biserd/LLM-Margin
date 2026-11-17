@@ -374,7 +374,7 @@ export default function LlmPricingPage() {
               and breakeven MAU for your product — or compare two models head-to-head.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link href="/">
+              <Link href="/margin-calculator">
                 <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2">
                   Margin Simulator →
                 </button>

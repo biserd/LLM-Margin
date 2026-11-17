@@ -365,7 +365,7 @@ export default function AcquisitionToolPage() {
           links={[
             { href: "/tools", anchor: "All AI SaaS tools" },
             { href: "/llm-pricing", anchor: "LLM pricing database" },
-            { href: "/", anchor: "Full margin simulator" },
+            { href: "/margin-calculator", anchor: "Full margin simulator" },
           ]}
         />
       </main>

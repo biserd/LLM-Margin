@@ -111,7 +111,7 @@ export default function Blog() {
           <SeoFooter
             paragraph="Each guide on the LLM Margin blog ends with the same thing: the calculator you need to put your own numbers into. We don't write generic AI think pieces — we write the spreadsheet you wish your CFO had given you."
             links={[
-              { href: "/", anchor: "SaaS Margin Simulator" },
+              { href: "/margin-calculator", anchor: "SaaS Margin Simulator" },
               { href: "/cost-per-user", anchor: "Cost Per User Calculator" },
               { href: "/budget-planner", anchor: "AI Budget Planner" },
             ]}
