@@ -323,11 +323,9 @@ export default function BlogCostPerUser() {
                   Open the Cost Per User Calculator →
                 </Button>
               </Link>
-              <Link href="/margin-calculator">
-                <Button size="default" variant="outline" data-testid="cta-margin-simulator">
-                  Run the Margin Simulator
-                </Button>
-              </Link>
+              <Button asChild size="default" variant="outline" data-testid="cta-margin-simulator">
+                <Link href="/margin-calculator">Run the Margin Simulator</Link>
+              </Button>
             </div>
           </section>
 
