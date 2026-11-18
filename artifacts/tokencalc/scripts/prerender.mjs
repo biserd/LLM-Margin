@@ -246,12 +246,12 @@ async function main() {
               [
                 "script",
                 "style",
-                "button",
                 "input",
                 "select",
                 "textarea",
                 "svg",
-              ].includes(tag)
+              ].includes(tag) ||
+              (tag === "button" && !node.closest("a[href]"))
             )
               return "";
             const text = [...node.childNodes].map(render).join("");
