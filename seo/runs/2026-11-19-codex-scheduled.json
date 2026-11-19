@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-19",
+  "runner": "local Codex scheduled task",
+  "automation_id": "daily-llm-margin-seo",
+  "triggered_at": "2026-11-19T12:14:37.572Z",
+  "skills_commit": "11c4f9407d1142301ae1dee2a5370e506c80745a",
+  "stages": {
+    "seo-autopilot": "Crawled 114 sitemap URLs and 122 internal link targets with zero technical findings. Rendered page signatures and control files match the verified November 18 release. Nine mapped live queries have distinct target URLs. Public comparison searches returned mixed service, calculator and proposal intent with insufficient evidence for a new comparison.",
+    "blog-refresher": "Read both blog URLs under the /blog/ filter in the 28-day Search Console Web report. Each page had fewer than 30 impressions total and could not meet the per-query threshold. No post qualified for a refresh.",
+    "seo-title-optimization": "Reviewed rendered metadata, current product routes and editorial holds. The only page reaching 100 total impressions is a model matchup on hold through December 14. No matched device-and-position CTR experiment or verified editorial title correction qualified."
+  },
+  "evidence": {
+    "search_console": "The signed-in Chrome session supplied the October 21 through November 17 Web report. Page impressions were sorted to verify title eligibility. Exact dashboard figures were retained locally. API finalization, URL Inspection and device-matched CTR comparisons were unchecked.",
+    "analytics": "GA4 was unused because Chrome Search Console worked.",
+    "serp": "Built-in public web search supplied comparison intent. Exact Google positions were unchecked without SERPAPI_API_KEY.",
+    "comparison_research_sources": [
+      "https://wisconsintechshop.com/ai-integration/ai-quoting-estimating/",
+      "https://parallellabs.app/the-essential-ai-resource-toolkit-12-free-and-premium-tools-every-solo-consultant-needs-in-their-stack/"
+    ],
+    "ai_visibility": {
+      "queries": "The five stable prompts in seo/queries.json.",
+      "ChatGPT Search": "Unchecked. No direct measurement integration configured.",
+      "Perplexity": "Unchecked. PERPLEXITY_API_KEY was unavailable.",
+      "Google AI Overviews": "Unchecked. SERPAPI_API_KEY was unavailable."
+    }
+  },
+  "changes": [],
+  "deployment": {
+    "status": "no qualifying changes",
+    "build": "Skipped because production content and code required no change.",
+    "public_smoke_checks_passed": 27
+  }
+}
