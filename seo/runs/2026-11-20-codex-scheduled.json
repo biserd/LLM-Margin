@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-20",
+  "runner": "local Codex scheduled task",
+  "automation_id": "daily-llm-margin-seo",
+  "triggered_at": "2026-11-20T12:11:35.420Z",
+  "skills_commit": "11c4f9407d1142301ae1dee2a5370e506c80745a",
+  "stages": {
+    "seo-autopilot": "Crawled 114 sitemap URLs and 122 internal link targets with zero technical findings. Rendered page signatures and control files match the verified November 18 release. Nine mapped live queries have distinct target URLs. Comparison searches returned mixed calculator, quoting and agency intent with insufficient evidence for a new comparison.",
+    "blog-refresher": "Read both blog URLs under the /blog/ filter in the 28-day Search Console Web report. Reported impressions were below the 30-impression per-query eligibility threshold. The report warned that filtered results might be partial. No qualifying query-by-page evidence was established, so no refresh was published.",
+    "seo-title-optimization": "Reviewed rendered metadata, current product routes and recent editorial holds. The only reported page reaching 100 total impressions is a model matchup on hold through December 14. No matched device-and-position CTR experiment or verified editorial title correction qualified."
+  },
+  "evidence": {
+    "search_console": "The signed-in Chrome session supplied the October 22 through November 18 Web report. Accessibility controls recovered timed-out Playwright reads without user action. Page impressions were sorted to check title eligibility. Exact dashboard figures were retained locally. API finalization, URL Inspection and device-matched CTR comparisons were unchecked.",
+    "analytics": "GA4 was unused because Chrome Search Console worked.",
+    "serp": "Built-in public web search supplied comparison intent. Exact Google positions were unchecked without SERPAPI_API_KEY.",
+    "comparison_research_sources": [
+      "https://www.teamwork.com/blog/quoting-software/",
+      "https://dlowda.com/ai-agency-pricing-calculator",
+      "https://lynara.net/freelance-ai-project-quote-calculator/"
+    ],
+    "ai_visibility": {
+      "queries": "The five stable prompts in seo/queries.json.",
+      "ChatGPT Search": "Unchecked. No direct measurement integration configured.",
+      "Perplexity": "Unchecked. PERPLEXITY_API_KEY was unavailable.",
+      "Google AI Overviews": "Unchecked. SERPAPI_API_KEY was unavailable."
+    }
+  },
+  "changes": [],
+  "deployment": {
+    "status": "no qualifying changes",
+    "build": "Skipped because production content and code required no change.",
+    "public_smoke_checks_passed": 27
+  }
+}
