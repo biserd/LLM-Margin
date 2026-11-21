@@ -1,0 +1,122 @@
+{
+  "date": "2026-11-21",
+  "runner": "local Codex scheduled task",
+  "automation_id": "daily-llm-margin-seo",
+  "triggered_at": "2026-11-21T12:13:27.576Z",
+  "skills_commit": "11c4f9407d1142301ae1dee2a5370e506c80745a",
+  "stages": {
+    "seo-autopilot": "Crawled 114 sitemap URLs and 122 internal link targets with zero technical findings. Rendered page signatures and control files match the verified November 18 release. Nine mapped live queries have distinct targets. Comparison searches had mixed intent and no new comparison qualified. Direct Google AI Overview observations established a baseline for the five saved buyer prompts.",
+    "blog-refresher": "Read both blog URLs under the /blog/ filter in the 28-day Search Console Web report. Reported impressions were below the 30-impression per-query threshold. The report warned that filtered results might be partial. No qualifying query-by-page evidence was established, so no refresh was published.",
+    "seo-title-optimization": "Reviewed rendered metadata, existing product routes and recent editorial holds. The only reported page reaching 100 impressions is a model matchup on hold through December 14. No matched device-and-position CTR experiment or verified editorial correction qualified."
+  },
+  "evidence": {
+    "search_console": "The signed-in Chrome session supplied the October 23 through November 19 Web report. Page impressions were sorted for title eligibility. Exact figures were retained locally. API finalization, URL Inspection and matched device comparisons were unchecked.",
+    "analytics": "GA4 was unused because Chrome Search Console worked.",
+    "serp": "Built-in public web search supplied comparison intent. Exact organic positions were unchecked without SERPAPI_API_KEY.",
+    "comparison_research_sources": [
+      "https://tooljovia.com/tools/ai-service-pricing-calculator/",
+      "https://www.somezai.com/ai-service-pricing-benchmarks.html",
+      "https://wisconsintechshop.com/ai-integration/ai-quoting-estimating/"
+    ],
+    "ai_visibility": {
+      "ChatGPT Search": "Unchecked. No direct measurement integration configured.",
+      "Perplexity": "Unchecked. PERPLEXITY_API_KEY was unavailable and its browser surface was not observed.",
+      "Google AI Overviews": {
+        "status": "checked",
+        "observed_on": "2026-11-21",
+        "source": "Google Search UI in existing signed-in Chrome",
+        "scope": "One personalized browser session using the five saved prompts. Records visible inline citations and related-result cards within the AI answer. Organic results are excluded. Citation expansion and other user or location variants were unchecked.",
+        "brand_mentions": 0,
+        "brand_citations": 0,
+        "observations": [
+          {
+            "query": "How should a small agency price an AI automation project for a client?",
+            "cited_urls": [
+              "https://www.youtube.com/watch?v=6Svjtp4LJKc&t=300",
+              "https://www.reddit.com/r/AiAutomations/comments/1shdx47/how_to_price_ai_automation_services_without/",
+              "https://www.youtube.com/shorts/KAn4u1Pzrhs",
+              "https://www.youtube.com/watch?v=COtpdR5Nbho&t=86",
+              "https://www.youtube.com/watch?v=IRivD1KYcD4",
+              "https://flexxable.com/how-to-charge-clients-for-ai-services-pricing-models-for-ai-automation-agencies/",
+              "https://taskip.net/ai-automation-agency-pricing/",
+              "https://www.techpranee.com/blog/ai-automation-agency-pricing-guide",
+              "https://cloudmotiv.ai/ai-automation-agency-pricing-usa",
+              "https://schematichq.com/blog/ai-agent-pricing",
+              "https://www.freshstack.ai/blog/how-much-does-ai-automation-cost"
+            ],
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false
+          },
+          {
+            "query": "What free calculators estimate AI service setup fees and monthly retainers?",
+            "cited_urls": [
+              "https://aicostkit.com/ai-agency-pricing-calculator/",
+              "https://aicostkit.com/calculators/",
+              "https://www.usagepricing.com/tools/pricing-calculator",
+              "https://www.aipricing.guru/calculators/",
+              "https://www.seoforgpt.io/ai-visibility-retainer-calculator"
+            ],
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false
+          },
+          {
+            "query": "How do I calculate gross margin for an AI support assistant service?",
+            "cited_urls": [
+              "https://www.thesaascfo.com/how-to-calculate-saas-gross-margin/",
+              "https://www.drivetrain.ai/finance-planning-metric/saas-gross-margin",
+              "https://ganivra.com/blog/how-to-calculate-ai-saas-gross-margin",
+              "https://www.thesaasacademy.com/blog/how-ai-changes-saas-pnl-gross-margin",
+              "https://www.youtube.com/watch?v=L8QxMwSjYyA"
+            ],
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false
+          },
+          {
+            "query": "What tools estimate LLM cost per user for an AI SaaS product?",
+            "cited_urls": [
+              "https://superpenguin.ai/blog/best-llm-cost-tracking-tools",
+              "https://llmeconomics.app/ai-saas-pricing-calculator",
+              "https://www.getmaxim.ai/articles/ai-cost-management-5-tools-to-track-llm-spend-in-2026/",
+              "https://llmendpoint.com/guides/ai-cost-tracking-software"
+            ],
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false
+          },
+          {
+            "query": "What tools turn an AI project cost estimate into a client proposal?",
+            "cited_urls": [
+              "https://devtimate.com/software-proposal/",
+              "https://apropo.io/blog/best-ai-software-estimation-tools-compared/",
+              "https://www.facebook.com/qwilr/videos/meet-the-smart-proposal-engine/2194888041445924/",
+              "https://www.youtube.com/watch?v=ftbLmmm9rA8&t=6",
+              "https://www.youtube.com/watch?v=wsjwgfA85eY&t=82",
+              "https://8labs.ai/one/tools/ai-proposal-generator",
+              "https://www.youtube.com/watch?v=jwPTDF_oloc&t=306",
+              "https://bryanrivera.ai/blog/using-ai-to-draft-proposals-and-estimates",
+              "https://www.youtube.com/watch?v=5CcL9wNsYGI&t=35"
+            ],
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false
+          }
+        ]
+      }
+    }
+  },
+  "changes": [],
+  "workflow_changes": [
+    {
+      "file": "seo/codex-daily.md",
+      "reason": "Use available Chrome to observe Google AI Overviews when the API evidence is unchecked, and record the source and personalization."
+    }
+  ],
+  "deployment": {
+    "status": "no qualifying production changes",
+    "build": "Skipped because the changes are the run log and daily instructions.",
+    "public_smoke_checks_passed": 27
+  }
+}
