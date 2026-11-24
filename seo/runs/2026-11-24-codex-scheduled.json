@@ -1,0 +1,160 @@
+{
+  "date": "2026-11-24",
+  "runner": "local Codex scheduled task",
+  "automation_id": "daily-llm-margin-seo",
+  "triggered_at": "2026-11-24T12:19:35.107Z",
+  "skills_commit": "11c4f9407d1142301ae1dee2a5370e506c80745a",
+  "skills_invoked": [
+    "$seo-autopilot",
+    "$blog-refresher",
+    "$seo-title-optimization"
+  ],
+  "source_commit": "c2dafeb95aac4489f662a97e85c15f5311108e3a",
+  "stages": {
+    "seo-autopilot": "Crawled 114 production sitemap URLs and 122 internal targets with zero technical findings. Metadata, main-content and link signatures, sitemap and robots match the verified November 18 release. The nine mapped live queries have distinct primary targets. Both comparison searches showed mixed calculator, spreadsheet, quoting and proposal-platform intent; no comparison with sufficiently verified claims was selected. Observed all five saved AI prompts in Chrome.",
+    "blog-refresher": "Read the latest available 28-day Search Console Web report in signed-in Chrome with the /blog/ page filter. Both reported posts were below the 30-impression threshold. Filtered results carry a partial-results warning. No qualifying query-by-page evidence for positions 8-20 was established, so no post refresh or top-three gap analysis was selected.",
+    "seo-title-optimization": "Reviewed live metadata against product routes, the keyword map and existing editorial holds. The comparison hub and one model matchup reached 100 reported total impressions, and remain on hold through December 12 and December 14 respectively. No verified editorial correction or matched device-and-position CTR change qualified."
+  },
+  "evidence": {
+    "search_console": {
+      "status": "checked via Chrome UI",
+      "property": "sc-domain:llmmargin.com",
+      "search_type": "Web",
+      "window": [
+        "2026-10-26",
+        "2026-11-22"
+      ],
+      "scope": "Latest available 28-day Web preset in existing signed-in Chrome. Exact site and page metrics remain in ignored local evidence. API finalization and matched device-position CTR comparisons are unchecked. Filtered blog results carry a partial-results warning. Recovered one transient browser timeout without owner involvement."
+    },
+    "analytics": "Not used because Search Console worked through the existing Chrome login.",
+    "serp": {
+      "source": "Google Search UI in signed-in Chrome",
+      "scope": "Observed results for both saved comparison research queries. Mixed calculator, spreadsheet, general quote and proposal-platform intent. Exact independent rankings and competitor product claims were not verified; no comparison was published.",
+      "queries": [
+        "AI service pricing calculator vs spreadsheet",
+        "AI quote calculator vs proposal software"
+      ],
+      "observed_sources": [
+        "https://airrange.io/blog/pricing-calculator-for-website",
+        "https://www.cloudzero.com/blog/ai-cost-calculator/",
+        "https://datos-insights.com/resources/real-cost-of-ai/ai-cost-calculator/",
+        "https://www.finops.org/wg/cost-estimation-of-ai-workloads/",
+        "https://k-lab.digital/build-ai-cost-calculators-for-your-website-no-code-guide-for-complex-pricing/",
+        "https://soloclientstack.com/compare/ai-proposal-quote-tools-beyond-basics",
+        "https://apropo.io/blog/best-proposal-estimation-tools-agencies/",
+        "https://www.scopify.app/blog/proposal-software-for-freelancers-comparison",
+        "https://fieldcamp.ai/blog/proposal-vs-quote/"
+      ]
+    },
+    "ai_visibility": {
+      "ChatGPT Search": "Unchecked. No measurement integration for this surface; its answer UI was not observed.",
+      "Perplexity": "Unchecked. No API credential; its answer UI was not observed.",
+      "Google AI Overviews": {
+        "status": "checked",
+        "observed_on": "2026-11-24",
+        "source": "Google Search UI in existing signed-in Chrome",
+        "scope": "One personalized browser session using the five saved prompts. Visible inline citations and related-result cards inside the AI answer only. Organic results, sponsored placements, unexpanded sources and other user/location variants are excluded.",
+        "brand_mentions": 0,
+        "brand_citations": 0,
+        "observations": [
+          {
+            "query": "How should a small agency price an AI automation project for a client?",
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false,
+            "cited_urls": [
+              "https://www.youtube.com/watch?v=6Svjtp4LJKc&t=300",
+              "https://taskip.net/ai-automation-agency-pricing/",
+              "https://www.freshstack.ai/blog/how-much-does-ai-automation-cost",
+              "https://www.youtube.com/watch?v=IRivD1KYcD4",
+              "https://www.youtube.com/shorts/KAn4u1Pzrhs",
+              "https://www.youtube.com/watch?v=COtpdR5Nbho&t=86",
+              "https://flexxable.com/how-to-charge-clients-for-ai-services-pricing-models-for-ai-automation-agencies/",
+              "https://www.techpranee.com/blog/ai-automation-agency-pricing-guide",
+              "https://www.reddit.com/r/n8n/comments/1is7znw/help_with_pricing_and_costs_for_an_ai_automation/"
+            ]
+          },
+          {
+            "query": "What free calculators estimate AI service setup fees and monthly retainers?",
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false,
+            "cited_urls": [
+              "https://aicostkit.com/ai-agency-pricing-calculator/",
+              "https://www.seoforgpt.io/ai-visibility-retainer-calculator",
+              "https://octively.com/tools/agency-retainer-calculator",
+              "https://www.usagepricing.com/tools/pricing-calculator",
+              "https://www.aipricing.guru/calculators/",
+              "https://aitoolindex.io/calculators",
+              "https://aicostkit.com/calculators/"
+            ]
+          },
+          {
+            "query": "How do I calculate gross margin for an AI support assistant service?",
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false,
+            "cited_urls": [
+              "https://smartbooks.ai/en/articles/gross-margin-calculation",
+              "https://www.thesaasacademy.com/blog/ai-gross-margin",
+              "https://ganivra.com/blog/how-to-calculate-ai-saas-gross-margin",
+              "https://www.youtube.com/watch?v=L8QxMwSjYyA",
+              "https://www.thesaascfo.com/how-to-calculate-saas-gross-margin/",
+              "https://tracium.ai/ai-gross-margin-per-customer/"
+            ]
+          },
+          {
+            "query": "What tools estimate LLM cost per user for an AI SaaS product?",
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false,
+            "cited_urls": [
+              "https://www.getmaxim.ai/articles/ai-cost-management-5-tools-to-track-llm-spend-in-2026/",
+              "https://llmeconomics.app/ai-saas-pricing-calculator",
+              "https://aiganak.com/insights/llm-cost-per-user-ai-feature-pricing/",
+              "https://agentaos.ai/tools/ai-pricing-calculator",
+              "https://superpenguin.ai/blog/best-llm-cost-tracking-tools",
+              "https://llmendpoint.com/guides/ai-cost-tracking-software"
+            ]
+          },
+          {
+            "query": "What tools turn an AI project cost estimate into a client proposal?",
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false,
+            "cited_urls": [
+              "https://devtimate.com/software-proposal/",
+              "https://apropo.io/blog/best-ai-software-estimation-tools-compared/",
+              "https://www.smartpricingtable.com/uses/ai-proposal-software",
+              "https://www.facebook.com/qwilr/videos/meet-the-smart-proposal-engine/2194888041445924/",
+              "https://8labs.ai/one/tools/ai-proposal-generator",
+              "https://www.youtube.com/watch?v=ftbLmmm9rA8&t=6",
+              "https://www.youtube.com/watch?v=jwPTDF_oloc&t=306",
+              "https://bryanrivera.ai/blog/using-ai-to-draft-proposals-and-estimates"
+            ]
+          }
+        ]
+      }
+    },
+    "indexing": "HTML and robots checks passed. Google index coverage and URL Inspection are unchecked; crawlability is not proof of indexing."
+  },
+  "changes": [],
+  "before_after": {
+    "metadata": "Unchanged; no edits selected.",
+    "metrics": "No new experiment opened. Private baseline observations saved locally; no post-edit measurement applies."
+  },
+  "deployment": {
+    "status": "no qualifying production changes",
+    "build": "Skipped because only the run log changed.",
+    "public_smoke_checks_passed": 27,
+    "payments": "Not exercised.",
+    "rollback": "Not needed: no release."
+  },
+  "blockers": [],
+  "unchecked_sources": [
+    "Search Console API: GSC_SERVICE_ACCOUNT_JSON unavailable; Chrome supplied the performance evidence instead.",
+    "SERP API unavailable; Chrome supplied visible search results.",
+    "ChatGPT Search and Perplexity answer measurements unavailable."
+  ],
+  "next_actions": "Continue daily checks using Chrome. Preserve existing editorial holds and retry post refresh eligibility as impressions accumulate. No owner action required."
+}
