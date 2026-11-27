@@ -19,14 +19,17 @@ const config = JSON.parse(await readFile(new URL("wrangler.jsonc", root), "utf8"
 const production = new URL(config.vars.APP_BASE_URL).origin;
 const report = { status: "unchecked", checked: 0, issues: [], errors: [] };
 
-function readHead(html) {
+function readDocument(html) {
   const doc = html === undefined ? document : new DOMParser().parseFromString(html, "text/html");
   const values = (selector, attribute) => Array.from(doc.head.querySelectorAll(selector), (element) =>
     (attribute ? element.getAttribute(attribute) : element.textContent)?.replace(/\s+/g, " ").trim() ?? "");
   return {
-    title: values("title"),
-    description: values('meta[name="description" i]', "content"),
-    canonical: values('link[rel~="canonical" i]', "href"),
+    heading: doc.querySelector("main h1")?.textContent?.replace(/\s+/g, " ").trim(),
+    head: {
+      title: values("title"),
+      description: values('meta[name="description" i]', "content"),
+      canonical: values('link[rel~="canonical" i]', "href"),
+    },
   };
 }
 
@@ -49,7 +52,7 @@ function verifyHead(path, mode, actual, source) {
 async function settledHead(page) {
   await page.waitForSelector("main h1", { visible: true });
   await page.waitForNetworkIdle({ idleTime: 500, timeout: 8000 });
-  return page.evaluate(readHead);
+  return (await page.evaluate(readDocument)).head;
 }
 
 async function inspect(browser, origin) {
@@ -78,9 +81,9 @@ async function inspect(browser, origin) {
       });
       return false;
     }
-    const source = await page.evaluate(readHead, await response.text());
+    const source = await page.evaluate(readDocument, await response.text());
     sourceByRoute.set(path, source);
-    verifyHead(path, "direct", await settledHead(page), source);
+    verifyHead(path, "direct", await settledHead(page), source.head);
     return true;
   }
 
@@ -103,14 +106,19 @@ async function inspect(browser, origin) {
     const documentStart = await page.evaluate(() => performance.timeOrigin);
     for (const { path, link } of navigation) {
       target = path;
-      if (!sourceByRoute.has(path)) throw new Error("No successful direct load for this route");
+      const source = sourceByRoute.get(path);
+      if (!source?.heading) throw new Error("No page heading from the direct load for this route");
       await page.locator(link).click();
-      await page.waitForFunction((pathname) => location.pathname === pathname, {}, path);
-      const actual = await settledHead(page);
+      // The route heading and its metadata commit together. Background requests
+      // can outlast that commit on production and need not block this check.
+      await page.waitForFunction((pathname, heading) => location.pathname === pathname &&
+        document.querySelector("main h1")?.textContent?.replace(/\s+/g, " ").trim() === heading,
+      {}, path, source.heading);
+      const actual = (await page.evaluate(readDocument)).head;
       if (await page.evaluate(() => performance.timeOrigin) !== documentStart) {
         throw new Error("The link loaded a new document instead of exercising client-side routing");
       }
-      verifyHead(path, "navigation", actual, sourceByRoute.get(path));
+      verifyHead(path, "navigation", actual, source.head);
     }
   } catch (error) {
     report.errors.push({ mode: "navigation", path: target, reason: error.message });

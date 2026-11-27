@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-27",
+  "runner": "manual Codex release",
+  "skills_commit": "11c4f9407d1142301ae1dee2a5370e506c80745a",
+  "skills_invoked": ["seo-autopilot", "blog-refresher", "seo-title-optimization"],
+  "source_commit": "adc02cc128ec7b4724d4008c9988e04c262ce87e",
+  "changed_urls": [
+    "https://llmmargin.com/blog/how-to-price-ai-support-chatbot",
+    "https://llmmargin.com/blog",
+    "https://llmmargin.com/blog/how-to-calculate-llm-cost-per-user",
+    "https://llmmargin.com/ai-service-pricing-calculator",
+    "https://llmmargin.com/sitemap.xml"
+  ],
+  "metadata": {
+    "before": "Duplicate titles, descriptions and canonicals on direct calculator, Pricing, Blog and Compare visits. In-app navigation from the calculator also retained its metadata on Pricing and Blog.",
+    "after": "One current title, description and canonical in each of nine checked views. The calculator example uses the calculator's canonical URL."
+  },
+  "deployment": {
+    "status": "verified",
+    "worker_version": "11380cc4-e989-4fd3-a4c1-75072ddb3e1d",
+    "previous_worker_version": "93ce109a-40a6-463e-bc02-c4857e45789c"
+  },
+  "verification": {
+    "prerendered_routes": 115,
+    "rendered_views_built": 9,
+    "rendered_views_live": 9,
+    "rendered_findings_live": 0,
+    "rendered_incomplete_live": 0,
+    "public_response_checks": 27,
+    "quote_model_tests": 7,
+    "guide": "Verified the live HTML, blog index, BlogPosting data, sitemap, Markdown and editable worked estimate. Chrome also confirmed that opening the example preserves an existing draft.",
+    "search_performance": "Unchecked for this newly published guide."
+  },
+  "automation": "The existing 7:15 a.m. America/New_York Codex job runs the rendered check through seo/codex-daily.md. The GitHub fallback runs it as part of evidence collection and candidate build verification."
+}
