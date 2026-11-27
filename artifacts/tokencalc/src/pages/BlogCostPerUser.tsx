@@ -349,6 +349,16 @@ export default function BlogCostPerUser() {
               and see whether your AI feature actually clears 60% gross
               margin.
             </p>
+            <p className="mt-3 leading-relaxed">
+              If you’re estimating usage for a client project, see how to turn that cost
+              into a setup fee, retainer, and usage allowance in our{" "}
+              <Link
+                href="/blog/how-to-price-ai-support-chatbot"
+                className="font-medium text-primary hover:underline"
+              >
+                AI support chatbot pricing guide
+              </Link>.
+            </p>
           </section>
 
           <SeoFooter

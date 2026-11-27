@@ -13,6 +13,16 @@ interface Post {
 
 const posts: Post[] = [
   {
+    slug: "/blog/how-to-price-ai-support-chatbot",
+    title: "How to Price an AI Support Chatbot for a Client",
+    description:
+      "Work through setup labor, model costs, the monthly retainer, and overages. See a sample client proposal and open the same example in the quote calculator.",
+    keywords: "AI chatbot pricing, client quote, chatbot retainer",
+    readMins: 5,
+    date: "2026-11-27",
+    category: "Client Pricing",
+  },
+  {
     slug: "/blog/how-to-calculate-llm-cost-per-user",
     title: "How to Calculate LLM Cost Per User (Formula, Examples, Benchmarks)",
     description:
@@ -39,20 +49,20 @@ const posts: Post[] = [
 export default function Blog() {
   return (
     <div className="min-h-screen bg-background">
-      <title>Blog: LLM Cost & AI Unit Economics for SaaS Founders | LLM Margin</title>
+      <title>AI Service Pricing and LLM Cost Guides | LLM Margin</title>
       <meta
         name="description"
-        content="Practical, numbers-first guides on LLM cost per user, AI API budgeting for startups, and the unit economics of GPT-4o, Claude, and Gemini-powered products."
+        content="Worked guides for pricing AI client projects, estimating LLM cost per user, and budgeting AI API spend."
       />
       <meta
         name="keywords"
-        content="LLM cost guides, AI unit economics blog, OpenAI cost articles, AI startup budget"
+        content="AI service pricing guides, LLM cost guides, AI unit economics, AI startup budget"
       />
       <link rel="canonical" href="https://llmmargin.com/blog" />
-      <meta property="og:title" content="The LLM Margin Blog — AI cost math for founders" />
+      <meta property="og:title" content="AI Service Pricing and LLM Cost Guides" />
       <meta
         property="og:description"
-        content="Numbers-first guides on LLM cost per user, AI budget planning for startups, and pricing AI features that actually pay for themselves."
+        content="Worked guides for pricing AI client projects, estimating LLM cost per user, and budgeting AI API spend."
       />
 
       <div className="bg-gradient-to-b from-primary/5 to-background border-b">
@@ -61,12 +71,12 @@ export default function Blog() {
             LLM Margin Blog
           </p>
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
-            AI cost math for founders, not consultants
+            AI service pricing and LLM cost guides
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl">
-            Practical guides on LLM unit economics, with formulas, charts, and
-            the calculators you need to plug your own numbers in. Built for
-            founders staring at OpenAI invoices.
+            Price an AI project for a client, estimate what each user costs, or
+            plan your next API budget. Use the worked examples and calculators
+            to plug in your own numbers.
           </p>
         </div>
       </div>
@@ -91,6 +101,7 @@ export default function Blog() {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
+                    timeZone: "UTC",
                   })}
                 </time>
               </div>
@@ -109,8 +120,9 @@ export default function Blog() {
 
         <div className="max-w-3xl mx-auto mt-12">
           <SeoFooter
-            paragraph="Each guide on the LLM Margin blog ends with the same thing: the calculator you need to put your own numbers into. We don't write generic AI think pieces — we write the spreadsheet you wish your CFO had given you."
+            paragraph="Start with the calculator that matches the numbers you need."
             links={[
+              { href: "/ai-service-pricing-calculator", anchor: "AI Service Pricing Calculator" },
               { href: "/margin-calculator", anchor: "SaaS Margin Simulator" },
               { href: "/cost-per-user", anchor: "Cost Per User Calculator" },
               { href: "/budget-planner", anchor: "AI Budget Planner" },

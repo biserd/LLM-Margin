@@ -54,6 +54,7 @@ def evidence_record(evidence, codex):
         "base_commit": git("rev-parse", "HEAD").decode().strip(),
         "codex": codex,
         "site": {key: site[key] for key in ("sitemap_count", "internal_targets", "issues")},
+        "rendered": evidence["rendered"],
         "source_status": {name: {key: evidence[name][key] for key in ("status", "reason", "window")
                                  if key in evidence[name]} for name in ("search_console", "indexing", "serp", "analytics")},
         "indexing": evidence["indexing"].get("urls", {}),
@@ -95,7 +96,8 @@ def validate_plan(plan, evidence, record):
         edit = {"url": url, "kind": kind, "reason": reason[:2000], "before_html": baseline_pages.get(url)}
         if kind == "health":
             related = set([url] + item.get("finding_urls", []))
-            findings = [*evidence["site"]["issues"], *evidence["indexing"].get("regressions", [])]
+            findings = [*evidence["site"]["issues"], *evidence["rendered"].get("issues", []),
+                        *evidence["indexing"].get("regressions", [])]
             if not related.intersection(finding["url"] for finding in findings):
                 raise ValueError(f"No verified site finding supports {url}")
         elif kind in {"blog", "title", "comparison"}:
@@ -143,6 +145,10 @@ def validate_plan(plan, evidence, record):
 
 def capture():
     evidence = read(WORK / "evidence.json")
+    rendered_path = WORK / "rendered.json"
+    evidence["rendered"] = read(rendered_path) if rendered_path.exists() else {
+        "status": "unchecked", "reason": "The browser check did not produce a report",
+    }
     status = os.environ["SEO_CODEX_STATUS"]
     record = evidence_record(evidence, status)
     write(RECORD, record)
@@ -293,6 +299,7 @@ def log():
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as summary:
             summary.write(f"## Daily SEO\n\n- Sitemap URLs checked: {record['site']['sitemap_count']}\n"
                           f"- Crawl findings: {len(record['site']['issues'])}\n"
+                          f"- Rendered metadata: {record.get('rendered', {}).get('status', 'unchecked')}\n"
                           f"- Editor: {record['codex']}\n- Build: {record.get('build', 'unknown')}\n"
                           f"- Release: {status}\n- Live URLs: {', '.join(record['live_urls']) or 'none'}\n")
 

@@ -6,6 +6,8 @@ To connect Search Console, enable the Search Console API in an existing Google C
 
 The [GitHub workflow](https://github.com/biserd/LLM-Margin/actions/workflows/seo-daily.yml) is available for manual dispatch as a fallback. Its runner credentials below are only relevant to the GitHub path.
 
+Both runners check rendered metadata in Chrome with `node artifacts/tokencalc/scripts/verify-rendered-seo.mjs`. The check uses the checkout's Puppeteer dependency and installed Chrome, with `PUPPETEER_EXECUTABLE_PATH` available to select Chromium. It compares rendered titles, descriptions and canonicals with the expected values on direct visits and during in-app navigation. The result is written to `.seo-work/rendered.json`. Use `--dist` after a build to check the local assets.
+
 The [pinned skills](../.agents/skills/UPSTREAM.md) are invoked by the [daily prompt](../.github/codex/seo-daily.md). The collector uses the production origin in Wrangler, and Codex edits the existing React pages and SEO templates. The candidate scope is checked by `scripts/seo/release.py`. Editable state is `keyword-map.csv`, `context.md`, and `backlog.md`. A clean job builds and prerenders the candidate, then the release job pushes and deploys with the repo's Wrangler deployment. The release verifies rendered production pages and rolls its Worker version back if a new regression is confirmed. Content-only runs use the existing D1 schema.
 
 ## GitHub configuration

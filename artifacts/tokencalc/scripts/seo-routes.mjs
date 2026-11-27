@@ -17,6 +17,7 @@ export const STATIC_ROUTES = [
   "/blog",
   "/blog/how-to-calculate-llm-cost-per-user",
   "/blog/ai-api-budget-planning-for-startups",
+  "/blog/how-to-price-ai-support-chatbot",
   "/compare",
   "/tools",
 ];

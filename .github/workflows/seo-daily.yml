@@ -38,6 +38,17 @@ jobs:
           SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
           PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
         run: python scripts/seo/research.py
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Check rendered production metadata in Chrome
+        continue-on-error: true
+        run: |
+          npm install --global pnpm@11.19.0
+          pnpm install --frozen-lockfile
+          export PUPPETEER_EXECUTABLE_PATH="$(command -v google-chrome || command -v chromium)"
+          node artifacts/tokencalc/scripts/verify-rendered-seo.mjs
       - name: Run all three pinned SEO skills
         id: codex
         if: env.SEO_HAS_CODEX == 'true'
@@ -97,6 +108,7 @@ jobs:
           export PUPPETEER_EXECUTABLE_PATH="$(command -v google-chrome || command -v chromium)"
           test -n "$PUPPETEER_EXECUTABLE_PATH"
           pnpm build
+          node artifacts/tokencalc/scripts/verify-rendered-seo.mjs --dist
           node --test tests/quote-model.test.mjs
           python scripts/seo/release.py built
           if test -f .seo-work/out/changes.patch && jq -e '.edits | length > 0' .seo-work/out/record.json >/dev/null; then

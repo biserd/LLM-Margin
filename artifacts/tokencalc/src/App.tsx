@@ -8,6 +8,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { AuthProvider } from "@/lib/auth";
+import { RouteMetadataDefaults } from "@/components/RouteMetadata";
 
 const MarginSimulator = lazy(() => import("@/pages/MarginSimulator"));
 const QuoteHome = lazy(() => import("@/pages/QuoteHome"));
@@ -22,6 +23,7 @@ const Contact = lazy(() => import("@/pages/Contact"));
 const Blog = lazy(() => import("@/pages/Blog"));
 const BlogCostPerUser = lazy(() => import("@/pages/BlogCostPerUser"));
 const BlogBudgetPlanning = lazy(() => import("@/pages/BlogBudgetPlanning"));
+const BlogSupportChatbotPricing = lazy(() => import("@/pages/BlogSupportChatbotPricing"));
 const CompareIndex = lazy(() => import("@/pages/CompareIndex"));
 const ComparePage = lazy(() => import("@/pages/ComparePage"));
 const ToolsIndex = lazy(() => import("@/pages/ToolsIndex"));
@@ -63,6 +65,7 @@ function Router() {
             <Route path="/blog" component={Blog} />
             <Route path="/blog/how-to-calculate-llm-cost-per-user" component={BlogCostPerUser} />
             <Route path="/blog/ai-api-budget-planning-for-startups" component={BlogBudgetPlanning} />
+            <Route path="/blog/how-to-price-ai-support-chatbot" component={BlogSupportChatbotPricing} />
             <Route path="/llm-pricing" component={LlmPricingPage} />
             <Route path="/compare" component={CompareIndex} />
             <Route path="/compare/:slug" component={ComparePage} />
@@ -77,6 +80,7 @@ function Router() {
             </Route>
             <Route component={NotFound} />
           </Switch>
+          <RouteMetadataDefaults />
         </Suspense>
       </main>
       <Footer />
