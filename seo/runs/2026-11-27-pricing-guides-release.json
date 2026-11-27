@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-27",
+  "runner": "manual Codex release",
+  "skills_commit": "11c4f9407d1142301ae1dee2a5370e506c80745a",
+  "source_commit": "a74666a72af24075fc0890989699bb9e0c350b4d",
+  "research": {
+    "method": "Matched distinct informational queries to the product, reviewed current public search results, and consulted the latest saved Search Console report. The live Search Console browser connection timed out. Query volumes and ranking baselines for the new URLs are unchecked.",
+    "targets": [
+      {
+        "query": "AI automation retainer pricing",
+        "url": "https://llmmargin.com/blog/ai-automation-retainer-pricing",
+        "worked_example": "Bundled usage and direct vendor billing at normal and doubled workflow volume",
+        "search_sources": ["https://getflow.fluxosuite.com/blog/how-to-price-automation-services", "https://taskjuice.ai/blog/automation-retainer-pricing"]
+      },
+      {
+        "query": "AI automation proposal template",
+        "url": "https://llmmargin.com/blog/ai-automation-proposal-template",
+        "worked_example": "Invoice intake proposal with measurable acceptance checks and usage pricing",
+        "search_sources": ["https://a8gent.com/templates/ai-automation-proposal-template", "https://www.agenticautomationacademy.com/guides/ai-automation-proposal-template"]
+      },
+      {
+        "query": "how to price AI credits",
+        "url": "https://llmmargin.com/blog/how-to-price-ai-credits",
+        "worked_example": "Discounted credit packs tested against full redemption and a 60% modeled margin target",
+        "search_sources": ["https://moonetix.com/academy/monetization/how-to-price-ai-credits", "https://stripe.com/billing/usage-based-billing"]
+      }
+    ]
+  },
+  "deployment": {
+    "status": "verified",
+    "worker_version": "8dac27d7-22a6-4105-ae44-e0782e7050bf",
+    "previous_worker_version": "11380cc4-e989-4fd3-a4c1-75072ddb3e1d"
+  },
+  "verification": {
+    "prerendered_routes": 118,
+    "predeployment_browser_views": 9,
+    "public_response_checks": 27,
+    "new_guides": "Verified all three live in HTML and Markdown, with correct metadata, article schema, calculator links, three existing backlinks per page, and sitemap entries. All three opened from the blog index in Chrome at 390 px without page overflow. Worked numbers passed calculation checks."
+  },
+  "automation": "All three guide URLs are included in the daily SEO job's blog candidates."
+}
