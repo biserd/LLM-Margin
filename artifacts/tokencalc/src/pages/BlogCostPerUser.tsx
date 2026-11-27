@@ -361,6 +361,10 @@ export default function BlogCostPerUser() {
             </p>
           </section>
 
+          <p className="my-6 text-sm text-muted-foreground">
+            Once you know the cost of your AI actions, use those numbers to{" "}
+            <Link href="/blog/how-to-price-ai-credits" className="font-medium text-primary underline">price AI credits and test pack discounts</Link>.
+          </p>
           <SeoFooter
             paragraph="LLM cost per user is the single most important number in AI SaaS unit economics — and almost no published guide gives you the full formula plus a calculator. This guide is the founder's version: short on theory, long on the numbers you actually need to defend to your board."
             links={[

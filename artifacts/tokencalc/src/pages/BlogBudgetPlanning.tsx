@@ -376,6 +376,10 @@ export default function BlogBudgetPlanning() {
             </p>
           </section>
 
+          <p className="my-6 text-sm text-muted-foreground">
+            If your plan includes usage credits,{" "}
+            <Link href="/blog/how-to-price-ai-credits" className="font-medium text-primary underline">model the cost of full credit redemption</Link> before you budget for a discounted pack.
+          </p>
           <SeoFooter
             paragraph="AI API budget planning is the new financial planning. The startups that get it right treat their LLM bill the way SaaS founders treat infrastructure: a derived line item with hard guardrails, three scenarios, and a model that updates as fast as prices change."
             links={[

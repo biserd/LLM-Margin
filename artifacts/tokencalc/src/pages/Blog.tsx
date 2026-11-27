@@ -13,6 +13,36 @@ interface Post {
 
 const posts: Post[] = [
   {
+    slug: "/blog/ai-automation-retainer-pricing",
+    title: "How to Price an AI Automation Retainer",
+    description:
+      "Build a monthly fee from delivery costs and compare bundled usage with direct vendor billing when client volume doubles.",
+    keywords: "AI automation retainer pricing, monthly contracts, usage fees",
+    readMins: 4,
+    date: "2026-11-27",
+    category: "Client Pricing",
+  },
+  {
+    slug: "/blog/ai-automation-proposal-template",
+    title: "AI Automation Proposal Template for Client Projects",
+    description:
+      "Use a scope and pricing outline with a worked invoice-intake proposal, including acceptance tests and exclusions.",
+    keywords: "AI automation proposal template, client scope, acceptance testing",
+    readMins: 4,
+    date: "2026-11-27",
+    category: "Client Pricing",
+  },
+  {
+    slug: "/blog/how-to-price-ai-credits",
+    title: "How to Price AI Credits for a SaaS Product",
+    description:
+      "Calculate how many credits each action should cost and test whether a discounted pack meets your margin when fully used.",
+    keywords: "AI credits pricing, usage credits, SaaS gross margin",
+    readMins: 4,
+    date: "2026-11-27",
+    category: "Unit Economics",
+  },
+  {
     slug: "/blog/how-to-price-ai-support-chatbot",
     title: "How to Price an AI Support Chatbot for a Client",
     description:

@@ -181,6 +181,10 @@ export default function BlogSupportChatbotPricing() {
             <Button asChild>
               <a href={calculator}>Open the example in the calculator</a>
             </Button>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Compare <Link href="/blog/ai-automation-retainer-pricing" className="font-medium text-primary underline">retainer billing options</Link> or
+              adapt the <Link href="/blog/ai-automation-proposal-template" className="font-medium text-primary underline">automation proposal template</Link> for another client workflow.
+            </p>
           </section>
         </div>
       </div>

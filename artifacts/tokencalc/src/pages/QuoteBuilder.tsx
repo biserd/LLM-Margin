@@ -147,6 +147,8 @@ export default function QuoteBuilder() {
       <p className="mt-2 text-muted-foreground">Use a setup fee for implementation and a retainer for ongoing service. Set a usage allowance and overage policy. Revisit assumptions when the model, workflow, or volume changes.</p>
       <ul className="mt-4 space-y-2 text-primary underline">
         <li><Link href="/blog/how-to-price-ai-support-chatbot">See a worked AI support chatbot quote</Link></li>
+        <li><Link href="/blog/ai-automation-retainer-pricing">Calculate a monthly automation retainer</Link></li>
+        <li><Link href="/blog/ai-automation-proposal-template">Use the AI automation proposal template</Link></li>
         <li><Link href="/agents">Use this calculator from an AI agent →</Link></li>
       </ul>
     </section>

@@ -24,6 +24,9 @@ BLOGS = {
     ORIGIN + "/blog/how-to-calculate-llm-cost-per-user",
     ORIGIN + "/blog/ai-api-budget-planning-for-startups",
     ORIGIN + "/blog/how-to-price-ai-support-chatbot",
+    ORIGIN + "/blog/ai-automation-retainer-pricing",
+    ORIGIN + "/blog/ai-automation-proposal-template",
+    ORIGIN + "/blog/how-to-price-ai-credits",
 }
 
 

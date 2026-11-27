@@ -24,6 +24,9 @@ const Blog = lazy(() => import("@/pages/Blog"));
 const BlogCostPerUser = lazy(() => import("@/pages/BlogCostPerUser"));
 const BlogBudgetPlanning = lazy(() => import("@/pages/BlogBudgetPlanning"));
 const BlogSupportChatbotPricing = lazy(() => import("@/pages/BlogSupportChatbotPricing"));
+const BlogAiAutomationRetainer = lazy(() => import("@/pages/BlogPricingGuides").then((page) => ({ default: page.AiAutomationRetainer })));
+const BlogAiAutomationProposal = lazy(() => import("@/pages/BlogPricingGuides").then((page) => ({ default: page.AiAutomationProposal })));
+const BlogAiCreditsPricing = lazy(() => import("@/pages/BlogPricingGuides").then((page) => ({ default: page.AiCreditsPricing })));
 const CompareIndex = lazy(() => import("@/pages/CompareIndex"));
 const ComparePage = lazy(() => import("@/pages/ComparePage"));
 const ToolsIndex = lazy(() => import("@/pages/ToolsIndex"));
@@ -66,6 +69,9 @@ function Router() {
             <Route path="/blog/how-to-calculate-llm-cost-per-user" component={BlogCostPerUser} />
             <Route path="/blog/ai-api-budget-planning-for-startups" component={BlogBudgetPlanning} />
             <Route path="/blog/how-to-price-ai-support-chatbot" component={BlogSupportChatbotPricing} />
+            <Route path="/blog/ai-automation-retainer-pricing" component={BlogAiAutomationRetainer} />
+            <Route path="/blog/ai-automation-proposal-template" component={BlogAiAutomationProposal} />
+            <Route path="/blog/how-to-price-ai-credits" component={BlogAiCreditsPricing} />
             <Route path="/llm-pricing" component={LlmPricingPage} />
             <Route path="/compare" component={CompareIndex} />
             <Route path="/compare/:slug" component={ComparePage} />
