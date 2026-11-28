@@ -1,0 +1,131 @@
+{
+  "date": "2026-11-28",
+  "runner": "local Codex scheduled task",
+  "automation_id": "daily-llm-margin-seo",
+  "triggered_at": "2026-11-28T12:13:22.495Z",
+  "skills_commit": "11c4f9407d1142301ae1dee2a5370e506c80745a",
+  "skills_invoked": ["$seo-autopilot", "$blog-refresher", "$seo-title-optimization"],
+  "source_commit": "87375c6b1d439365aa52502de95b5dffeb63bcf2",
+  "stages": {
+    "seo-autopilot": "Crawled 118 sitemap URLs and 126 linked targets with zero technical findings. Fixed outdated model pricing comparisons and price freshness guidance on the API pricing page. Fourteen live primary targets remain distinct in the keyword map. Current comparison results span general SaaS pricing, spreadsheets, contractor quotes, and proposal software. No separate agency comparison was supported. Observed all five saved Google AI Overview prompts.",
+    "blog-refresher": "No reported blog landing page reached the 30-impression screen in the 28-day Search Console report. No qualifying page-and-query position or refresh was established. Filtered results may be partial.",
+    "seo-title-optimization": "Only two pages reached the page-impression screen and both have active holds through December 12 or December 14. The API pricing page title and H1 matched the page and its keyword target. No qualifying title or H1 edit was verified."
+  },
+  "evidence": {
+    "search_console": {
+      "status": "checked via signed-in Chrome",
+      "property": "sc-domain:llmmargin.com",
+      "search_type": "Web",
+      "window": ["2026-10-30", "2026-11-26"],
+      "scope": "Latest available 28-day UI preset. Metrics are in ignored local evidence. API finalization and same-device CTR cohort remain unchecked."
+    },
+    "indexing": {
+      "status": "checked at report level",
+      "report_updated": "2026-11-22",
+      "scope": "All known URLs, including historical variants. Coverage totals matched the preceding report. URL-level indexing and post-release changes remain unchecked."
+    },
+    "analytics": "Search Console was available in Chrome, so its GA4 fallback was unnecessary.",
+    "comparison_research": {
+      "source": "Google Search UI in signed-in Chrome",
+      "queries": ["AI service pricing calculator vs spreadsheet", "AI quote calculator vs proposal software"],
+      "observed_sources": [
+        "https://prosheetstudio.com/guides/spreadsheet-vs-estimating-software/",
+        "https://toolstrategyhub.com/guides/saas-pricing-calculator-vs-spreadsheet",
+        "https://www.cloudzero.com/blog/ai-cost-calculator/",
+        "https://yourpartner.app/blog/ai-proposals-versus-manual-quotes-contractors",
+        "https://apropo.io/blog/best-proposal-estimation-tools-agencies/",
+        "https://www.scopify.app/blog/proposal-software-for-freelancers-comparison"
+      ]
+    },
+    "ai_visibility": {
+      "ChatGPT Search": "Unchecked. No observation of the answer UI or measurement integration.",
+      "Perplexity": "Unchecked. No observation of the answer UI or usable API integration.",
+      "Google AI Overviews": {
+        "status": "checked",
+        "observed_on": "2026-11-28",
+        "scope": "One signed-in Chrome session. Visible inline citations and related-result cards inside the displayed answer only. Results may be personalized and additional source cards were not opened.",
+        "brand_mentions": 0,
+        "brand_citations": 0,
+        "observations": [
+          {
+            "query": "How should a small agency price an AI automation project for a client?",
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false,
+            "cited_urls": [
+              "https://www.youtube.com/watch?v=wIcw0T9NhZM&vl=en&t=9",
+              "https://medium.com/@noiseproofai/how-to-price-an-ai-automation-project-without-destroying-your-margin-29845f826595",
+              "https://www.youtube.com/watch?v=COtpdR5Nbho&t=86",
+              "https://www.reddit.com/r/AiAutomations/comments/1shdx47/how_to_price_ai_automation_services_without/",
+              "https://www.youtube.com/watch?v=6Svjtp4LJKc&t=39",
+              "https://taskip.net/ai-automation-agency-pricing/",
+              "https://flexxable.com/how-to-charge-clients-for-ai-services-2026-pricing-models-for-ai-automation-agencies/",
+              "https://www.techpranee.com/blog/ai-automation-agency-pricing-guide"
+            ]
+          },
+          {
+            "query": "What free calculators estimate AI service setup fees and monthly retainers?",
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false,
+            "cited_urls": [
+              "https://strideaiacademy.com/tools/ai-agency-pricing-calculator",
+              "https://aicostkit.com/ai-agency-pricing-calculator/",
+              "https://octively.com/tools/agency-retainer-calculator",
+              "https://www.seoforgpt.io/ai-visibility-retainer-calculator",
+              "https://sogood.ai/tools/retainer-vs-project-calculator",
+              "https://www.usagepricing.com/tools/pricing-calculator",
+              "https://costgoat.com/ai-cost-calculators",
+              "https://aicostkit.com/calculators/"
+            ]
+          },
+          {
+            "query": "How do I calculate gross margin for an AI support assistant service?",
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false,
+            "cited_urls": ["https://payproglobal.com/how-to/calculate-gross-margin/"]
+          },
+          {
+            "query": "What tools estimate LLM cost per user for an AI SaaS product?",
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false,
+            "cited_urls": ["https://www.getmaxim.ai/articles/ai-cost-management-5-tools-to-track-llm-spend-in-2026/"]
+          },
+          {
+            "query": "What tools turn an AI project cost estimate into a client proposal?",
+            "status": "shown",
+            "brand_mentioned": false,
+            "brand_cited": false,
+            "cited_urls": ["https://devtimate.com/software-proposal/"]
+          }
+        ]
+      }
+    }
+  },
+  "changed_urls": ["https://llmmargin.com/llm-pricing"],
+  "change": {
+    "before": "The FAQ presented retired Gemini 2.0 Flash among the cheapest models, called GPT-4o mini OpenAI's most cost-efficient model, described the Haiku comparison as comparably priced, and generalized caching charges. The footer said prices update on deployment.",
+    "after": "The FAQ explains how to estimate model costs by workload, compares published standard rates accurately, and describes provider-specific caching charges. The footer describes the live OpenRouter fetch and saved fallback. The same answers appear in the FAQ schema.",
+    "title": "LLM API Pricing Comparison by Model | LLM Margin",
+    "h1": "LLM API pricing comparison",
+    "canonical": "https://llmmargin.com/llm-pricing",
+    "sources": [
+      "https://aistudio.google.com/docs/deprecations#gemini-2.0-deprecated-models",
+      "https://developers.openai.com/api/docs/models/compare?model=gpt-4o-mini",
+      "https://developers.openai.com/api/docs/models/gpt-4.1-nano",
+      "https://platform.claude.com/docs/en/about-claude/pricing",
+      "https://aistudio.google.com/docs/caching",
+      "https://openrouter.ai/pricing"
+    ]
+  },
+  "deployment": {
+    "status": "verified",
+    "commit": "74834a364dce1bd56ab84bd3b7b20f7c283eff51",
+    "worker_version": "81cdc2cc-9e34-4aaf-bca7-50b42b0f405d",
+    "previous_worker_version": "8dac27d7-22a6-4105-ae44-e0782e7050bf",
+    "verification": "Full build and Wrangler dry run passed. Nine rendered metadata views passed before and after deployment. Checked the revised API pricing page in Chrome and verified its HTML, Markdown, and FAQ schema. All 27 public response checks passed. The post-release crawl again reported zero technical findings."
+  },
+  "blockers": "The restricted shell initially could not reach the site. A production-network retry resolved the apparent crawl failures. The Google reporting APIs remain unconfigured, with Search Console available through Chrome."
+}
