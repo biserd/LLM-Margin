@@ -16,19 +16,19 @@ const HIGHLIGHTED_IDS = [
 const FAQS = [
   {
     q: "How much does GPT-4o mini cost?",
-    a: "GPT-4o mini is priced at $0.15 per million input tokens and $0.60 per million output tokens via the OpenAI API (routed through OpenRouter). It is OpenAI's most cost-efficient hosted model and is optimised for high-volume, latency-sensitive workloads.",
+    a: "OpenAI lists GPT-4o mini at $0.15 per million input tokens and $0.60 per million output tokens for standard text requests. Check the table for the OpenRouter rates used in your estimate.",
   },
   {
-    q: "What is the cheapest LLM API available in 2026?",
-    a: "Open-source models hosted via OpenRouter — including Llama 3.1 8B, Gemini 2.0 Flash, and DeepSeek V3 — are among the cheapest options, often under $0.05 per million input tokens. For hosted frontier budget models, GPT-4o mini, Claude Haiku 4.5, and Gemini 2.5 Flash lead the pack.",
+    q: "How do I find the cheapest LLM API for my workload?",
+    a: "Sort by input or output price to shortlist models. Multiply each rate by your expected token volume in millions and add the two costs. Include any tool charges, cache charges, and retries that apply. Test the shortlist on the same task before choosing a model.",
   },
   {
     q: "How does Claude Haiku 4.5 pricing compare to GPT-4o mini?",
-    a: "Both sit in the budget tier of their respective providers and are comparably priced. The cheaper model for your workload depends on your input/output token ratio — use the table and the compare calculator to find out which wins for your specific usage.",
+    a: "GPT-4o mini has lower published standard input and output token rates than Claude Haiku 4.5. Compare the rates for your route and measure how many tokens, retries, and tool calls each model uses on the same task.",
   },
   {
     q: "Why do input and output token prices differ?",
-    a: "Generating (output) tokens is computationally more expensive than reading (input) tokens. Most models price output at 2–4× the input rate. For output-heavy workloads like chat or code generation, the output price dominates your bill.",
+    a: "Providers price input and output tokens separately. Many models list a higher rate for output, so long answers can account for a large share of the cost. Estimate each type of token using its own rate.",
   },
   {
     q: "What is a token in LLM pricing?",
@@ -36,7 +36,7 @@ const FAQS = [
   },
   {
     q: "What is prompt caching and how does it affect cost?",
-    a: "Prompt caching lets you reuse expensive input context across multiple calls at a reduced rate — often 80–90% cheaper than a fresh input read. Models that support it (Claude, Gemini 2.5) charge a slightly higher cache-write rate on first use, then discounted cache-read rates on subsequent calls. The 'Cache Read' column in the table above shows where it's available.",
+    a: "Prompt caching can lower input charges when requests reuse context and hit the cache. Cache-read, write, and storage charges vary by model and provider. Use the Cache Read column to compare listed rates and check your provider's cache rules before estimating savings.",
   },
 ];
 
@@ -406,7 +406,7 @@ export default function LlmPricingPage() {
           </div>
 
           <SeoFooter
-            paragraph="LLM token prices change frequently — OpenAI, Anthropic, and Google all adjust rates as competition intensifies. This table reflects live prices from OpenRouter and is updated on every deploy. For per-model cost forecasting, use the Margin Simulator to model gross margin at your MAU."
+            paragraph="The table loads pricing from OpenRouter when you open the page and uses a saved snapshot if the request fails. Check your provider's current rates before budgeting. Use the Margin Simulator to estimate how a model choice affects your gross margin."
             links={[
               { href: "/compare", anchor: "Compare two LLM models side-by-side" },
               { href: "/cost-per-user", anchor: "LLM cost per user calculator" },
